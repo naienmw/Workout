@@ -13,9 +13,10 @@
     tools:showIn="@layout/activity_main">
 
     <EditText
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/user_input_to_second_activity"/>
+        android:id="@+id/user_input_to_second_activity"
+        android:hint="Put Exercise"/>
 
     <Button
         android:layout_width="wrap_content"

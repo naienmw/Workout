@@ -14,9 +14,9 @@ import java.util.HashMap;
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "blub.db";
-    public static final String CONTACTS_TABLE_NAME = "contacts";
+    public static final String CONTACTS_TABLE_NAME = "Workout";
     public static final String CONTACTS_COLUMN_ID = "id";
-    public static final String CONTACTS_COLUMN_NAME = "name";
+    public static final String WORKOUT_EXERCISE_NAME = "name";
     public static final String CONTACTS_COLUMN_EMAIL = "email";
     public static final String CONTACTS_COLUMN_STREET = "street";
     public static final String CONTACTS_COLUMN_CITY = "place";
@@ -32,17 +32,23 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
         db.execSQL(
-                "create table contacts " +
+                "create table Workout " +
                         "(id integer primary key, name text,phone text,email text, street text,place text)"
         );
     }
-
+    public void create_new_table(SQLiteDatabase db, String name){
+        db.execSQL(
+                "create table date" + name + " "+
+                        "(id integer primary key, name text,phone text,email text, street text,place text)"
+        );
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
-        db.execSQL("DROP TABLE IF EXISTS contacts");
+        db.execSQL("DROP TABLE IF EXISTS Workout");
         onCreate(db);
     }
+
 
     public boolean saveData (String first_input, String second_input) {
         String[] position = {"1"};
@@ -50,13 +56,23 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", first_input);
         contentValues.put("email", second_input);
-        db.insert("contacts",null, contentValues);
+        db.insert(CONTACTS_TABLE_NAME, null, contentValues);
+        return true;
+    }
+
+    public boolean updateData (String first_input, String second_input) {
+        String[] position = {"1"};
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("name", first_input);
+        contentValues.put("email", second_input);
+        db.update(CONTACTS_TABLE_NAME,contentValues,"id = ? ",position);
         return true;
     }
 
     public Cursor getData(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts where id="+id+"", null );
+        Cursor res =  db.rawQuery( "select * from Workout where id="+id+"", null );
         return res;
     }
 
@@ -75,17 +91,23 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("email", email);
         contentValues.put("street", street);
         contentValues.put("place", place);
-        db.update("contacts", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
+        db.update("Workout", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
         return true;
     }
 
     public Integer deleteContact (Integer id)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("contacts",
+        return db.delete("Workout",
                 "id = ? ",
                 new String[] { Integer.toString(id) });
     }
+
+    public SQLiteDatabase getdb(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db;
+    }
+
 
     public ArrayList<String> getAllCotacts()
     {
@@ -93,11 +115,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from contacts", null );
+        Cursor res =  db.rawQuery( "select * from Workout", null );
         res.moveToFirst();
 
         while(res.isAfterLast() == false){
-            array_list.add(res.getString(res.getColumnIndex(CONTACTS_COLUMN_NAME)));
+            array_list.add(res.getString(res.getColumnIndex(WORKOUT_EXERCISE_NAME)));
             res.moveToNext();
         }
         return array_list;
