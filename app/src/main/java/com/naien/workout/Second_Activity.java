@@ -51,7 +51,7 @@ public class Second_Activity extends Activity {
         date_db = Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
     }
 
-    public void save_to_database(View view){
+    /*public void save_to_database(View view){
         second_user_input = second_input.getText().toString();
         Boolean there = false;
 
@@ -87,5 +87,5 @@ public class Second_Activity extends Activity {
     public void make_new_db(View view) {
 
         mydb.create_new_table(mydb.getdb(), date_db);
-    }
+    }*/
 }

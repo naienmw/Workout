@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -39,6 +40,8 @@ public class WorkoutMainActivity extends Activity{
         my_workout.setText(the_workout);
 
         count = 0;
+
+        mydb = new DBHelper(this);
     }
 
 
@@ -48,10 +51,22 @@ public class WorkoutMainActivity extends Activity{
 
         theExercise[count] = newExercise.getText().toString();
 
-        theAdapter = new my_adapter(this, theExercise);
-        ListView theListView = (ListView) findViewById(R.id.listview_exercises);
-        theListView.setAdapter(theAdapter);
+        if (!theExercise[count].matches("")) {
 
-        count = count + 1;
+            theAdapter = new my_adapter(this, theExercise);
+            ListView theListView = (ListView) findViewById(R.id.listview_exercises);
+            theListView.setAdapter(theAdapter);
+
+            newExercise.setText("");
+
+            mydb.saveExerciseName("d"+the_date,theExercise[count]);
+
+            count = count + 1;
+
+
+
+        }else{
+            Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();
+        }
     }
 }

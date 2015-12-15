@@ -51,13 +51,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean saveData (String first_input, String second_input) {
-        String[] position = {"1"};
+    public boolean saveExerciseName(String tablename, String name) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name", first_input);
-        contentValues.put("email", second_input);
-        db.insert(CONTACTS_TABLE_NAME, null, contentValues);
+        contentValues.put("name",name);
+        db.insert(tablename, null, contentValues);
+
         return true;
     }
 
