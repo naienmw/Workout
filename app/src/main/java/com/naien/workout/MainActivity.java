@@ -11,21 +11,36 @@ package com.naien.workout;
         import android.view.MenuItem;
         import android.widget.EditText;
 
+        import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
-    EditText input_to_second;
+    EditText user_Workout_input;
+    DBHelper mydb;
+    String date_db;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        input_to_second = (EditText) findViewById(R.id.user_input_to_second_activity);
+        mydb = new DBHelper(this);
+
+        user_Workout_input = (EditText) findViewById(R.id.user_Workout_input);
+
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DATE);
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        date_db = Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
     }
 
-    public void switch_activity(View view){
-        String to_second =  input_to_second.getText().toString();
-        Intent the_second_screen = new Intent(this, Second_Activity.class);
-        the_second_screen.putExtra("data",to_second);
-        startActivity(the_second_screen);
+    public void makeNewWorkout(View view){
+        String user_Workout =  user_Workout_input.getText().toString();
+        Intent workout_main = new Intent(this, WorkoutMainActivity.class);
+        workout_main.putExtra("workout_name",user_Workout);
+        workout_main.putExtra("date",date_db);
+        startActivity(workout_main);
+        mydb.create_new_table(mydb.getdb(),date_db);
+
     }
 }

@@ -15,13 +15,13 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/user_input_to_second_activity"
-        android:hint="Put Exercise"/>
+        android:id="@+id/user_Workout_input"
+        android:hint="@string/user_name_of_workout"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Click Me"
-        android:onClick="switch_activity" />
+        android:text="@string/button_text_add_workout"
+        android:onClick="makeNewWorkout" />
 
 </LinearLayout>

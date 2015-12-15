@@ -38,11 +38,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
-                "create table date" + name + " "+
+                "create table if not exists d" + name + " "+
                         "(id integer primary key, name text,phone text,email text, street text,place text)"
         );
     }
-    @Override
+
+
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // TODO Auto-generated method stub
         db.execSQL("DROP TABLE IF EXISTS Workout");

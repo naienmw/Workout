@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Workout</string>
     <string name="action_settings">Settings</string>
+    <string name="user_name_of_workout">Workout Name</string>
+    <string name="button_text_add_workout">Click to add Workout</string>
 </resources>
