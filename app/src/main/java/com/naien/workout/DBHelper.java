@@ -17,10 +17,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_TABLE_NAME = "Workout";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String WORKOUT_EXERCISE_NAME = "name";
-    public static final String CONTACTS_COLUMN_EMAIL = "email";
-    public static final String CONTACTS_COLUMN_STREET = "street";
-    public static final String CONTACTS_COLUMN_CITY = "place";
-    public static final String CONTACTS_COLUMN_PHONE = "phone";
+
     private HashMap hp;
 
     public DBHelper(Context context)
@@ -33,14 +30,15 @@ public class DBHelper extends SQLiteOpenHelper {
         // TODO Auto-generated method stub
         db.execSQL(
                 "create table Workout " +
-                        "(id integer primary key, name text,phone text,email text, street text,place text)"
+                        "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text)"
         );
     }
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
-                "create table if not exists d" + name + " "+
-                        "(id integer primary key, name text,phone text,email text, street text,place text)"
+                "create table if not exists " + name + " "+
+                        "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text)"
         );
+        db.close();
     }
 
 
@@ -53,10 +51,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean saveExerciseName(String tablename, String name) {
 
+        String[] position = {"1"};
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("name",name);
+        contentValues.put("name", name);
+        contentValues.put("set1", "0");
+        contentValues.put("set2", "0");
+        contentValues.put("set3", "0");
+        contentValues.put("set4", "0");
+        contentValues.put("set5", "0");
+        contentValues.put("set6", "0");
+        contentValues.put("set7", "0");
         db.insert(tablename, null, contentValues);
+        db.close();
 
         return true;
     }
@@ -67,13 +74,25 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", first_input);
         contentValues.put("email", second_input);
-        db.update(CONTACTS_TABLE_NAME,contentValues,"id = ? ",position);
+        db.update(CONTACTS_TABLE_NAME, contentValues, "id = ? ", position);
+        return true;
+    }
+
+    public boolean put_set (String table_name,Integer count_ex, Integer count_set, String reps_weight) {
+
+        String[] line = {count_ex.toString()};
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        String temp = "set"+count_set.toString();
+        contentValues.put(temp, reps_weight);
+        db.update(table_name, contentValues, "id = ? ", line);
+        db.close();
         return true;
     }
 
     public Cursor getData(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from Workout where id="+id+"", null );
+        Cursor res =  db.rawQuery("select * from Workout where id=" + id + "", null);
         return res;
     }
 
@@ -124,5 +143,19 @@ public class DBHelper extends SQLiteOpenHelper {
             res.moveToNext();
         }
         return array_list;
+    }
+
+    public void FillLineWithZeros(String tablename) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("set1", "0");
+        contentValues.put("set2", "0");
+        contentValues.put("set3", "0");
+        contentValues.put("set4", "0");
+        contentValues.put("set5", "0");
+        contentValues.put("set6", "0");
+        contentValues.put("set7", "0");
+        db.insert(tablename, null, contentValues);
     }
 }

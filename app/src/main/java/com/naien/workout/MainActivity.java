@@ -10,6 +10,7 @@ package com.naien.workout;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.widget.EditText;
+        import android.widget.Toast;
 
         import java.util.Calendar;
 
@@ -31,16 +32,21 @@ public class MainActivity extends AppCompatActivity {
         int day = c.get(Calendar.DATE);
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
-        date_db = Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
+        date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
     }
 
     public void makeNewWorkout(View view){
-        String user_Workout =  user_Workout_input.getText().toString();
-        Intent workout_main = new Intent(this, WorkoutMainActivity.class);
-        workout_main.putExtra("workout_name",user_Workout);
-        workout_main.putExtra("date",date_db);
-        startActivity(workout_main);
-        mydb.create_new_table(mydb.getdb(),date_db);
 
+        String user_Workout =  user_Workout_input.getText().toString();
+        if (!user_Workout.matches("")) {
+            Intent workout_main = new Intent(this, WorkoutMainActivity.class);
+            workout_main.putExtra("workout_name", user_Workout);
+            workout_main.putExtra("date", date_db);
+            startActivity(workout_main);
+            mydb.create_new_table(mydb.getdb(), date_db);
+            mydb.saveExerciseName(date_db, user_Workout);
+        }else{
+            Toast.makeText(this, "Give me a Workout name", Toast.LENGTH_SHORT).show();
+        }
     }
 }

@@ -24,7 +24,7 @@ public class WorkoutMainActivity extends Activity{
     String the_workout;
     ListAdapter theAdapter;
     String[] theExercise = new String[100];
-    Integer count;
+    Integer count = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,7 +39,6 @@ public class WorkoutMainActivity extends Activity{
         TextView my_workout = (TextView) findViewById(R.id.workout_name);
         my_workout.setText(the_workout);
 
-        count = 0;
 
         mydb = new DBHelper(this);
     }
@@ -53,17 +52,25 @@ public class WorkoutMainActivity extends Activity{
 
         if (!theExercise[count].matches("")) {
 
+            Intent workout_main = new Intent(this, ExerciseMainActivity.class);
+
             theAdapter = new my_adapter(this, theExercise);
             ListView theListView = (ListView) findViewById(R.id.listview_exercises);
             theListView.setAdapter(theAdapter);
 
             newExercise.setText("");
 
-            mydb.saveExerciseName("d"+the_date,theExercise[count]);
+            mydb.saveExerciseName(the_date, theExercise[count]);
+
+            workout_main.putExtra("exercise",theExercise[count]);
+            workout_main.putExtra("ex",count);
+            workout_main.putExtra("date",the_date);
 
             count = count + 1;
 
 
+
+            startActivity(workout_main);
 
         }else{
             Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();

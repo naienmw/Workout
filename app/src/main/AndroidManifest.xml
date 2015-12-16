@@ -24,6 +24,9 @@
         <activity
             android:name=".WorkoutMainActivity">
         </activity>
+        <activity
+            android:name=".ExerciseMainActivity">
+        </activity>
 
     </application>
 
