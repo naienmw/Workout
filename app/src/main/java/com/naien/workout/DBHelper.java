@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.ViewDebug;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
                 "create table if not exists " + name + " " +
-                        "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text)"
+                        "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text,set8 text,set9 text,set10 text,set11 text,set12 text,set13 text)"
         );
         db.close();
     }
@@ -88,6 +89,12 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("set5", "0");
         contentValues.put("set6", "0");
         contentValues.put("set7", "0");
+        contentValues.put("set8", "0");
+        contentValues.put("set9", "0");
+        contentValues.put("set10", "0");
+        contentValues.put("set11", "0");
+        contentValues.put("set12", "0");
+        contentValues.put("set13", "0");
         db.insert(tablename, null, contentValues);
         db.close();
 
@@ -124,14 +131,37 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public String getWoName(String date){
 
-        String ExName = "";
+        String WoName = "";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery("select * from " + date + " where id=1", null);
 
         if (res.moveToFirst()){
-             ExName= res.getString(res.getColumnIndex("name"));
+             WoName= res.getString(res.getColumnIndex("name"));
         }
+        return WoName;
+    }
+
+    public String[] getAllExercises(String date){
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Integer temp;
+
+        Cursor c =  db.rawQuery("select * from " + date + "", null);
+        c.moveToFirst();
+        temp = c.getCount();
+        String ExName[] = new String[temp];
+
+
+        c = db.rawQuery("select * from " + date + "",null);
+        c.moveToFirst();
+        Integer i = 0;
+            while(c.moveToNext()) {
+                ExName[i] = c.getString(1);
+                i = i+1;
+            }
+
         return ExName;
     }
 

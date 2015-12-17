@@ -47,14 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
             Integer rows = allWorkouts.length;
             allWorkoutsListView = new String[rows];
-            Toast.makeText(this, rows.toString(), Toast.LENGTH_SHORT).show();
 
 
             for (int i=0;i<rows;i++){
                 allWorkoutsListView[i] = allWorkouts[i][0] + " - " + allWorkouts[i][1];
             }
 
-            Toast.makeText(this, allWorkoutsListView[0], Toast.LENGTH_SHORT).show();
 
             theAdapter = new my_adapter_sets(this, allWorkoutsListView);
             ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);

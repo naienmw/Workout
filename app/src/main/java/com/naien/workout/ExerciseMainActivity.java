@@ -21,7 +21,7 @@ public class ExerciseMainActivity extends Activity {
     Integer count_ex;
     ListAdapter theAdapter;
     TextView exercise;
-    String[] theSets = new String[100];
+    String[] theSets = new String[14];
     String the_date;
 
 
@@ -36,11 +36,15 @@ public class ExerciseMainActivity extends Activity {
         Intent i = getIntent();
         exercise_name = i.getStringExtra("exercise");
         the_date = i.getStringExtra("date");
-        count_sets = i.getIntExtra("sets",1);
+        count_sets = i.getIntExtra("sets", 1);
 
         exercise = (TextView) findViewById(R.id.workout_name_in_ex);
         exercise.setText(exercise_name);
+
     }
+
+
+
 
 
     public void AddNewSet(View view) {
@@ -54,8 +58,7 @@ public class ExerciseMainActivity extends Activity {
 
         if (!newSetReps.getText().toString().matches("")){
             if (!newSetWeight.getText().toString().matches("")){
-                theSets[count_sets] = newSetReps.getText().toString() + " x " + newSetWeight.getText().toString();
-
+                theSets[count_sets-1] = newSetReps.getText().toString() + " x " + newSetWeight.getText().toString();
 
                 theAdapter = new my_adapter_sets(this, theSets);
                 ListView theListView = (ListView) findViewById(R.id.listview_sets);
@@ -73,6 +76,11 @@ public class ExerciseMainActivity extends Activity {
 
 
 
+    }
+
+    public void finish(View view){
+        super.onResume();
+        finish();
     }
 
 }

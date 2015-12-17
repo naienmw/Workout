@@ -23,24 +23,50 @@ public class WorkoutMainActivity extends Activity{
     String the_date;
     String the_workout;
     ListAdapter theAdapter;
-    String[] theExercise = new String[100];
+    String[] theExercise;
+
     Integer count;
 
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.workout_main);
+        theExercise = new String[100];
 
+        super.onCreate(savedInstanceState);
+        /*
+        this.setContentView(R.layout.workout_main);
+        mydb = new DBHelper(this);
         Intent i = getIntent();
 
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
-        count = i.getIntExtra("sets",2);
+        count = i.getIntExtra("sets", 2);
         TextView my_workout = (TextView) findViewById(R.id.workout_name);
         my_workout.setText(the_workout);
 
+        theExercise = mydb.getAllExercises(the_date);
+        theAdapter = new my_adapter_sets(this,theExercise);
+        ListView theListView = (ListView) findViewById(R.id.listview_exercises);
+        theListView.setAdapter(theAdapter);*/
 
+    }
+
+     @Override
+    public void onResume(){
+        super.onResume();
+        this.setContentView(R.layout.workout_main);
         mydb = new DBHelper(this);
+        Intent i = getIntent();
+
+        the_date = i.getStringExtra("date");
+        the_workout = i.getStringExtra("workout_name");
+        count = i.getIntExtra("sets", 2);
+        TextView my_workout = (TextView) findViewById(R.id.workout_name);
+        my_workout.setText(the_workout);
+
+        theExercise = mydb.getAllExercises(the_date);
+        theAdapter = new my_adapter_sets(this,theExercise);
+        ListView theListView = (ListView) findViewById(R.id.listview_exercises);
+        theListView.setAdapter(theAdapter);
     }
 
 
@@ -48,26 +74,26 @@ public class WorkoutMainActivity extends Activity{
 
         EditText newExercise = (EditText) findViewById(R.id.user_Exercise_Input);
 
-        theExercise[count] = newExercise.getText().toString();
+        //Integer temp = count-1;
 
-        if (!theExercise[count].matches("")) {
+        //theExercise[temp] = ;
+
+        if (!newExercise.getText().toString().matches("")) {
 
             Intent workout_main = new Intent(this, ExerciseMainActivity.class);
 
-            theAdapter = new my_adapter(this, theExercise);
+            /*theAdapter = new my_adapter(this, theExercise);
             ListView theListView = (ListView) findViewById(R.id.listview_exercises);
-            theListView.setAdapter(theAdapter);
+            theListView.setAdapter(theAdapter);*/
 
-            newExercise.setText("");
+            mydb.saveExerciseName(the_date, newExercise.getText().toString());
 
-            mydb.saveExerciseName(the_date, theExercise[count]);
-
-            workout_main.putExtra("exercise",theExercise[count]);
+            workout_main.putExtra("exercise",newExercise.getText().toString());
             workout_main.putExtra("ex",count);
             workout_main.putExtra("date",the_date);
+            newExercise.setText("");
 
             count = count + 1;
-
 
 
             startActivity(workout_main);
