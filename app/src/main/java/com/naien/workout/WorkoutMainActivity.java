@@ -24,7 +24,7 @@ public class WorkoutMainActivity extends Activity{
     String the_workout;
     ListAdapter theAdapter;
     String[] theExercise = new String[100];
-    Integer count = 1;
+    Integer count;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -35,7 +35,7 @@ public class WorkoutMainActivity extends Activity{
 
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
-
+        count = i.getIntExtra("sets",2);
         TextView my_workout = (TextView) findViewById(R.id.workout_name);
         my_workout.setText(the_workout);
 

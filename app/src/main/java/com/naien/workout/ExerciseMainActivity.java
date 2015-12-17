@@ -36,21 +36,21 @@ public class ExerciseMainActivity extends Activity {
         Intent i = getIntent();
         exercise_name = i.getStringExtra("exercise");
         the_date = i.getStringExtra("date");
+        count_sets = i.getIntExtra("sets",1);
 
         exercise = (TextView) findViewById(R.id.workout_name_in_ex);
         exercise.setText(exercise_name);
-
-
     }
 
 
     public void AddNewSet(View view) {
 
         newSetReps = (EditText) findViewById(R.id.user_reps_input);
+
         newSetWeight = (EditText) findViewById(R.id.user_weight_input);
         Intent i = getIntent();
 
-        count_ex = i.getIntExtra("ex",0);
+        count_ex = i.getIntExtra("ex",1);
 
         if (!newSetReps.getText().toString().matches("")){
             if (!newSetWeight.getText().toString().matches("")){
@@ -62,7 +62,7 @@ public class ExerciseMainActivity extends Activity {
                 theListView.setAdapter(theAdapter);
 
                 String dbString = newSetReps.getText().toString()+","+newSetWeight.getText().toString();
-                mydb.put_set(the_date,count_ex+1,count_sets,dbString);
+                mydb.put_set(the_date,count_ex,count_sets,dbString);
                 count_sets = count_sets + 1;
             }else{
                 Toast.makeText(this,"Give me some weight",Toast.LENGTH_SHORT).show();

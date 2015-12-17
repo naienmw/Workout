@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +16,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "blub.db";
     public static final String CONTACTS_TABLE_NAME = "Workout";
-    public static final String CONTACTS_COLUMN_ID = "id";
     public static final String WORKOUT_EXERCISE_NAME = "name";
     SQLiteDatabase db;
+    String[][] allWorkouts;
 
     private HashMap hp;
 
@@ -30,10 +31,10 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        db.execSQL(
+        /*db.execSQL(
                 "create table Workout " +
                         "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text)"
-        );
+        );*/
     }
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
@@ -63,6 +64,15 @@ public class DBHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return false;
+    }
+
+    public int getProfilesCount(String tablename) {
+        String countQuery = "SELECT  * FROM " + tablename;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int cnt = cursor.getCount();
+        cursor.close();
+        return cnt;
     }
 
     public boolean saveExerciseName(String tablename, String name) {
@@ -106,30 +116,55 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor getData(int id){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery("select * from Workout where id=" + id + "", null);
-        return res;
-    }
-
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
         return numRows;
     }
 
-    public boolean updateContact (Integer id, String name, String phone, String email, String street,String place)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("name", name);
-        contentValues.put("phone", phone);
-        contentValues.put("email", email);
-        contentValues.put("street", street);
-        contentValues.put("place", place);
-        db.update("Workout", contentValues, "id = ? ", new String[] { Integer.toString(id) } );
-        return true;
+    public String getWoName(String date){
+
+        String ExName = "";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res =  db.rawQuery("select * from " + date + " where id=1", null);
+
+        if (res.moveToFirst()){
+             ExName= res.getString(res.getColumnIndex("name"));
+        }
+        return ExName;
     }
+
+
+    public String[][] getAllWorkouts(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Integer countrow = 0;
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);
+
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+                countrow = countrow +1;
+                c.moveToNext();
+            }
+        }
+
+        allWorkouts = new String[countrow][2];
+
+        countrow = 0;
+
+       //c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);
+        if (c.moveToFirst()) {
+            while ( !c.isAfterLast() ) {
+                allWorkouts[countrow][0] = c.getString(c.getColumnIndex("name"));
+                allWorkouts[countrow][1] = getWoName(allWorkouts[countrow][0]);
+                countrow = countrow +1;
+                c.moveToNext();
+            }
+        }
+
+        return allWorkouts;
+    }
+
 
     public Integer deleteContact (Integer id)
     {

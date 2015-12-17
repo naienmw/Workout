@@ -10,6 +10,8 @@ package com.naien.workout;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.widget.EditText;
+        import android.widget.ListAdapter;
+        import android.widget.ListView;
         import android.widget.Toast;
 
         import java.util.Calendar;
@@ -19,8 +21,13 @@ public class MainActivity extends AppCompatActivity {
     EditText user_Workout_input;
     DBHelper mydb;
     String date_db;
+    String allWorkouts[][];
+    String allWorkoutsListView[];
+    ListAdapter theAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
+
+        allWorkouts = new String[1000][2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -33,6 +40,26 @@ public class MainActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
+
+        if(mydb.doesTableExist(mydb.getdb(),date_db)){
+
+            allWorkouts = mydb.getAllWorkouts();
+
+            Integer rows = allWorkouts.length;
+            allWorkoutsListView = new String[rows];
+            Toast.makeText(this, rows.toString(), Toast.LENGTH_SHORT).show();
+
+
+            for (int i=0;i<rows;i++){
+                allWorkoutsListView[i] = allWorkouts[i][0] + " - " + allWorkouts[i][1];
+            }
+
+            Toast.makeText(this, allWorkoutsListView[0], Toast.LENGTH_SHORT).show();
+
+            theAdapter = new my_adapter_sets(this, allWorkoutsListView);
+            ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
+            theListView.setAdapter(theAdapter);
+        }
     }
 
     public void makeNewWorkout(View view){
@@ -49,7 +76,19 @@ public class MainActivity extends AppCompatActivity {
                 mydb.create_new_table(mydb.getdb(), date_db);
                 mydb.saveExerciseName(date_db, user_Workout);
             }else{
-                Toast.makeText(this, "Date existing", Toast.LENGTH_SHORT).show();
+
+                Integer NoOfEx = mydb.getProfilesCount(date_db);
+
+                Toast.makeText(this, "Date existing, ExCount is " + NoOfEx, Toast.LENGTH_SHORT).show();
+
+                Intent workout_main = new Intent(this, WorkoutMainActivity.class);
+                workout_main.putExtra("workout_name",mydb.getWoName(date_db));
+                workout_main.putExtra("date", date_db);
+                Integer temp = NoOfEx+1;
+                workout_main.putExtra("sets",temp);
+
+                startActivity(workout_main);
+
             }
         }else{
             Toast.makeText(this, "Give me a Workout name", Toast.LENGTH_SHORT).show();
