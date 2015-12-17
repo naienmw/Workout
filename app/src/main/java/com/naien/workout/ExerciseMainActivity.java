@@ -57,7 +57,7 @@ public class ExerciseMainActivity extends Activity {
                 theSets[count_sets] = newSetReps.getText().toString() + " x " + newSetWeight.getText().toString();
 
 
-                theAdapter = new my_adapter(this, theSets);
+                theAdapter = new my_adapter_sets(this, theSets);
                 ListView theListView = (ListView) findViewById(R.id.listview_sets);
                 theListView.setAdapter(theAdapter);
 

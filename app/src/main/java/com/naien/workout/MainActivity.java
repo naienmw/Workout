@@ -39,12 +39,18 @@ public class MainActivity extends AppCompatActivity {
 
         String user_Workout =  user_Workout_input.getText().toString();
         if (!user_Workout.matches("")) {
-            Intent workout_main = new Intent(this, WorkoutMainActivity.class);
-            workout_main.putExtra("workout_name", user_Workout);
-            workout_main.putExtra("date", date_db);
-            startActivity(workout_main);
-            mydb.create_new_table(mydb.getdb(), date_db);
-            mydb.saveExerciseName(date_db, user_Workout);
+            Boolean blub;
+            blub = mydb.doesTableExist(mydb.getdb(),date_db);
+            if (!blub) {
+                Intent workout_main = new Intent(this, WorkoutMainActivity.class);
+                workout_main.putExtra("workout_name", user_Workout);
+                workout_main.putExtra("date", date_db);
+                startActivity(workout_main);
+                mydb.create_new_table(mydb.getdb(), date_db);
+                mydb.saveExerciseName(date_db, user_Workout);
+            }else{
+                Toast.makeText(this, "Date existing", Toast.LENGTH_SHORT).show();
+            }
         }else{
             Toast.makeText(this, "Give me a Workout name", Toast.LENGTH_SHORT).show();
         }

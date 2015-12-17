@@ -17,12 +17,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_TABLE_NAME = "Workout";
     public static final String CONTACTS_COLUMN_ID = "id";
     public static final String WORKOUT_EXERCISE_NAME = "name";
+    SQLiteDatabase db;
 
     private HashMap hp;
 
     public DBHelper(Context context)
     {
         super(context, DATABASE_NAME, null, 1);
+
     }
 
     @Override
@@ -35,11 +37,13 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
-                "create table if not exists " + name + " "+
+                "create table if not exists " + name + " " +
                         "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text)"
         );
         db.close();
     }
+
+
 
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -48,6 +52,18 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public boolean doesTableExist(SQLiteDatabase db, String tableName) {
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '" + tableName + "'", null);
+
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                cursor.close();
+                return true;
+            }
+            cursor.close();
+        }
+        return false;
+    }
 
     public boolean saveExerciseName(String tablename, String name) {
 
