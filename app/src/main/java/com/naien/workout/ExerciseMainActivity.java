@@ -35,8 +35,8 @@ public class ExerciseMainActivity extends Activity {
 
         Intent i = getIntent();
         exercise_name = i.getStringExtra("exercise");
-        the_date = i.getStringExtra("date");
-        count_sets = i.getIntExtra("sets", 1);
+        the_date = i.getStringExtra("date");  //das AKTUELLE Datum
+        //count_sets = i.getIntExtra("sets", 1);
 
         exercise = (TextView) findViewById(R.id.workout_name_in_ex);
         exercise.setText(exercise_name);
@@ -54,7 +54,7 @@ public class ExerciseMainActivity extends Activity {
         newSetWeight = (EditText) findViewById(R.id.user_weight_input);
         Intent i = getIntent();
 
-        count_ex = i.getIntExtra("ex",1);
+        count_ex = mydb.getProfilesCount(the_date);
 
         if (!newSetReps.getText().toString().matches("")){
             if (!newSetWeight.getText().toString().matches("")){
@@ -79,7 +79,7 @@ public class ExerciseMainActivity extends Activity {
     }
 
     public void finish(View view){
-        super.onResume();
+        //super.onResume();
         finish();
     }
 

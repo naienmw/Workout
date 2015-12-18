@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
-        if(mydb.doesTableExist(mydb.getdb(),date_db)){
+        //if(mydb.doesTableExist(mydb.getdb(),date_db)){
 
             allWorkouts = mydb.getAllWorkouts();
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             theAdapter = new my_adapter_sets(this, allWorkoutsListView);
             ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
             theListView.setAdapter(theAdapter);
-        }
+        //}
     }
 
     public void makeNewWorkout(View view){
@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent workout_main = new Intent(this, WorkoutMainActivity.class);
                 workout_main.putExtra("workout_name",mydb.getWoName(date_db));
                 workout_main.putExtra("date", date_db);
-                Integer temp = NoOfEx+1;
-                workout_main.putExtra("sets",temp);
+                //Integer temp = NoOfEx+1;
+                //workout_main.putExtra("sets",temp);
 
                 startActivity(workout_main);
 

@@ -59,7 +59,7 @@ public class WorkoutMainActivity extends Activity{
 
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
-        count = i.getIntExtra("sets", 2);
+        //count = i.getIntExtra("sets", 2);
         TextView my_workout = (TextView) findViewById(R.id.workout_name);
         my_workout.setText(the_workout);
 
@@ -89,11 +89,11 @@ public class WorkoutMainActivity extends Activity{
             mydb.saveExerciseName(the_date, newExercise.getText().toString());
 
             workout_main.putExtra("exercise",newExercise.getText().toString());
-            workout_main.putExtra("ex",count);
+            //workout_main.putExtra("ex",count);
             workout_main.putExtra("date",the_date);
             newExercise.setText("");
 
-            count = count + 1;
+            //count = count + 1;
 
 
             startActivity(workout_main);

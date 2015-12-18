@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <style name="OrangeApp" parent="Theme.AppCompat.Light" >
+        <item name="colorAccent">@color/accent_material_light_2</item>
+    </style>
+
+    <style name="OrangeApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
 </resources>
