@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             for (int i=0;i<rows;i++){
-                allWorkoutsListView[i] = allWorkouts[i][0] + " - " + allWorkouts[i][1];
+                allWorkoutsListView[i] = allWorkouts[i][0].substring(1) + " - " + allWorkouts[i][1];
             }
 
 

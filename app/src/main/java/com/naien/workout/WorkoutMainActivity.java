@@ -64,7 +64,15 @@ public class WorkoutMainActivity extends Activity{
         my_workout.setText(the_workout);
 
         theExercise = mydb.getAllExercises(the_date);
-        theAdapter = new my_adapter_sets(this,theExercise);
+         Integer NoOfEx = theExercise.length -1 ;
+
+         String[] theExercise_fine = new String[NoOfEx];
+
+         for (int k= 0; k<NoOfEx;k++){
+            theExercise_fine[k] = theExercise[k];
+         }
+
+        theAdapter = new my_adapter_sets(this,theExercise_fine);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setAdapter(theAdapter);
     }
@@ -90,7 +98,7 @@ public class WorkoutMainActivity extends Activity{
 
             workout_main.putExtra("exercise",newExercise.getText().toString());
             //workout_main.putExtra("ex",count);
-            workout_main.putExtra("date",the_date);
+            workout_main.putExtra("date", the_date);
             newExercise.setText("");
 
             //count = count + 1;

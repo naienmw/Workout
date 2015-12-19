@@ -59,8 +59,12 @@ public class ExerciseMainActivity extends Activity {
         if (!newSetReps.getText().toString().matches("")){
             if (!newSetWeight.getText().toString().matches("")){
                 theSets[count_sets-1] = newSetReps.getText().toString() + " x " + newSetWeight.getText().toString();
+                String[] theSets_fine = new String[count_sets];
+                for (int k = 0;k<count_sets;k++){
+                    theSets_fine[k] = theSets[k];
+                }
 
-                theAdapter = new my_adapter_sets(this, theSets);
+                theAdapter = new my_adapter_sets(this, theSets_fine);
                 ListView theListView = (ListView) findViewById(R.id.listview_sets);
                 theListView.setAdapter(theAdapter);
 
