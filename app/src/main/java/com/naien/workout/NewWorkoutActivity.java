@@ -32,7 +32,7 @@ public class NewWorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.workout_choice);
+        setContentView(R.layout.workout_choice_new);
 
         mydb = new DBHelper(this);
         theWO = (ListView) findViewById(R.id.workout_choice);

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/multiRowMargin"
+        android:layout_gravity="center">
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="Choose!"
+        android:textSize="20sp"
+        android:id="@+id/workout_combi"
+        android:layout_gravity="center"
+        />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAddWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/fab_margin"
+            android:onClick="composeWorkout"
+            android:src="@drawable/addnewcross"
+            />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/workout_choice"
+        android:layout_marginLeft="@dimen/multiRowMargin"
+        android:layout_marginRight="@dimen/multiRowMargin"
+        />
+</LinearLayout>
