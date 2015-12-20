@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewWO"
         android:layout_gravity="center"
-        android:textSize="20sp"
+        android:textSize="19sp"
         android:textStyle="normal"
         android:padding="15dp"
         android:layout_marginLeft="-10dp"/>
