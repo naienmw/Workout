@@ -10,6 +10,7 @@
     tools:context="com.naien.simpleworkouttracker.app.MainActivity"
     tools:showIn="@layout/activity_main">
 
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,23 +18,15 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/multiRowMargin">
 
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/user_Workout_input"
-        android:hint="@string/user_name_of_workout"
-        android:layout_gravity="center"/>
-
-
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/imageButton"
-            android:background="@drawable/selector"
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabAddWorkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
             android:onClick="makeNewWorkout"
-            android:layout_gravity="center"/>
-
+            android:src="@drawable/addnewcross"
+            />
     </LinearLayout>
 
     <LinearLayout

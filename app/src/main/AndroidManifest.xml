@@ -14,18 +14,20 @@
             android:theme="@style/OrangeApp.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 		<activity
-            android:name=".Second_Activity">
+            android:name=".NewWorkoutActivity">
+            android:theme="@style/OrangeApp.NoActionBar">
         </activity>
         <activity
             android:name=".WorkoutMainActivity">
+            android:theme="@style/OrangeApp.NoActionBar">
         </activity>
         <activity
             android:name=".ExerciseMainActivity">
+            android:theme="@style/OrangeApp.NoActionBar">
         </activity>
 
     </application>

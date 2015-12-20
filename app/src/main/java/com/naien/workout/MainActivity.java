@@ -1,6 +1,8 @@
 package com.naien.workout;
 
         import android.content.Intent;
+        import android.content.res.ColorStateList;
+        import android.graphics.Color;
         import android.graphics.PorterDuff;
         import android.os.Bundle;
         import android.support.design.widget.FloatingActionButton;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     String allWorkouts[][];
     String allWorkoutsListView[][];
     ListAdapter multiRowAdapter;
+    FloatingActionButton myFAB;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -36,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
         mydb = new DBHelper(this);
 
-        user_Workout_input = (EditText) findViewById(R.id.user_Workout_input);
+        //user_Workout_input = (EditText) findViewById(R.id.user_Workout_input);
+        myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
@@ -44,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
-        //if(mydb.doesTableExist(mydb.getdb(),date_db)){
+        if(mydb.doesTableExist(mydb.getdb(),date_db)) {
+            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+            myFAB.setImageResource(R.drawable.addnewexisting);
+        }
 
             allWorkouts = mydb.getAllWorkouts();
 
@@ -57,11 +64,6 @@ public class MainActivity extends AppCompatActivity {
             allWorkoutsListView[i][0] = allWorkouts[i][1];
             allWorkoutsListView[i][1] = date;
         }
-
-            /*for (int i=0;i<rows;i++){
-                allWorkoutsListView[i] = allWorkouts[i][0].substring(1) + " - " + allWorkouts[i][1];
-            }*/
-
 
             multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
             ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
@@ -77,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
         Integer rows = allWorkouts.length;
         allWorkoutsListView = new String[rows][2];
 
+        myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
+        if(mydb.doesTableExist(mydb.getdb(),date_db)) {
+            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+            myFAB.setImageResource(R.drawable.addnewexisting);
+        }
+
 
         for (int i=0;i<rows;i++){
             String[] parts = allWorkouts[i][0].substring(1).split("_");
@@ -91,32 +99,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                ImageButton view = (ImageButton ) v;
-                view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
-                v.invalidate();
-                break;
-            }
-            case MotionEvent.ACTION_UP:
-
-                // Your action here on button click
-
-            case MotionEvent.ACTION_CANCEL: {
-                ImageButton view = (ImageButton) v;
-                view.getBackground().clearColorFilter();
-                view.invalidate();
-                break;
-            }
-        }
-        return true;
-    }
-
     public void makeNewWorkout(View view){
 
-        String user_Workout =  user_Workout_input.getText().toString();
+        if(!mydb.doesTableExist(mydb.getdb(),date_db)) {
+            Intent test = new Intent(this,NewWorkoutActivity.class);
+            test.putExtra("date",date_db);
+            startActivity(test);
+        }else{
+            Intent workout_main = new Intent(this, WorkoutMainActivity.class);
+            workout_main.putExtra("workout_name", mydb.getWoName(date_db));
+            workout_main.putExtra("date", date_db);
+            startActivity(workout_main);
+        }
+
+
+
+       /* String user_Workout =  user_Workout_input.getText().toString();
         if (!user_Workout.matches("")) {
             Boolean blub;
             blub = mydb.doesTableExist(mydb.getdb(),date_db);
@@ -144,6 +142,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }else{
             Toast.makeText(this, "Give me a Workout name", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 }

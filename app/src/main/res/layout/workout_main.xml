@@ -7,12 +7,21 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="blaa"
-    android:textSize="30sp"
-    android:id="@+id/workout_name"/>
+    android:textSize="25sp"
+    android:id="@+id/workout_name"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/multiRowMargin"/>
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_gravity="center">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Excercise Name"
+        android:layout_gravity="bottom"
+        android:id="@+id/user_Exercise_Input"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,19 +30,14 @@
         android:layout_margin="0dp"
         android:onClick="AddNewExercise"
         />
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Excercise Name"
-        android:layout_gravity="bottom"
-        android:id="@+id/user_Exercise_Input"/>
+
 </LinearLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview_exercises"
-        android:layout_marginLeft="-5dp">
+        android:layout_margin="@dimen/multiRowMargin">
 
     </ListView>
 

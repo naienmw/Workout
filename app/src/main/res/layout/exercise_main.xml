@@ -8,12 +8,15 @@
     android:layout_height="wrap_content"
     android:text="blaa"
     android:textSize="30sp"
-    android:id="@+id/workout_name_in_ex"/>
+    android:layout_gravity="center"
+    android:id="@+id/workout_name_in_ex"
+    android:layout_marginTop="@dimen/multiRowMargin"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/multiRowMargin">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
