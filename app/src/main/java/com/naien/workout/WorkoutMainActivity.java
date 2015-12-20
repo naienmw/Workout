@@ -66,13 +66,13 @@ public class WorkoutMainActivity extends Activity{
         theExercise = mydb.getAllExercises(the_date);
          Integer NoOfEx = theExercise.length -1 ;
 
-         String[] theExercise_fine = new String[NoOfEx];
+         /*String[] theExercise_fine = new String[NoOfEx];
 
          for (int k= 0; k<NoOfEx;k++){
             theExercise_fine[k] = theExercise[k];
-         }
+         }*/
 
-        theAdapter = new my_adapter_sets(this,theExercise_fine);
+        theAdapter = new my_adapter_sets(this,theExercise);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setAdapter(theAdapter);
     }

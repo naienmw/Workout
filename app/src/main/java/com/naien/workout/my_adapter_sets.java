@@ -17,14 +17,6 @@ class my_adapter_sets extends ArrayAdapter<String> {
     public my_adapter_sets(Context context, String[] values) {
         super(context, R.layout.sets_row_layout,values);
     }
-    /*public my_adapter(Context context, @LayoutRes int resource, @IdRes int textViewResourceId,
-                      String[] list) {
-        super(context,resource,textViewResourceId,list);
-        myResourcexml = resource;
-        mytextViewID = textViewResourceId;
-        myContext = context;
-        myList = list;
-    }*/
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

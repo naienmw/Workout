@@ -14,20 +14,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/multiRowMargin">
 
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/user_Workout_input"
-        android:hint="@string/user_name_of_workout" />
+        android:hint="@string/user_name_of_workout"
+        android:layout_gravity="center"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/button_text_add_workout"
-        android:onClick="makeNewWorkout" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageButton"
+            android:background="@drawable/selector"
+            android:onClick="makeNewWorkout"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
@@ -38,11 +43,12 @@
         android:layout_gravity="center">
 
         <ListView
-            android:layout_width="300dp"
-            android:layout_height="400dp"
-            android:id="@+id/ListViewWorkouts" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ListViewWorkouts"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:layout_margin="@dimen/multiRowMargin"/>
     </LinearLayout>
-
-
 
 </LinearLayout>

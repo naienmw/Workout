@@ -151,7 +151,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor c =  db.rawQuery("select * from " + date + "", null);
         c.moveToFirst();
         temp = c.getCount();
-        String ExName[] = new String[temp];
+        String ExName[] = new String[temp-1];
 
 
         c = db.rawQuery("select * from " + date + "",null);

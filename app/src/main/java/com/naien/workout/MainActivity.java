@@ -1,15 +1,18 @@
 package com.naien.workout;
 
         import android.content.Intent;
+        import android.graphics.PorterDuff;
         import android.os.Bundle;
         import android.support.design.widget.FloatingActionButton;
         import android.support.design.widget.Snackbar;
         import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.Toolbar;
+        import android.view.MotionEvent;
         import android.view.View;
         import android.view.Menu;
         import android.view.MenuItem;
         import android.widget.EditText;
+        import android.widget.ImageButton;
         import android.widget.ListAdapter;
         import android.widget.ListView;
         import android.widget.Toast;
@@ -22,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     DBHelper mydb;
     String date_db;
     String allWorkouts[][];
-    String allWorkoutsListView[];
-    ListAdapter theAdapter;
+    String allWorkoutsListView[][];
+    ListAdapter multiRowAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,18 +49,69 @@ public class MainActivity extends AppCompatActivity {
             allWorkouts = mydb.getAllWorkouts();
 
             Integer rows = allWorkouts.length;
-            allWorkoutsListView = new String[rows];
+            allWorkoutsListView = new String[rows][2];
 
+        for (int i=0;i<rows;i++){
+            String[] parts = allWorkouts[i][0].substring(1).split("_");
+            String date = parts[0] + "." + parts[1] + "." + parts[2];
+            allWorkoutsListView[i][0] = allWorkouts[i][1];
+            allWorkoutsListView[i][1] = date;
+        }
 
-            for (int i=0;i<rows;i++){
+            /*for (int i=0;i<rows;i++){
                 allWorkoutsListView[i] = allWorkouts[i][0].substring(1) + " - " + allWorkouts[i][1];
-            }
+            }*/
 
 
-            theAdapter = new my_adapter_sets(this, allWorkoutsListView);
+            multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
             ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
-            theListView.setAdapter(theAdapter);
+            theListView.setAdapter(multiRowAdapter);
         //}
+    }
+
+    public void onResume(){
+        super.onResume();
+
+        allWorkouts = mydb.getAllWorkouts();
+
+        Integer rows = allWorkouts.length;
+        allWorkoutsListView = new String[rows][2];
+
+
+        for (int i=0;i<rows;i++){
+            String[] parts = allWorkouts[i][0].substring(1).split("_");
+            String date = parts[0] + "." + parts[1] + "." + parts[2];
+            allWorkoutsListView[i][0] = allWorkouts[i][1];
+            allWorkoutsListView[i][1] = date;
+        }
+
+        multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
+        ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
+        theListView.setAdapter(multiRowAdapter);
+
+    }
+
+
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                ImageButton view = (ImageButton ) v;
+                view.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
+                v.invalidate();
+                break;
+            }
+            case MotionEvent.ACTION_UP:
+
+                // Your action here on button click
+
+            case MotionEvent.ACTION_CANCEL: {
+                ImageButton view = (ImageButton) v;
+                view.getBackground().clearColorFilter();
+                view.invalidate();
+                break;
+            }
+        }
+        return true;
     }
 
     public void makeNewWorkout(View view){
