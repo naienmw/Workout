@@ -13,11 +13,15 @@ package com.naien.workout;
         import android.view.View;
         import android.view.Menu;
         import android.view.MenuItem;
+        import android.widget.AdapterView;
         import android.widget.EditText;
         import android.widget.ImageButton;
         import android.widget.ListAdapter;
         import android.widget.ListView;
+        import android.widget.TextView;
         import android.widget.Toast;
+
+        import org.w3c.dom.Text;
 
         import java.util.Calendar;
 
@@ -97,6 +101,37 @@ public class MainActivity extends AppCompatActivity {
         ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
         theListView.setAdapter(multiRowAdapter);
 
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                TextView v = (TextView) findViewById(R.id.textViewDate);
+                TextView v1 = (TextView) findViewById(R.id.textViewWO);
+
+                String tempdate = multiRowAdapter.getItem(i).toString();
+                String tempdatedb = DateToDB(tempdate);
+
+                Toast.makeText(MainActivity.this,tempdatedb,Toast.LENGTH_SHORT).show();
+
+                if(!tempdatedb.equals(date_db)) {
+                    Intent staticWO = new Intent(MainActivity.this, WorkoutMainStaticActivity.class);
+
+                    staticWO.putExtra("date_static", tempdatedb);
+                    staticWO.putExtra("workout_name_static", v1.getText().toString());
+
+                    startActivity(staticWO);
+                }else{
+                    Intent normalWO = new Intent(MainActivity.this, WorkoutMainActivity.class);
+
+                    normalWO.putExtra("date", tempdatedb);
+                    normalWO.putExtra("workout_name", v1.getText().toString());
+
+                    startActivity(normalWO);
+                }
+                //Toast.makeText(MainActivity.this, tempdatedb, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
     }
 
     public void makeNewWorkout(View view){
@@ -144,4 +179,15 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Give me a Workout name", Toast.LENGTH_SHORT).show();
         }*/
     }
+
+    public String DateToDB(String date){
+
+        String[] parts = date.split("\\.");
+        date = "d" + parts[0] + "_" + parts[1] + "_"+parts[2];
+        return date;
+
+    }
+
+
+
 }

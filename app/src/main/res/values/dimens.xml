@@ -3,6 +3,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="multiRowSize">20sp</dimen>
-    <dimen name="multiRowMargin">20dp</dimen>
+    <dimen name="multiRowSize">25sp</dimen>
+    <dimen name="multiRowMargin">15dp</dimen>
 </resources>

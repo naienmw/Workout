@@ -31,11 +31,14 @@ class my_adapter_multiCol extends BaseAdapter{
         return myList.length;
     }
 
-    @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return myList[position-1];
+    public Object getItem(int position){
+        return myList[position][1];
     }
+
+    /*public String getItem(int position, int col) { //col 0 or 1
+        // TODO Auto-generated method stub
+        return myList[position][col];
+    }*/
 
     @Override
     public long getItemId(int position) {

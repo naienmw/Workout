@@ -9,14 +9,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class my_adapter_sets extends ArrayAdapter<String> {
+class my_adapter_sets_arraylist extends ArrayAdapter<String> {
 
     private int myResourcexml;
     private int mytextViewID;
     private Context myContext;
     private String[] myList;
 
-    public my_adapter_sets(Context context, String[] values) {
+    public my_adapter_sets_arraylist(Context context, ArrayList<String> values) {
         super(context, R.layout.sets_row_layout,values);
     }
 

@@ -37,7 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview_exercises"
-        android:layout_margin="@dimen/multiRowMargin">
+        android:layout_margin="@dimen/multiRowMargin"
+        android:divider="@null"
+        android:dividerHeight="0dp">
 
     </ListView>
 

@@ -18,6 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "blub.db";
     public static final String CONTACTS_TABLE_NAME = "Workout";
     public static final String WORKOUT_EXERCISE_NAME = "name";
+    public static final String[] ALL_SETS = new String[]{"set1","set2","set3","set4","set5","set6","set7","set8","set9","set10","set11","set12","set13"};
     SQLiteDatabase db;
     String[][] allWorkouts;
 
@@ -182,7 +183,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         countrow = 0;
 
-       //c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);
+
         if (c.moveToFirst()) {
             while ( !c.isAfterLast() ) {
                 allWorkouts[countrow][0] = c.getString(c.getColumnIndex("name"));
@@ -237,6 +238,31 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("set5", "0");
         contentValues.put("set6", "0");
         contentValues.put("set7", "0");
+        contentValues.put("set8", "0");
+        contentValues.put("set9", "0");
+        contentValues.put("set10", "0");
+        contentValues.put("set11", "0");
+        contentValues.put("set12", "0");
+        contentValues.put("set13", "0");
         db.insert(tablename, null, contentValues);
+    }
+
+    public ArrayList<String> getAllSets(String tablename , String ex) {
+
+        ArrayList<String> allSetsinEx;
+        allSetsinEx = new ArrayList<String>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        String WHERE = WORKOUT_EXERCISE_NAME + "=?";
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ tablename +" WHERE name=?",new String[] {ex + ""} );
+
+        while(cursor.moveToNext())
+        {
+            allSetsinEx.add(cursor.getString(cursor.getColumnIndex("set1")));
+            allSetsinEx.add(cursor.getString(cursor.getColumnIndex("set2")));
+        }
+
+        return allSetsinEx;
     }
 }

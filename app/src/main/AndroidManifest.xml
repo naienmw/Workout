@@ -29,6 +29,14 @@
             android:name=".ExerciseMainActivity">
             android:theme="@style/OrangeApp.NoActionBar">
         </activity>
+        <activity
+            android:name=".WorkoutMainStaticActivity">
+            android:theme="@style/OrangeApp.NoActionBar">
+        </activity>
+        <activity
+            android:name=".ExerciseMainStaticActivity">
+            android:theme="@style/OrangeApp.NoActionBar">
+        </activity>
 
     </application>
 
