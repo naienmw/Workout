@@ -40,7 +40,6 @@
         android:layout_margin="@dimen/multiRowMargin"
         android:divider="@null"
         android:dividerHeight="0dp">
-
     </ListView>
 
 </LinearLayout>

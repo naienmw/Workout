@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -72,9 +73,22 @@ public class WorkoutMainActivity extends Activity{
             theExercise_fine[k] = theExercise[k];
          }*/
 
-        theAdapter = new my_adapter_sets(this,theExercise);
+        theAdapter = new my_adapter(this,theExercise);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setAdapter(theAdapter);
+
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent ex = new Intent(WorkoutMainActivity.this,ExerciseMainActivity.class);
+
+                    ex.putExtra("exercise",theExercise[position]);
+                    ex.putExtra("date",the_date);
+                startActivity(ex);
+
+            }
+        }
+        );
     }
 
 

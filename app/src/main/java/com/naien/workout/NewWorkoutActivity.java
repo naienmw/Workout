@@ -98,9 +98,9 @@ public class NewWorkoutActivity extends AppCompatActivity {
                 mydb.saveExerciseName(date_db, user_Workout);
             }else{
 
-                Integer NoOfEx = mydb.getProfilesCount(date_db);
+                //Integer NoOfEx = mydb.getProfilesCount(date_db);
 
-                Toast.makeText(this, "Date existing, ExCount is " + NoOfEx, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Date existing, ExCount is " + NoOfEx, Toast.LENGTH_SHORT).show();
 
                 Intent workout_main = new Intent(this, WorkoutMainActivity.class);
                 workout_main.putExtra("workout_name",mydb.getWoName(date_db));

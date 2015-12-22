@@ -68,13 +68,26 @@ public class DBHelper extends SQLiteOpenHelper {
         return false;
     }
 
-    public int getProfilesCount(String tablename) {
-        String countQuery = "SELECT  * FROM " + tablename;
+    public int getExIndex(String tablename,String Ex) {
+
+        /*String[] temp = getAllExercises(date);
+        return temp.length;*/
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Integer temp = 0;
+        String[] columns = new String[]{"id","name"};
+        Cursor c =  db.rawQuery("SELECT * FROM " + tablename + " WHERE name=?", new String[]{Ex + ""});
+        if (c.moveToFirst()) {
+            temp = c.getInt(0);
+        }
+        return temp;
+
+        /*String countQuery = "SELECT  * FROM " + tablename;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
-        return cnt;
+        return cnt;*/
     }
 
     public boolean saveExerciseName(String tablename, String name) {

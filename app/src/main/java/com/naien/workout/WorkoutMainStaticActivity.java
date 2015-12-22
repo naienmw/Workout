@@ -64,7 +64,7 @@ public class WorkoutMainStaticActivity extends Activity{
         theExercise = mydb.getAllExercises(the_date);
 
 
-        theAdapter = new my_adapter_sets(this,theExercise);
+        theAdapter = new my_adapter(this,theExercise);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises_static);
         theListView.setAdapter(theAdapter);
 
