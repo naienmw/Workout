@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 class my_adapter_multiCol extends BaseAdapter{
 
-    private int myResourcexml;
-    private int mytextViewID;
     private Activity activity;
     private String[][] myList;
 
@@ -35,14 +33,18 @@ class my_adapter_multiCol extends BaseAdapter{
         return myList[position][1];
     }
 
+    public Object getthis(int position){
+        return myList[position][0];
+    }
+
     /*public String getItem(int position, int col) { //col 0 or 1
-        // TODO Auto-generated method stub
+
         return myList[position][col];
     }*/
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
+
         return 0;
     }
 
@@ -54,8 +56,8 @@ class my_adapter_multiCol extends BaseAdapter{
         if(convertView == null){
             convertView=theInflater.inflate(R.layout.multi_row_layout, null);
 
-            txtFirst=(TextView) convertView.findViewById(R.id.textViewWO);
-            txtSecond=(TextView) convertView.findViewById(R.id.textViewDate);
+            txtFirst=(TextView) convertView.findViewById(R.id.textViewWO_multi);
+            txtSecond=(TextView) convertView.findViewById(R.id.textViewDate_multi);
         }
 
         txtFirst.setText(myList[position][0]);

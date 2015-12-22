@@ -37,20 +37,20 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
         allWorkouts = new String[1000][2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mydb = new DBHelper(this);
-
-        //user_Workout_input = (EditText) findViewById(R.id.user_Workout_input);
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
-        int month = c.get(Calendar.MONTH);
+        int month = c.get(Calendar.MONTH) +1;
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
+
 
         if(mydb.doesTableExist(mydb.getdb(),date_db)) {
             myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
             Integer rows = allWorkouts.length;
             allWorkoutsListView = new String[rows][2];
+
+        allWorkouts = invertArray(allWorkouts);
 
         for (int i=0;i<rows;i++){
             String[] parts = allWorkouts[i][0].substring(1).split("_");
@@ -73,15 +75,20 @@ public class MainActivity extends AppCompatActivity {
             ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
             theListView.setAdapter(multiRowAdapter);
         //}
+
     }
 
     public void onResume(){
         super.onResume();
 
+
+
         allWorkouts = mydb.getAllWorkouts();
 
         Integer rows = allWorkouts.length;
         allWorkoutsListView = new String[rows][2];
+
+        allWorkouts = invertArray(allWorkouts);
 
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
         if(mydb.doesTableExist(mydb.getdb(),date_db)) {
@@ -97,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             allWorkoutsListView[i][1] = date;
         }
 
+
+
         multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
         ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
         theListView.setAdapter(multiRowAdapter);
@@ -104,22 +113,23 @@ public class MainActivity extends AppCompatActivity {
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                TextView v = (TextView) findViewById(R.id.textViewDate);
-                TextView v1 = (TextView) findViewById(R.id.textViewWO);
+                TextView v1 = (TextView) findViewById(R.id.textViewWO_multi);
 
-                String tempdate = multiRowAdapter.getItem(i).toString();
+                String tempdate = allWorkoutsListView[i][1];
                 String tempdatedb = DateToDB(tempdate);
+                String workoutstatic = allWorkoutsListView[i][0];
 
-                Toast.makeText(MainActivity.this,tempdatedb,Toast.LENGTH_SHORT).show();
 
-                if(!tempdatedb.equals(date_db)) {
+                Toast.makeText(MainActivity.this, tempdatedb, Toast.LENGTH_SHORT).show();
+
+                if (!tempdatedb.equals(date_db)) {
                     Intent staticWO = new Intent(MainActivity.this, WorkoutMainStaticActivity.class);
 
                     staticWO.putExtra("date_static", tempdatedb);
-                    staticWO.putExtra("workout_name_static", v1.getText().toString());
+                    staticWO.putExtra("workout_name_static", workoutstatic);
 
                     startActivity(staticWO);
-                }else{
+                } else {
                     Intent normalWO = new Intent(MainActivity.this, WorkoutMainActivity.class);
 
                     normalWO.putExtra("date", tempdatedb);
@@ -186,6 +196,28 @@ public class MainActivity extends AppCompatActivity {
         date = "d" + parts[0] + "_" + parts[1] + "_"+parts[2];
         return date;
 
+    }
+
+    public String FineSets(String setsfromdb){
+        String finesets;
+
+        String[] temp = setsfromdb.split(",");
+
+        finesets = temp[0] + " x " + temp[1];
+
+        return finesets;
+    }
+
+    public String[][] invertArray(String[][] theArray){
+
+        String[][] blub = new String[theArray.length][2];
+
+        for (int i = 0;i<theArray.length;i++){
+            blub[i][0] = theArray[theArray.length-i-1][0];
+            blub[i][1] = theArray[theArray.length-i-1][1];
+        }
+
+        return blub;
     }
 
 

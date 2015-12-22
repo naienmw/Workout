@@ -9,15 +9,15 @@
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewWO"
+        android:layout_height="50dp"
+        android:id="@+id/textViewWO_multi"
         android:layout_weight="1"
         android:textSize="@dimen/multiRowSize"
         />
     <TextView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewDate"
+        android:layout_height="50dp"
+        android:id="@+id/textViewDate_multi"
         android:layout_weight="1"
         android:textSize="@dimen/multiRowSize"
         android:textAlignment="textEnd"/>

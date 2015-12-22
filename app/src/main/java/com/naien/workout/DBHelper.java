@@ -184,14 +184,16 @@ public class DBHelper extends SQLiteOpenHelper {
         countrow = 0;
 
 
-        if (c.moveToFirst()) {
-            while ( !c.isAfterLast() ) {
-                allWorkouts[countrow][0] = c.getString(c.getColumnIndex("name"));
+        //if (c.moveToFirst()) {
+        c.moveToFirst();
+            while (!c.isAfterLast() ) {
+                Integer index = c.getColumnIndex("name");
+                allWorkouts[countrow][0] = c.getString(index);
                 allWorkouts[countrow][1] = getWoName(allWorkouts[countrow][0]);
                 countrow = countrow +1;
                 c.moveToNext();
             }
-        }
+        //}
 
         return allWorkouts;
     }
@@ -259,8 +261,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         while(cursor.moveToNext())
         {
-            allSetsinEx.add(cursor.getString(cursor.getColumnIndex("set1")));
-            allSetsinEx.add(cursor.getString(cursor.getColumnIndex("set2")));
+            for(int i=1;i<14;i++) {
+                String temp = cursor.getString(cursor.getColumnIndex("set" + Integer.toString(i)));
+                if (!temp.equals("0")) {
+                    allSetsinEx.add(temp);
+                }
+            }
         }
 
         return allSetsinEx;
