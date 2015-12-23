@@ -11,10 +11,6 @@ import java.util.ArrayList;
 
 class my_adapter_sets extends ArrayAdapter<String> {
 
-    private int myResourcexml;
-    private int mytextViewID;
-    private Context myContext;
-    private String[] myList;
 
     public my_adapter_sets(Context context, String[] values) {
         super(context, R.layout.sets_row_layout,values);

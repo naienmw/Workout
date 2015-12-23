@@ -23,7 +23,7 @@
             android:text="Add Set"
             android:padding="10dp"
             android:layout_margin="0dp"
-            android:onClick="AddNewSet"
+            android:id="@+id/add_set_button"
             />
         <EditText
             android:layout_width="80dp"
@@ -56,7 +56,8 @@
         android:text="Finish Exercise"
         android:layout_gravity="center"
         android:onClick="finish"
-        android:layout_margin="@dimen/multiRowMargin"/>
+        android:layout_margin="@dimen/multiRowMargin"
+        android:id="@+id/sets_exit_button"/>
 </LinearLayout>
 
 

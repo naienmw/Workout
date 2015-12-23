@@ -65,9 +65,8 @@ public class ExerciseMainStaticActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 //FIRST ITEM IN LISTVIEW HAS i=0, DB set index starts with 1
-
-                Toast.makeText(ExerciseMainStaticActivity.this, Integer.toString(i), Toast.LENGTH_SHORT).show();
-
+                //This is useless, old Workouts should not be editable!!
+                /*
                 mydb.deleteSetinEx(the_date, exercise_name, i + 1);
 
                 ListView sets = (ListView) findViewById(R.id.listview_sets_static);
@@ -84,6 +83,7 @@ public class ExerciseMainStaticActivity extends Activity {
                 theAdapter = new my_adapter_sets_arraylist(ExerciseMainStaticActivity.this,theSets_fine);
 
                 sets.setAdapter(theAdapter);
+                */
 
             }
 

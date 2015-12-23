@@ -11,10 +11,6 @@ import java.util.ArrayList;
 
 class my_adapter_sets_arraylist extends ArrayAdapter<String> {
 
-    private int myResourcexml;
-    private int mytextViewID;
-    private Context myContext;
-    private String[] myList;
 
     public my_adapter_sets_arraylist(Context context, ArrayList<String> values) {
         super(context, R.layout.sets_row_layout,values);
@@ -25,7 +21,6 @@ class my_adapter_sets_arraylist extends ArrayAdapter<String> {
 
         LayoutInflater theInflater = LayoutInflater.from(getContext());
 
-        //View theView = theInflater.inflate(R.layout.row_layout_2, parent, false);
         View theView = theInflater.inflate(R.layout.sets_row_layout, parent, false);
 
         String tvShow = getItem(position);

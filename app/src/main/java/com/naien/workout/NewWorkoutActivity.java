@@ -22,7 +22,7 @@ import java.util.Calendar;
 public class NewWorkoutActivity extends AppCompatActivity {
 
     String[] allPossibleWorkouts = {"Brust","Rücken","Beine","Schultern"};
-    String[] myChoice;
+
     ListAdapter theAdapter;
     TextView theCombi;
     ListView theWO;
@@ -98,15 +98,9 @@ public class NewWorkoutActivity extends AppCompatActivity {
                 mydb.saveExerciseName(date_db, user_Workout);
             }else{
 
-                //Integer NoOfEx = mydb.getProfilesCount(date_db);
-
-                //Toast.makeText(this, "Date existing, ExCount is " + NoOfEx, Toast.LENGTH_SHORT).show();
-
                 Intent workout_main = new Intent(this, WorkoutMainActivity.class);
                 workout_main.putExtra("workout_name",mydb.getWoName(date_db));
                 workout_main.putExtra("date", date_db);
-                //Integer temp = NoOfEx+1;
-                //workout_main.putExtra("sets",temp);
 
                 startActivity(workout_main);
 

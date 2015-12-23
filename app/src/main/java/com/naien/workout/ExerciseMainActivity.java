@@ -39,14 +39,11 @@ public class ExerciseMainActivity extends Activity {
         Intent i = getIntent();
         exercise_name = i.getStringExtra("exercise");
         the_date = i.getStringExtra("date");  //das AKTUELLE Datum
-        //count_sets = i.getIntExtra("sets", 1);
+
 
         exercise = (TextView) findViewById(R.id.workout_name_in_ex);
         exercise.setText(exercise_name);
 
-
-        //String test = mydb.getAllSets(the_date,exercise_name).get(0);
-        //Toast.makeText(ExerciseMainActivity.this,test,Toast.LENGTH_SHORT).show();
 
         allSets = mydb.getAllSets(the_date,exercise_name);
 
@@ -80,14 +77,8 @@ public class ExerciseMainActivity extends Activity {
         if (!newSetReps.getText().toString().matches("")){
             if (!newSetWeight.getText().toString().matches("")){
 
-                //theSets[count_sets] = newSetReps.getText().toString() + " x " + newSetWeight.getText().toString();
-
                 String newEx = newSetReps.getText().toString() + "," + newSetWeight.getText().toString();
                 allSets.add(newEx);
-                /*String[] theSets_fine = new String[count_sets+1];
-                for (int k = 0;k<count_sets;k++){
-                    theSets_fine[k] = theSets[k];
-                }*/
 
                 ArrayList<String> theSets_fine = new ArrayList<String>();
 
@@ -101,9 +92,8 @@ public class ExerciseMainActivity extends Activity {
                 ListView theListView = (ListView) findViewById(R.id.listview_sets);
                 theListView.setAdapter(theAdapter);
 
-                //String dbString = newSetReps.getText().toString()+","+newSetWeight.getText().toString();
                 mydb.put_set(the_date,count_ex,count_sets+1,newEx);
-                //count_sets = count_sets + 1;
+
 
             }else{
                 Toast.makeText(this,"Give me some weight",Toast.LENGTH_SHORT).show();
@@ -117,7 +107,7 @@ public class ExerciseMainActivity extends Activity {
     }
 
     public void finish(View view){
-        //super.onResume();
+
         finish();
     }
 

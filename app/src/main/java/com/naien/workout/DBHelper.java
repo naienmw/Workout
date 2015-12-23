@@ -33,10 +33,6 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // TODO Auto-generated method stub
-        /*db.execSQL(
-                "create table Workout " +
-                        "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text)"
-        );*/
     }
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
@@ -70,9 +66,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public int getExIndex(String tablename,String Ex) {
 
-        /*String[] temp = getAllExercises(date);
-        return temp.length;*/
-
         SQLiteDatabase db = this.getReadableDatabase();
         Integer temp = 0;
         String[] columns = new String[]{"id","name"};
@@ -81,13 +74,6 @@ public class DBHelper extends SQLiteOpenHelper {
             temp = c.getInt(0);
         }
         return temp;
-
-        /*String countQuery = "SELECT  * FROM " + tablename;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        int cnt = cursor.getCount();
-        cursor.close();
-        return cnt;*/
     }
 
     public void deleteSetinEx(String tablename,String Ex,Integer count_set){
@@ -217,8 +203,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         countrow = 0;
 
-
-        //if (c.moveToFirst()) {
         c.moveToFirst();
             while (!c.isAfterLast() ) {
                 Integer index = c.getColumnIndex("name");
@@ -227,8 +211,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 countrow = countrow +1;
                 c.moveToNext();
             }
-        //}
-
         return allWorkouts;
     }
 

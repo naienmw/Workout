@@ -23,28 +23,11 @@ public class WorkoutMainStaticActivity extends Activity{
     ListAdapter theAdapter;
     String[] theExercise;
 
-    Integer count;
-
     protected void onCreate(Bundle savedInstanceState) {
 
         theExercise = new String[100];
 
         super.onCreate(savedInstanceState);
-        /*
-        this.setContentView(R.layout.workout_main);
-        mydb = new DBHelper(this);
-        Intent i = getIntent();
-
-        the_date = i.getStringExtra("date");
-        the_workout = i.getStringExtra("workout_name");
-        count = i.getIntExtra("sets", 2);
-        TextView my_workout = (TextView) findViewById(R.id.workout_name);
-        my_workout.setText(the_workout);
-
-        theExercise = mydb.getAllExercises(the_date);
-        theAdapter = new my_adapter_sets(this,theExercise);
-        ListView theListView = (ListView) findViewById(R.id.listview_exercises);
-        theListView.setAdapter(theAdapter);*/
 
     }
 

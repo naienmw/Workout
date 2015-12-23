@@ -37,10 +37,6 @@ class my_adapter_multiCol extends BaseAdapter{
         return myList[position][0];
     }
 
-    /*public String getItem(int position, int col) { //col 0 or 1
-
-        return myList[position][col];
-    }*/
 
     @Override
     public long getItemId(int position) {
