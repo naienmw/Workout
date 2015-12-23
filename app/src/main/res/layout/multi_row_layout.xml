@@ -5,21 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="asdf.listviews.app.MainActivity">
+    >
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:id="@+id/textViewWO_multi"
-        android:layout_weight="1"
         android:textSize="@dimen/multiRowSize"
+        android:gravity="center_vertical"
+        android:layout_weight="2"
+        android:text="dlaksjdf asdkfj lksdf aklsdfjkasdfj asld"
+        android:layout_gravity="center_vertical"
+
         />
     <TextView
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:id="@+id/textViewDate_multi"
-        android:layout_weight="1"
         android:textSize="@dimen/multiRowSize"
-        android:textAlignment="textEnd"/>
+        android:gravity="right|center_vertical"
+        android:text="asdflkjasdf"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        />
 
 </LinearLayout>

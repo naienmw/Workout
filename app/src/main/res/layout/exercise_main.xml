@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="blaa"
-    android:textSize="30sp"
+    android:textSize="25sp"
     android:layout_gravity="center"
     android:id="@+id/workout_name_in_ex"
     android:layout_marginTop="@dimen/multiRowMargin"/>
@@ -16,7 +17,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_margin="@dimen/multiRowMargin">
+        android:layout_marginTop="@dimen/multiRowMargin"
+        android:layout_marginBottom="@dimen/multiRowMargin">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,16 +40,17 @@
     </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="300dp"
     android:orientation="vertical">
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:id="@+id/listview_sets"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_marginLeft="@dimen/multiRowMargin"
         android:layout_marginRight="@dimen/multiRowMargin"
+        android:layout_weight="50"
         >
     </ListView>
     <Button
@@ -55,9 +58,9 @@
         android:layout_height="wrap_content"
         android:text="Finish Exercise"
         android:layout_gravity="center"
-        android:onClick="finish"
         android:layout_margin="@dimen/multiRowMargin"
-        android:id="@+id/sets_exit_button"/>
+        android:id="@+id/sets_exit_button"
+        android:layout_weight="1"/>
 </LinearLayout>
 
 

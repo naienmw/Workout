@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
+
 
 public class WorkoutMainActivity extends Activity{
 
@@ -66,8 +68,21 @@ public class WorkoutMainActivity extends Activity{
                 //NEW
                 ////////////////
 
+            //TODO implement a way to delete/modify a set
+
                 final String exercise_name = theExercise[position];
+
+                //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
+                SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
+                setsDialog.setStuff(exercise_name,the_date);
+                setsDialog.show(getFragmentManager(),"Diag");
+
+                ///////////////////////////
+
+/*
+
                 final Dialog dialog = new Dialog(WorkoutMainActivity.this);
+
                 dialog.setContentView(R.layout.exercise_main);
                 dialog.setTitle(exercise_name);
 
@@ -138,7 +153,7 @@ public class WorkoutMainActivity extends Activity{
                     }
                 });
 
-                dialog.show();
+                dialog.show();*/
                 ///////////////////////
 
                 //Just uncomment and use for old view of Sets with new Activitiy (ExMain)

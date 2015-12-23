@@ -57,12 +57,23 @@ public class WorkoutMainStaticActivity extends Activity{
 
                  String theexercise = theExercise[i];
 
-                 Intent ExStatic = new Intent(WorkoutMainStaticActivity.this, ExerciseMainStaticActivity.class);
+
+                 final String exercise_name = theExercise[i];
+
+                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
+                 SetsDialogFragmentBlur_static setsDialog = new SetsDialogFragmentBlur_static();
+                 setsDialog.setStuff(theexercise,the_date);
+                 setsDialog.show(getFragmentManager(),"Diag");
+
+                 ///////////////////////////
+
+
+                 /*Intent ExStatic = new Intent(WorkoutMainStaticActivity.this, ExerciseMainStaticActivity.class);
 
                  ExStatic.putExtra("date_static",the_date);
                  ExStatic.putExtra("exercise_static",theexercise);
 
-                 startActivity(ExStatic);
+                 startActivity(ExStatic);*/
              }
 
          });

@@ -39,9 +39,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/ListViewWorkouts"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:layout_margin="@dimen/multiRowMargin"/>
+            android:dividerHeight="1dp"
+            android:layout_margin="@dimen/multiRowMargin"
+            android:divider="#FF0000"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true" />
     </LinearLayout>
 
 </LinearLayout>
