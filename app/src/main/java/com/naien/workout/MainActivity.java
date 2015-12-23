@@ -113,14 +113,14 @@ public class MainActivity extends AppCompatActivity {
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                //FIRST ITEM IN LISTVIEW HAS i = 0!!!
+
                 TextView v1 = (TextView) findViewById(R.id.textViewWO_multi);
 
                 String tempdate = allWorkoutsListView[i][1];
                 String tempdatedb = DateToDB(tempdate);
                 String workoutstatic = allWorkoutsListView[i][0];
 
-
-                Toast.makeText(MainActivity.this, tempdatedb, Toast.LENGTH_SHORT).show();
 
                 if (!tempdatedb.equals(date_db)) {
                     Intent staticWO = new Intent(MainActivity.this, WorkoutMainStaticActivity.class);
@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(normalWO);
                 }
-                //Toast.makeText(MainActivity.this, tempdatedb, Toast.LENGTH_SHORT).show();
             }
 
         });

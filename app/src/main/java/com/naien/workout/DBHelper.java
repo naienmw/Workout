@@ -90,6 +90,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return cnt;*/
     }
 
+    public void deleteSetinEx(String tablename,String Ex,Integer count_set){
+        Integer temp = getExIndex(tablename, Ex);
+        put_set(tablename,temp,count_set,"0");
+        ArrayList<String> allsetsupdate = getAllSets(tablename,Ex);
+        putnewSetArray(tablename,Ex,allsetsupdate);
+    }
+
+    public void putnewSetArray(String tablename,String Ex,ArrayList<String> newSets){
+
+        for (int k = 1;k<14;k++) {
+            put_set(tablename,getExIndex(tablename,Ex),k,"0");
+        }
+
+        Integer i = 1;
+        for (String temp:newSets){
+            put_set(tablename,getExIndex(tablename,Ex),i,temp);
+            i = i+1;
+        }
+
+    }
+
     public boolean saveExerciseName(String tablename, String name) {
 
         String[] position = {"1"};

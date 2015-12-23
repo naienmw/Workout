@@ -72,7 +72,7 @@ public class WorkoutMainStaticActivity extends Activity{
 
              public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                 String theexercise = theAdapter.getItem(i).toString();
+                 String theexercise = theExercise[i];
 
                  Intent ExStatic = new Intent(WorkoutMainStaticActivity.this, ExerciseMainStaticActivity.class);
 

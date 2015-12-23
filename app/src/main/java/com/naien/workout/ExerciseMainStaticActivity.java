@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,6 +27,9 @@ public class ExerciseMainStaticActivity extends Activity {
     TextView exercise;
     String[] theSets = new String[14];
     String the_date;
+    ArrayList <String> allSets;
+
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +46,48 @@ public class ExerciseMainStaticActivity extends Activity {
         exercise = (TextView) findViewById(R.id.workout_name_in_ex_static);
         exercise.setText(exercise_name);
 
-        String test = mydb.getAllSets(the_date,exercise_name).get(0);
-        Toast.makeText(ExerciseMainStaticActivity.this,test,Toast.LENGTH_SHORT).show();
+        allSets = mydb.getAllSets(the_date,exercise_name);
+        ArrayList<String> theSets_fine = new ArrayList<String>();
+
+        for (String temp : allSets) {
+            String[] temp_div = temp.split(",");
+            theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
+        }
 
         ListView sets = (ListView) findViewById(R.id.listview_sets_static);
 
-        theAdapter = new my_adapter_sets_arraylist(this,mydb.getAllSets(the_date,exercise_name));
+        theAdapter = new my_adapter_sets_arraylist(this,theSets_fine);
 
         sets.setAdapter(theAdapter);
+
+        sets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //FIRST ITEM IN LISTVIEW HAS i=0, DB set index starts with 1
+
+                Toast.makeText(ExerciseMainStaticActivity.this, Integer.toString(i), Toast.LENGTH_SHORT).show();
+
+                mydb.deleteSetinEx(the_date, exercise_name, i + 1);
+
+                ListView sets = (ListView) findViewById(R.id.listview_sets_static);
+
+                allSets = mydb.getAllSets(the_date,exercise_name);
+                ArrayList<String> theSets_fine = new ArrayList<String>();
+
+
+                for (String temp : allSets) {
+                    String[] temp_div = temp.split(",");
+                    theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
+                }
+
+                theAdapter = new my_adapter_sets_arraylist(ExerciseMainStaticActivity.this,theSets_fine);
+
+                sets.setAdapter(theAdapter);
+
+            }
+
+        });
 
     }
 
