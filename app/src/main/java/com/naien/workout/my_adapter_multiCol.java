@@ -25,7 +25,6 @@ class my_adapter_multiCol extends BaseAdapter{
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return myList.length;
     }
 
@@ -62,4 +61,4 @@ class my_adapter_multiCol extends BaseAdapter{
 
         return convertView;
     }
-};
+}

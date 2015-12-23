@@ -32,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // TODO Auto-generated method stub
+
     }
     public void create_new_table(SQLiteDatabase db, String name){
         db.execSQL(
@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO Auto-generated method stub
+
         db.execSQL("DROP TABLE IF EXISTS Workout");
         onCreate(db);
     }
@@ -68,7 +68,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Integer temp = 0;
-        String[] columns = new String[]{"id","name"};
+        //String[] columns = new String[]{"id","name"};
         Cursor c =  db.rawQuery("SELECT * FROM " + tablename + " WHERE name=?", new String[]{Ex + ""});
         if (c.moveToFirst()) {
             temp = c.getInt(0);
@@ -99,7 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public boolean saveExerciseName(String tablename, String name) {
 
-        String[] position = {"1"};
+        //String[] position = {"1"};
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
@@ -231,14 +231,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<String> getAllCotacts()
     {
-        ArrayList<String> array_list = new ArrayList<String>();
+        ArrayList<String> array_list = new ArrayList<>();
 
         //hp = new HashMap();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res =  db.rawQuery( "select * from Workout", null );
         res.moveToFirst();
 
-        while(res.isAfterLast() == false){
+        while(!res.isAfterLast()){
             array_list.add(res.getString(res.getColumnIndex(WORKOUT_EXERCISE_NAME)));
             res.moveToNext();
         }
@@ -268,7 +268,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<String> getAllSets(String tablename , String ex) {
 
         ArrayList<String> allSetsinEx;
-        allSetsinEx = new ArrayList<String>();
+        allSetsinEx = new ArrayList<>();
 
         SQLiteDatabase db = getReadableDatabase();
 
