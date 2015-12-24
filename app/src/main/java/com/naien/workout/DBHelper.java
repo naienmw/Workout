@@ -79,7 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void deleteSetinEx(String tablename,String Ex,Integer count_set){
         Integer temp = getExIndex(tablename, Ex);
         put_set(tablename,temp,count_set,"0");
-        ArrayList<String> allsetsupdate = getAllSets(tablename,Ex);
+        ArrayList<String> allsetsupdate = getAllSets(tablename, Ex);
         putnewSetArray(tablename,Ex,allsetsupdate);
     }
 
@@ -178,10 +178,29 @@ public class DBHelper extends SQLiteOpenHelper {
         c = db.rawQuery("select * from " + date + "",null);
         c.moveToFirst();
         Integer i = 0;
-            while(c.moveToNext()) {
-                ExName[i] = c.getString(1);
-                i = i+1;
-            }
+        while(c.moveToNext()) {
+            ExName[i] = c.getString(1);
+            i = i+1;
+        }
+
+        return ExName;
+    }
+
+    public ArrayList<String> getAllExercises_Arraylist(String date){
+
+        ArrayList<String> ExName = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Integer temp;
+
+        Cursor c = db.rawQuery("select * from " + date + "",null);
+        c.moveToFirst();
+        Integer i = 0;
+        while(c.moveToNext()) {
+            ExName.add(c.getString(1));
+            i = i+1;
+        }
 
         return ExName;
     }

@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -30,13 +32,13 @@ public class WorkoutMainActivity extends Activity{
 
     String the_date;
     String the_workout;
-    ListAdapter theAdapter;
-    String[] theExercise;
+    ArrayAdapter theAdapter;
+    ArrayList<String> theExercise;
 
 
     protected void onCreate(Bundle savedInstanceState) {
 
-        theExercise = new String[100];
+        //theExercise = new String[100];
 
         super.onCreate(savedInstanceState);
 
@@ -55,12 +57,12 @@ public class WorkoutMainActivity extends Activity{
         TextView my_workout = (TextView) findViewById(R.id.workout_name);
         my_workout.setText(the_workout);
 
-        theExercise = mydb.getAllExercises(the_date);
-
+        theExercise = mydb.getAllExercises_Arraylist(the_date);
 
         theAdapter = new my_adapter(this,theExercise);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setAdapter(theAdapter);
+
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -70,7 +72,7 @@ public class WorkoutMainActivity extends Activity{
 
             //TODO implement a way to delete/modify a set
 
-                final String exercise_name = theExercise[position];
+                final String exercise_name = theExercise.get(position);
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                 SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
@@ -172,21 +174,29 @@ public class WorkoutMainActivity extends Activity{
     public void AddNewExercise(View view) {
 
         EditText newExercise = (EditText) findViewById(R.id.user_Exercise_Input);
+        String newEx = newExercise.getText().toString();
 
 
-        if (!newExercise.getText().toString().matches("")) {
+        if (!newEx.matches("")) {
 
-            Intent workout_main = new Intent(this, ExerciseMainActivity.class);
+            SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
+            setsDialog.setStuff(newEx, the_date);
+            setsDialog.show(getFragmentManager(), "Diag");
+            mydb.saveExerciseName(the_date, newEx);
+            newExercise.setText("");
+            theAdapter.setNotifyOnChange(true);
+            theAdapter.add(newEx);
 
-            mydb.saveExerciseName(the_date, newExercise.getText().toString());
+
+            //theAdapter.add(newExercise.getText().toString());
+
+            /*Intent workout_main = new Intent(this, ExerciseMainActivity.class);
 
             workout_main.putExtra("exercise",newExercise.getText().toString());
 
             workout_main.putExtra("date", the_date);
-            newExercise.setText("");
 
-
-            startActivity(workout_main);
+            startActivity(workout_main);*/
 
         }else{
             Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();

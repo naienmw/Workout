@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 
 public class WorkoutMainStaticActivity extends Activity{
 
@@ -21,11 +23,11 @@ public class WorkoutMainStaticActivity extends Activity{
     String the_date;
     String the_workout;
     ListAdapter theAdapter;
-    String[] theExercise;
+    ArrayList<String> theExercise;
 
     protected void onCreate(Bundle savedInstanceState) {
 
-        theExercise = new String[100];
+        //theExercise = new String[100];
 
         super.onCreate(savedInstanceState);
 
@@ -44,7 +46,7 @@ public class WorkoutMainStaticActivity extends Activity{
         TextView my_workout = (TextView) findViewById(R.id.workout_name_static);
         my_workout.setText(the_workout);
 
-        theExercise = mydb.getAllExercises(the_date);
+        theExercise = mydb.getAllExercises_Arraylist(the_date);
 
 
         theAdapter = new my_adapter(this,theExercise);
@@ -55,10 +57,9 @@ public class WorkoutMainStaticActivity extends Activity{
 
              public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                 String theexercise = theExercise[i];
+                 String theexercise = theExercise.get(i);
 
-
-                 final String exercise_name = theExercise[i];
+                 //final String exercise_name = theExercise[i];
 
                  //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                  SetsDialogFragmentBlur_static setsDialog = new SetsDialogFragmentBlur_static();

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -34,7 +35,6 @@ public class ExerciseMainActivity extends Activity {
         this.setContentView(R.layout.exercise_main);
 
         mydb = new DBHelper(this);
-
 
         Intent i = getIntent();
         exercise_name = i.getStringExtra("exercise");

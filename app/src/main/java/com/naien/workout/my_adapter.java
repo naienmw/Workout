@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 class my_adapter extends ArrayAdapter<String> {
 
 
-    public my_adapter(Context context, String[] values) {
-        super(context, R.layout.excercise_row_layout,values);
+    public my_adapter(Context context, ArrayList<String> values) {
+        super(context, R.layout.excercise_row_layout, values);
     }
 
 
@@ -30,7 +32,15 @@ class my_adapter extends ArrayAdapter<String> {
 
         theTextView.setText(tvShow);
 
-
         return theView;
     }
-};
+
+    public void add(String name){
+        super.add(name);
+    }
+
+    public void setNotifyOnChange(boolean onchange){
+        super.setNotifyOnChange(onchange);
+    }
+
+}
