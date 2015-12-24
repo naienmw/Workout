@@ -5,6 +5,7 @@ package com.naien.workout;
         import android.graphics.Color;
         import android.graphics.PorterDuff;
         import android.os.Bundle;
+        import android.support.annotation.DrawableRes;
         import android.support.design.widget.FloatingActionButton;
         import android.support.design.widget.Snackbar;
         import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,17 @@ package com.naien.workout;
         import android.view.View;
         import android.view.Menu;
         import android.view.MenuItem;
+        import android.view.ViewGroup;
         import android.widget.AdapterView;
         import android.widget.EditText;
+        import android.widget.FrameLayout;
         import android.widget.ImageButton;
+        import android.widget.ImageView;
+        import android.widget.LinearLayout;
         import android.widget.ListAdapter;
         import android.widget.ListView;
+        import android.widget.RelativeLayout;
+        import android.widget.RelativeLayout.LayoutParams;
         import android.widget.TextView;
         import android.widget.Toast;
 
@@ -34,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     String allWorkoutsListView[][];
     ListAdapter multiRowAdapter;
     FloatingActionButton myFAB;
+    TextView infotext;
+    ImageView arrow;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -42,8 +51,13 @@ public class MainActivity extends AppCompatActivity {
         allWorkouts = new String[1000][2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        infotext = (TextView) findViewById(R.id.InfoNewWorkout);
+        arrow = (ImageView) findViewById(R.id.infoarrow);
         mydb = new DBHelper(this);
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
+
+
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
@@ -52,9 +66,12 @@ public class MainActivity extends AppCompatActivity {
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
 
-        if(mydb.doesTableExist(mydb.getdb(),date_db)) {
+        if(mydb.doesTableExist(mydb.getdb(), date_db)) {
             myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
             myFAB.setImageResource(R.drawable.addnewexisting);
+            infotext.setText("Edit today's Workout");
+            arrow.setImageResource(R.drawable.arrow_edit);
+
         }
 
             allWorkouts = mydb.getAllWorkouts();
@@ -81,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
 
-
-
         allWorkouts = mydb.getAllWorkouts();
 
         Integer rows = allWorkouts.length;
@@ -94,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
         if(mydb.doesTableExist(mydb.getdb(),date_db)) {
             myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
             myFAB.setImageResource(R.drawable.addnewexisting);
+            infotext.setText("Edit today's Workout");
+            arrow.setImageResource(R.drawable.arrow_edit);
+
         }
 
 

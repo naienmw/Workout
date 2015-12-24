@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/framemain"
 
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical"
@@ -13,27 +14,9 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/multiRowMargin">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabAddWorkout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:onClick="makeNewWorkout"
-            android:src="@drawable/addnewcross"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_gravity="top">
 
         <ListView
             android:layout_width="match_parent"
@@ -41,9 +24,45 @@
             android:id="@+id/ListViewWorkouts"
             android:dividerHeight="1dp"
             android:layout_margin="@dimen/multiRowMargin"
-            android:divider="#FF0000"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true" />
+            android:divider="#94fb92"
+            />
     </LinearLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/rellayoutfab">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add a new Workout"
+            android:id="@+id/InfoNewWorkout"
+            android:layout_marginLeft="40dp"
+            android:layout_centerVertical="true"
+            />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:src="@drawable/arrow"
+            android:id="@+id/infoarrow"
+            android:layout_toRightOf="@id/InfoNewWorkout"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:padding="0dp"
+
+            />
+    </RelativeLayout>
+
+<android.support.design.widget.FloatingActionButton
+    android:id="@+id/fabAddWorkout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/fab_margin"
+    android:layout_gravity="bottom|right"
+    android:onClick="makeNewWorkout"
+    android:src="@drawable/addnewcross"
+    />
+
+</FrameLayout>
