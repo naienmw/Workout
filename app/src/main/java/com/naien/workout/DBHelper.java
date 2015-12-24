@@ -73,6 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             temp = c.getInt(0);
         }
+        c.close();
         return temp;
     }
 
@@ -80,7 +81,15 @@ public class DBHelper extends SQLiteOpenHelper {
         Integer temp = getExIndex(tablename, Ex);
         put_set(tablename,temp,count_set,"0");
         ArrayList<String> allsetsupdate = getAllSets(tablename, Ex);
-        putnewSetArray(tablename,Ex,allsetsupdate);
+        putnewSetArray(tablename, Ex, allsetsupdate);
+    }
+
+    public boolean deleteExinWO(String tablename,String Ex){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(tablename, "name=?", new String[] {Ex});
+        db.close();
+        return true;
     }
 
     public void putnewSetArray(String tablename,String Ex,ArrayList<String> newSets){
@@ -147,6 +156,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public int numberOfRows(){
         SQLiteDatabase db = this.getReadableDatabase();
         int numRows = (int) DatabaseUtils.queryNumEntries(db, CONTACTS_TABLE_NAME);
+        db.close();
         return numRows;
     }
 
@@ -160,6 +170,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (res.moveToFirst()){
              WoName= res.getString(res.getColumnIndex("name"));
         }
+        res.close();
         return WoName;
     }
 
@@ -182,7 +193,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ExName[i] = c.getString(1);
             i = i+1;
         }
-
+        c.close();
         return ExName;
     }
 
@@ -201,6 +212,7 @@ public class DBHelper extends SQLiteOpenHelper {
             ExName.add(c.getString(1));
             i = i+1;
         }
+        c.close();
 
         return ExName;
     }
@@ -230,6 +242,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 countrow = countrow +1;
                 c.moveToNext();
             }
+        c.close();
         return allWorkouts;
     }
 
@@ -261,6 +274,7 @@ public class DBHelper extends SQLiteOpenHelper {
             array_list.add(res.getString(res.getColumnIndex(WORKOUT_EXERCISE_NAME)));
             res.moveToNext();
         }
+        res.close();
         return array_list;
     }
 
@@ -282,6 +296,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("set12", "0");
         contentValues.put("set13", "0");
         db.insert(tablename, null, contentValues);
+        db.close();
     }
 
     public ArrayList<String> getAllSets(String tablename , String ex) {
@@ -303,7 +318,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 }
             }
         }
-
+        cursor.close();
         return allSetsinEx;
     }
 }

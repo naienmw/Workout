@@ -2,8 +2,15 @@ package com.naien.workout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,10 +32,10 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     String exercise_name;
     String the_date;
     DBHelper mydb;
-    ListAdapter theAdapter;
+    ArrayAdapter theAdapter;
     TextView ex ;
     ListView sets ;
-    Button exit ;
+    FloatingActionButton exit ;
     Button addSet ;
     EditText user_input_reps;
     EditText user_input_weight;
@@ -52,7 +59,10 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
         ex = (TextView) view.findViewById(R.id.workout_name_in_ex);
         sets = (ListView) view.findViewById(R.id.listview_sets);
-        exit = (Button) view.findViewById(R.id.sets_exit_button);
+
+        exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button);
+        exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
+
         addSet =(Button) view.findViewById(R.id.add_set_button);
         user_input_reps = (EditText) view.findViewById(R.id.user_reps_input);
         user_input_weight = (EditText) view.findViewById(R.id.user_weight_input);
@@ -87,12 +97,29 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
                 dismiss();
             }
         });
+        sets.setLongClickable(true);
+
+        sets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mydb.deleteSetinEx(the_date, exercise_name, position + 1);
+
+                allSets.remove(position);
+
+                String delete = theAdapter.getItem(position).toString();
+
+                theAdapter.remove(delete);
+                theAdapter.setNotifyOnChange(true);
+
+                return false;
+            }
+        });
 
         addSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Integer count_ex = mydb.getExIndex(the_date,exercise_name); //number of Exercise in Workout
+                Integer count_ex = mydb.getExIndex(the_date, exercise_name); //number of Exercise in Workout
 
                 Integer count_sets = allSets.size();
 
@@ -102,6 +129,8 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
                         String newEx = user_input_reps.getText().toString() + "," + user_input_weight.getText().toString();
                         allSets.add(newEx);
 
+                        String newEx_fine=user_input_reps.getText().toString() + " x " + user_input_weight.getText().toString();
+
                         ArrayList<String> theSets_fine = new ArrayList<String>();
 
                         for (String temp : allSets) {
@@ -109,12 +138,22 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
                             theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
                         }
 
-                        theAdapter = new my_adapter_sets_arraylist(getActivity(), theSets_fine);
+                        //theAdapter = new my_adapter_sets_arraylist(getActivity(), theSets_fine);
 
-                        sets.setAdapter(theAdapter);
+                        //sets.setAdapter(theAdapter);
 
-                        mydb.put_set(the_date,count_ex,count_sets+1,newEx);
+                        theAdapter.add(newEx_fine);
+                        theAdapter.setNotifyOnChange(true);
 
+                        mydb.put_set(the_date, count_ex, count_sets + 1, newEx);
+
+
+                        user_input_weight.setText("");
+                        user_input_reps.setText("");
+
+                        Toast.makeText(getActivity(),"SET CREATED",Toast.LENGTH_SHORT).show();
+
+                        user_input_reps.requestFocus();
 
                     }else{
                         Toast.makeText(getActivity(), "Give me some weight", Toast.LENGTH_SHORT).show();
@@ -160,5 +199,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         // False by default.
         return false;
     }
+
+
 
 }

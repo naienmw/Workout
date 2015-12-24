@@ -4,14 +4,31 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Exercise Name"
-    android:textSize="25sp"
-    android:layout_gravity="center"
-    android:id="@+id/workout_name_in_ex_static"
-    android:layout_marginTop="@dimen/multiRowMargin"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/fab_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="blaa"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:id="@+id/workout_name_in_ex_static"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/sets_exit_button_static"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/closecross"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="18dp"
+            />
+    </LinearLayout>
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -28,15 +45,6 @@
         android:dividerHeight="0dp"
         android:layout_weight="50">
     </ListView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finish Exercise"
-        android:layout_gravity="center"
-        android:onClick="finish"
-        android:layout_margin="@dimen/multiRowMargin"
-        android:id="@+id/sets_exit_button_static"
-        android:layout_weight="1"/>
 </LinearLayout>
 
 

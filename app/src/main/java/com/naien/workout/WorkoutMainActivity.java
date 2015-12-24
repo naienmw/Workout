@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -34,6 +35,7 @@ public class WorkoutMainActivity extends Activity{
     String the_workout;
     ArrayAdapter theAdapter;
     ArrayList<String> theExercise;
+    FloatingActionButton NewEx;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +61,26 @@ public class WorkoutMainActivity extends Activity{
 
         theExercise = mydb.getAllExercises_Arraylist(the_date);
 
+         NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
+
+        NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlue));
+
         theAdapter = new my_adapter(this,theExercise);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setAdapter(theAdapter);
+
+         theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+             @Override
+             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                 String Ex = theAdapter.getItem(position).toString();
+                 mydb.deleteExinWO(the_date,Ex);
+
+                 theAdapter.remove(Ex);
+                 theAdapter.setNotifyOnChange(true);
+                 return true;
+             }
+         });
 
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -169,6 +188,7 @@ public class WorkoutMainActivity extends Activity{
         }
         );
     }
+
 
 
     public void AddNewExercise(View view) {

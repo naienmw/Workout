@@ -3,8 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorRed">#E50000</color>
+    <color name="colorRed">#FF6666</color>
+    <color name="colorGreen">#4ca64c</color>
     <color name="accent_material_light_1">#f5b800</color>
     <color name="accent_material_light_2">#f5b800</color>
     <color name="accent_material_light_3">#f5b800</color>
+    <color name="colorBlue">#4c4cff</color>
 </resources>

@@ -3,6 +3,7 @@ package com.naien.workout;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
     ListAdapter theAdapter;
     TextView ex ;
     ListView sets ;
-    Button exit ;
+    FloatingActionButton exit ;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +48,7 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
         ex = (TextView) view.findViewById(R.id.workout_name_in_ex_static);
         sets = (ListView) view.findViewById(R.id.listview_sets_static);
-        exit = (Button) view.findViewById(R.id.sets_exit_button_static);
+        exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button_static);
 
         return builder.create();
     }
@@ -72,6 +73,7 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
         theAdapter = new my_adapter_sets_arraylist(getActivity(),theSets_fine);
         sets.setAdapter(theAdapter);
+        exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
 
         exit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

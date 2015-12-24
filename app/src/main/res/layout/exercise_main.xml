@@ -4,14 +4,33 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="blaa"
-    android:textSize="25sp"
-    android:layout_gravity="center"
-    android:id="@+id/workout_name_in_ex"
-    android:layout_marginTop="@dimen/multiRowMargin"/>
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/fab_margin">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="blaa"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:id="@+id/workout_name_in_ex"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/sets_exit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/closecross"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="18dp"
+            />
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,42 +44,76 @@
             android:text="Add Set"
             android:padding="10dp"
             android:layout_margin="0dp"
+            android:layout_gravity="bottom"
             android:id="@+id/add_set_button"
             />
-        <EditText
-            android:layout_width="80dp"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:id="@+id/user_reps_input"/>
-        <EditText
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:id="@+id/user_weight_input"/>
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="REPS"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="20dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WEIGHT"
+                    android:layout_marginLeft="40dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:id="@+id/user_reps_input"
+                    android:inputType="number"
+                    android:gravity="center"/>
+
+                <EditText
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:id="@+id/user_weight_input"
+                    android:inputType="number"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="260dp"
     android:orientation="vertical">
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/listview_sets"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:layout_marginLeft="@dimen/multiRowMargin"
         android:layout_marginRight="@dimen/multiRowMargin"
-        android:layout_weight="50"
+        android:layout_weight="10"
         >
     </ListView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Finish Exercise"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/multiRowMargin"
-        android:id="@+id/sets_exit_button"
-        android:layout_weight="1"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/longpressdelete"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/colorGreen"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
 </LinearLayout>
 
 
