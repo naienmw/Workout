@@ -79,7 +79,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void deleteSetinEx(String tablename,String Ex,Integer count_set){
         Integer temp = getExIndex(tablename, Ex);
-        put_set(tablename,temp,count_set,"0");
+        put_set(tablename, temp, count_set, "0");
         ArrayList<String> allsetsupdate = getAllSets(tablename, Ex);
         putnewSetArray(tablename, Ex, allsetsupdate);
     }
@@ -306,7 +306,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = getReadableDatabase();
 
-        String WHERE = WORKOUT_EXERCISE_NAME + "=?";
         Cursor cursor = db.rawQuery("SELECT * FROM "+ tablename +" WHERE name=?",new String[] {ex + ""} );
 
         while(cursor.moveToNext())
@@ -320,5 +319,71 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return allSetsinEx;
+    }
+
+    public ArrayList<String> getAllDatesExeptcurrent(){ //in order from current to last
+        ArrayList<String> dates = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);
+
+
+        for (cursor.moveToLast(); !cursor.isBeforeFirst(); cursor.moveToPrevious()) {
+            dates.add(cursor.getString(cursor.getColumnIndex("name")));
+        }
+
+        /*while(!c.isAfterLast()){
+            dates.add(c.getString(c.getColumnIndex("name")));
+            c.moveToNext();
+        }*/
+        cursor.close();
+
+        dates.remove(0);
+
+        return dates;
+    }
+
+    public ArrayList<String> getLastEx(String Ex, Integer Offset){
+        ArrayList<String> SetsInEX =  new ArrayList<>();
+        String[][] temp = getAllWorkouts();
+
+        //SQLiteDatabase db = getReadableDatabase();
+
+        ArrayList<String> AllExCur = getAllDatesExeptcurrent();
+
+        Integer BeginIterate = Offset-1;
+
+        for (int i = BeginIterate; i<AllExCur.size();i++) {
+
+            String tempdate = AllExCur.get(i);
+
+            if(getAllExercises_Arraylist(tempdate).contains(Ex)){
+                SetsInEX=getAllSets(tempdate,Ex);
+
+                ArrayList<String> Fine = new ArrayList<>();
+
+                for(String fine : SetsInEX){
+
+                    Fine.add(FineSets(fine));
+
+                }
+
+                return Fine;
+            }
+            //Cursor c = db.rawQuery("SELECT * FROM " + temp[i][1] + " WHERE name=?", new String[]{Ex + ""});
+        }
+
+        return SetsInEX;
+    }
+
+    private String FineSets(String setsfromdb){
+        String finesets;
+
+        String[] temp = setsfromdb.split(",");
+
+        finesets = temp[0] + " x " + temp[1];
+
+        return finesets;
     }
 }

@@ -32,13 +32,19 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     String exercise_name;
     String the_date;
     DBHelper mydb;
+
     ArrayAdapter theAdapter;
+    ArrayAdapter theAdapterold_1;
+    ArrayAdapter theAdapterold_2;
+
     TextView ex ;
     ListView sets ;
     FloatingActionButton exit ;
     Button addSet ;
     EditText user_input_reps;
     EditText user_input_weight;
+    ListView sets_old_1;
+    ListView sets_old_2;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +65,8 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
         ex = (TextView) view.findViewById(R.id.workout_name_in_ex);
         sets = (ListView) view.findViewById(R.id.listview_sets);
+        sets_old_1 = (ListView) view.findViewById(R.id.listview_sets_old_1);
+        sets_old_2 = (ListView) view.findViewById(R.id.listview_sets_old_2);
 
         exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button);
         exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
@@ -82,7 +90,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         mydb = new DBHelper(getActivity());
         allSets = mydb.getAllSets(the_date,exercise_name);
 
-        ArrayList<String> theSets_fine = new ArrayList<String>();
+        ArrayList<String> theSets_fine = new ArrayList<>();
 
         for (String temp : allSets) {
             String[] temp_div = temp.split(",");
@@ -91,6 +99,15 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
         theAdapter = new my_adapter_sets_arraylist(getActivity(),theSets_fine);
         sets.setAdapter(theAdapter);
+
+        ArrayList<String> SetsOld_1 = mydb.getLastEx(exercise_name,1);
+        ArrayList<String> SetsOld_2 = mydb.getLastEx(exercise_name,2);
+
+        theAdapterold_1 = new my_adapter_sets_arraylist_old(getActivity(),SetsOld_1);
+        theAdapterold_2 = new my_adapter_sets_arraylist_old(getActivity(),SetsOld_2);
+
+        sets_old_1.setAdapter(theAdapterold_1);
+        sets_old_2.setAdapter(theAdapterold_2);
 
         exit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

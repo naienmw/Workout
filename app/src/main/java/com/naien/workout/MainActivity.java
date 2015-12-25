@@ -30,6 +30,7 @@ package com.naien.workout;
 
         import org.w3c.dom.Text;
 
+        import java.util.ArrayList;
         import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH) +1;
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
+
+        //WORKS
+        //ArrayList<String> lastsets = mydb.getLastEx("Ü3",3);
 
 
         if(mydb.doesTableExist(mydb.getdb(), date_db)) {
