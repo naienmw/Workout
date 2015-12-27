@@ -344,15 +344,18 @@ public class DBHelper extends SQLiteOpenHelper {
         return dates;
     }
 
-    public ArrayList<String> getLastEx(String Ex, Integer Offset){
+    public datatrunk getLastEx(String Ex, Integer Offset){
         ArrayList<String> SetsInEX =  new ArrayList<>();
         String[][] temp = getAllWorkouts();
+        datatrunk stuff = new datatrunk();
+        stuff.setList(SetsInEX);
+        stuff.setOffset(1);
 
-        //SQLiteDatabase db = getReadableDatabase();
 
         ArrayList<String> AllExCur = getAllDatesExeptcurrent();
 
         Integer BeginIterate = Offset-1;
+        Integer k = 0;
 
         for (int i = BeginIterate; i<AllExCur.size();i++) {
 
@@ -368,13 +371,15 @@ public class DBHelper extends SQLiteOpenHelper {
                     Fine.add(FineSets(fine));
 
                 }
+                stuff.setList(Fine);
+                stuff.setOffset(i+1);
 
-                return Fine;
+                return stuff;
             }
             //Cursor c = db.rawQuery("SELECT * FROM " + temp[i][1] + " WHERE name=?", new String[]{Ex + ""});
         }
 
-        return SetsInEX;
+        return stuff;
     }
 
     private String FineSets(String setsfromdb){

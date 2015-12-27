@@ -100,8 +100,17 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         theAdapter = new my_adapter_sets_arraylist(getActivity(),theSets_fine);
         sets.setAdapter(theAdapter);
 
-        ArrayList<String> SetsOld_1 = mydb.getLastEx(exercise_name,1);
-        ArrayList<String> SetsOld_2 = mydb.getLastEx(exercise_name,2);
+        datatrunk oldsets1 = mydb.getLastEx(exercise_name,1);
+
+        ArrayList<String> list1 = oldsets1.getList();
+        Integer Offset1 = oldsets1.getOffset();
+
+        datatrunk oldsets2 = mydb.getLastEx(exercise_name, Offset1+1);
+
+        ArrayList<String> list2 = oldsets2.getList();
+
+        ArrayList<String> SetsOld_1 = list1;
+        ArrayList<String> SetsOld_2 = list2;
 
         theAdapterold_1 = new my_adapter_sets_arraylist_old(getActivity(),SetsOld_1);
         theAdapterold_2 = new my_adapter_sets_arraylist_old(getActivity(),SetsOld_2);
