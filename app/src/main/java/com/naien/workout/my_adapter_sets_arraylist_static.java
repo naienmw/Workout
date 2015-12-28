@@ -9,14 +9,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-class my_adapter_sets_arraylist_old_1 extends ArrayAdapter<String> {
+class my_adapter_sets_arraylist_static extends ArrayAdapter<String> {
 
-    Integer id;
 
-    public my_adapter_sets_arraylist_old_1(Context context, ArrayList<String> values, Integer id) {
-        super(context, R.layout.sets_row_layout_old,values);
-        this.id = id;
-
+    public my_adapter_sets_arraylist_static(Context context, ArrayList<String> values) {
+        super(context, R.layout.sets_row_layout_static,values);
     }
 
     @Override
@@ -24,15 +21,15 @@ class my_adapter_sets_arraylist_old_1 extends ArrayAdapter<String> {
 
         LayoutInflater theInflater = LayoutInflater.from(getContext());
 
-        View theView = theInflater.inflate(id, parent, false);
+        View theView = theInflater.inflate(R.layout.sets_row_layout_static, parent, false);
 
         String tvShow = getItem(position);
 
-        TextView theTextView = (TextView) theView.findViewById(R.id.textViewSets);
+        TextView theTextView = (TextView) theView.findViewById(R.id.textViewSets_static);
 
         theTextView.setText(tvShow);
 
 
         return theView;
     }
-};
+}

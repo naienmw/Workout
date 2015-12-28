@@ -16,6 +16,7 @@
         android:textSize="20sp"
         android:id="@+id/workout_combi"
         android:layout_gravity="center"
+        android:gravity="center"
         />
 
         <android.support.design.widget.FloatingActionButton
@@ -30,10 +31,13 @@
     </LinearLayout>
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/workout_choice"
         android:layout_marginLeft="@dimen/multiRowMargin"
         android:layout_marginRight="@dimen/multiRowMargin"
+        android:layout_gravity="center"
+        android:dividerHeight="0dp"
+        android:divider="@null"
         />
 </LinearLayout>

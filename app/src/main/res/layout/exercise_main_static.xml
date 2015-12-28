@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="300dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="200dp"
         android:layout_height="70dp"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/fab_margin">
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,15 +31,15 @@
     </LinearLayout>
 
 <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_gravity="center"
     android:layout_margin="@dimen/multiRowMargin"
-    android:gravity="center">
+    android:layout_gravity="center"
+    >
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
         android:id="@+id/listview_sets_static"
         android:divider="@null"
         android:dividerHeight="0dp"
@@ -51,3 +51,4 @@
 
 
 </LinearLayout>
+

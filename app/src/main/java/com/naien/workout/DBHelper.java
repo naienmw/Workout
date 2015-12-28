@@ -83,6 +83,12 @@ public class DBHelper extends SQLiteOpenHelper {
         ArrayList<String> allsetsupdate = getAllSets(tablename, Ex);
         putnewSetArray(tablename, Ex, allsetsupdate);
     }
+    public void deleteSetinEx_index(String tablename,Integer Exindex,Integer count_set){
+        //Integer temp = getExIndex(tablename, Ex);
+        put_set(tablename, Exindex, count_set, "0");
+        ArrayList<String> allsetsupdate = getAllSets_index(tablename, Exindex);
+        putnewSetArray_index(tablename, Exindex, allsetsupdate);
+    }
 
     public boolean deleteExinWO(String tablename,String Ex){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -91,6 +97,16 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
+    public boolean deleteExinWO_index(String tablename,Integer index){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(tablename, "ROWID=?", new String[] {index + ""});
+        db.execSQL("VACUUM");
+        db.close();
+        return true;
+    }
+
 
     public void putnewSetArray(String tablename,String Ex,ArrayList<String> newSets){
 
@@ -101,6 +117,20 @@ public class DBHelper extends SQLiteOpenHelper {
         Integer i = 1;
         for (String temp:newSets){
             put_set(tablename,getExIndex(tablename,Ex),i,temp);
+            i = i+1;
+        }
+
+    }
+
+    public void putnewSetArray_index(String tablename,Integer ExCount,ArrayList<String> newSets){
+
+        for (int k = 1;k<14;k++) {
+            put_set(tablename,ExCount,k,"0");
+        }
+
+        Integer i = 1;
+        for (String temp:newSets){
+            put_set(tablename,ExCount,i,temp);
             i = i+1;
         }
 
@@ -217,6 +247,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return ExName;
     }
 
+    public ArrayList<Integer> allExIndex(String date){
+
+        ArrayList<Integer> ExIndex = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Integer temp;
+
+        Cursor c = db.rawQuery("select * from " + date + "",null);
+        c.moveToFirst();
+        Integer i = 0;
+        while(c.moveToNext()) {
+            ExIndex.add(c.getInt(c.getColumnIndex("id")));
+            i = i+1;
+        }
+        c.close();
+
+        return ExIndex;
+    }
+
+
+
 
     public String[][] getAllWorkouts(){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -307,6 +359,28 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.rawQuery("SELECT * FROM "+ tablename +" WHERE name=?",new String[] {ex + ""} );
+
+        while(cursor.moveToNext())
+        {
+            for(int i=1;i<14;i++) {
+                String temp = cursor.getString(cursor.getColumnIndex("set" + Integer.toString(i)));
+                if (!temp.equals("0")) {
+                    allSetsinEx.add(temp);
+                }
+            }
+        }
+        cursor.close();
+        return allSetsinEx;
+    }
+
+    public ArrayList<String> getAllSets_index(String tablename , Integer index) {
+
+        ArrayList<String> allSetsinEx;
+        allSetsinEx = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ tablename +" WHERE ID=?",new String[] {index + ""} );
 
         while(cursor.moveToNext())
         {

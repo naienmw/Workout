@@ -1,10 +1,15 @@
 package com.naien.workout;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -16,9 +21,7 @@ import java.util.ArrayList;
 
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
-/**
- * Created by naien on 23.12.2015.
- */
+
 public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
     String exercise_name;
@@ -28,14 +31,20 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
     TextView ex ;
     ListView sets ;
     FloatingActionButton exit ;
+    Integer ExNum;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    public void setStuff(String Exname,String date){
+
+
+    public void setStuff(String Exname,String date,Integer index){
         exercise_name = Exname;
         the_date = date;
+        ExNum = index;
+
     }
 
 
@@ -62,16 +71,16 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
         final ArrayList<String> allSets;
 
         mydb = new DBHelper(getActivity());
-        allSets = mydb.getAllSets(the_date,exercise_name);
+        allSets = mydb.getAllSets_index(the_date,ExNum);
 
-        ArrayList<String> theSets_fine = new ArrayList<String>();
+        ArrayList<String> theSets_fine = new ArrayList<>();
 
         for (String temp : allSets) {
             String[] temp_div = temp.split(",");
             theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
         }
 
-        theAdapter = new my_adapter_sets_arraylist(getActivity(),theSets_fine);
+        theAdapter = new my_adapter_sets_arraylist_static(getActivity(),theSets_fine);
         sets.setAdapter(theAdapter);
         exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
 
@@ -81,6 +90,12 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
             }
         });
 
+    }
+
+    public void onResume(){
+        super.onResume();
+        Window window = getDialog().getWindow();
+        window.setLayout(650, AbsListView.LayoutParams.WRAP_CONTENT);
     }
 
 

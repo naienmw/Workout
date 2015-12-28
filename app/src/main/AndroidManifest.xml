@@ -7,11 +7,11 @@
         android:icon="@mipmap/launcher_workout"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/OrangeApp">
+        android:theme="@style/OrangeApp.ActionBar">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/OrangeApp.NoActionBar">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,16 +22,16 @@
             android:theme="@style/OrangeApp.NoActionBar">
         </activity>
         <activity
-            android:name=".WorkoutMainActivity">
-            android:theme="@style/OrangeApp.NoActionBar">
+            android:name=".WorkoutMainActivity"
+            android:theme="@style/green.ActionBar">
         </activity>
         <activity
             android:name=".ExerciseMainActivity">
             android:theme="@style/OrangeApp.NoActionBar">
         </activity>
         <activity
-            android:name=".WorkoutMainStaticActivity">
-            android:theme="@style/OrangeApp.NoActionBar">
+            android:name=".WorkoutMainStaticActivity"
+            android:theme="@style/purple.ActionBar">
         </activity>
         <activity
             android:name=".ExerciseMainStaticActivity">

@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="425dp"
+        android:layout_height="500dp"
         android:orientation="vertical"
         android:layout_gravity="top">
 
@@ -24,7 +24,8 @@
             android:id="@+id/ListViewWorkouts"
             android:dividerHeight="1dp"
             android:layout_margin="@dimen/multiRowMargin"
-            android:divider="#94fb92"
+            android:divider="@color/accent_material_light_2"
+            android:background="@drawable/border_orange"
             />
     </LinearLayout>
 

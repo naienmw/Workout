@@ -141,6 +141,7 @@
         android:text="@string/longpressdelete"
         android:layout_weight="1"
         android:gravity="center"
+        android:textStyle="bold"
         android:textColor="@color/colorGreen"
         android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 

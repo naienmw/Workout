@@ -24,13 +24,12 @@ import java.util.ArrayList;
 
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
-/**
- * Created by naien on 23.12.2015.
- */
+
 public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
     String exercise_name;
     String the_date;
+    Integer ExNum;
     DBHelper mydb;
 
     ArrayAdapter theAdapter;
@@ -50,9 +49,10 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void setStuff(String Exname,String date){
+    public void setStuff(String Exname,String date,Integer num){
         exercise_name = Exname;
         the_date = date;
+        ExNum = num;
     }
 
 
@@ -88,7 +88,8 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         final ArrayList<String> allSets;
 
         mydb = new DBHelper(getActivity());
-        allSets = mydb.getAllSets(the_date,exercise_name);
+        //allSets = mydb.getAllSets(the_date,exercise_name);
+        allSets = mydb.getAllSets_index(the_date,ExNum);
 
         ArrayList<String> theSets_fine = new ArrayList<>();
 
@@ -109,11 +110,11 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
         ArrayList<String> list2 = oldsets2.getList();
 
-        ArrayList<String> SetsOld_1 = list1;
-        ArrayList<String> SetsOld_2 = list2;
+        //ArrayList<String> SetsOld_1 = list1;
+        //ArrayList<String> SetsOld_2 = list2;
 
-        theAdapterold_1 = new my_adapter_sets_arraylist_old(getActivity(),SetsOld_1);
-        theAdapterold_2 = new my_adapter_sets_arraylist_old(getActivity(),SetsOld_2);
+        theAdapterold_1 = new my_adapter_sets_arraylist_old(getActivity(),list1);
+        theAdapterold_2 = new my_adapter_sets_arraylist_old(getActivity(),list2);
 
         sets_old_1.setAdapter(theAdapterold_1);
         sets_old_2.setAdapter(theAdapterold_2);
@@ -128,7 +129,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         sets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mydb.deleteSetinEx(the_date, exercise_name, position + 1);
+                mydb.deleteSetinEx_index(the_date, ExNum, position + 1);
 
                 allSets.remove(position);
 
@@ -145,7 +146,8 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
             @Override
             public void onClick(View v) {
 
-                Integer count_ex = mydb.getExIndex(the_date, exercise_name); //number of Exercise in Workout
+                Integer count_ex; //= mydb.getExIndex(the_date, exercise_name); //number of Exercise in Workout
+                count_ex = ExNum;
 
                 Integer count_sets = allSets.size();
 
@@ -157,7 +159,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
                         String newEx_fine=user_input_reps.getText().toString() + " x " + user_input_weight.getText().toString();
 
-                        ArrayList<String> theSets_fine = new ArrayList<String>();
+                        ArrayList<String> theSets_fine = new ArrayList<>();
 
                         for (String temp : allSets) {
                             String[] temp_div = temp.split(",");

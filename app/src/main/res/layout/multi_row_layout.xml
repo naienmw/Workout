@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -16,17 +14,19 @@
         android:layout_weight="2"
         android:text="dlaksjdf asdkfj lksdf aklsdfjkasdfj asld"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/multiRowMargin"
 
         />
     <TextView
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:id="@+id/textViewDate_multi"
-        android:textSize="@dimen/multiRowSize"
+        android:textSize="@dimen/multiRowSize_small"
         android:gravity="right|center_vertical"
-        android:text="asdflkjasdf"
+        android:text="27.12.2015"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/multiRowMargin"
         />
 
 </LinearLayout>

@@ -10,4 +10,30 @@
     <style name="Orange" parent="android:Theme.DeviceDefault.Light">
         <item name="android:colorAccent">@color/accent_material_light_1</item>
     </style>
+
+    <style name="OrangeApp" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/accent_material_light_2</item>
+        <item name="android:statusBarColor">@color/accent_material_light_2</item>
+    </style>
+
+    <style name="green_actionbar.ActionBar" parent="OrangeApp">
+        <item name="colorAccent">@color/colorGreen_dark</item>
+        <item name="android:statusBarColor">@color/colorGreen_dark</item>
+    </style>
+
+    <style name="green.ActionBar" parent="OrangeApp">
+        <item name="colorAccent">@color/colorGreen</item>
+        <item name="android:statusBarColor">@color/colorGreen_dark</item>
+    </style>
+
+    <style name="purple.ActionBar" parent="OrangeApp">
+        <item name="colorAccent">@color/colorPurple</item>
+        <item name="android:statusBarColor">@color/colorPurple_dark</item>
+    </style>
+
+    <style name="OrangeApp.ActionBar" parent="OrangeApp">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/accent_material_light_3</item>
+    </style>
 </resources>

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         if(mydb.doesTableExist(mydb.getdb(), date_db)) {
-            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
             myFAB.setImageResource(R.drawable.addnewexisting);
             infotext.setText("Edit today's Workout");
             arrow.setImageResource(R.drawable.arrow_edit);
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
         if(mydb.doesTableExist(mydb.getdb(),date_db)) {
-            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
             myFAB.setImageResource(R.drawable.addnewexisting);
             infotext.setText("Edit today's Workout");
             arrow.setImageResource(R.drawable.arrow_edit);

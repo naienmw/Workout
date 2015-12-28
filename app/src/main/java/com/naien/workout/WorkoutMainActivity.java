@@ -36,6 +36,7 @@ public class WorkoutMainActivity extends Activity{
     ArrayAdapter theAdapter;
     ArrayList<String> theExercise;
     FloatingActionButton NewEx;
+    ArrayList<Integer> ExIndex;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,11 @@ public class WorkoutMainActivity extends Activity{
 
      @Override
     public void onResume(){
+
         super.onResume();
         this.setContentView(R.layout.workout_main);
+        ListView theListView = (ListView) findViewById(R.id.listview_exercises);
+        theListView.setClickable(false);
         mydb = new DBHelper(this);
         Intent i = getIntent();
 
@@ -60,24 +64,28 @@ public class WorkoutMainActivity extends Activity{
         my_workout.setText(the_workout);
 
         theExercise = mydb.getAllExercises_Arraylist(the_date);
+        ExIndex = mydb.allExIndex(the_date);
 
-         NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
+        NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
 
-        NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorBlue));
+        NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
 
         theAdapter = new my_adapter(this,theExercise);
-        ListView theListView = (ListView) findViewById(R.id.listview_exercises);
+        //ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setAdapter(theAdapter);
 
-         theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        theListView.setClickable(true);
+
+        theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
              @Override
              public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
                  String Ex = theAdapter.getItem(position).toString();
-                 mydb.deleteExinWO(the_date,Ex);
+                 mydb.deleteExinWO_index(the_date, ExIndex.get(position));
 
                  theAdapter.remove(Ex);
                  theAdapter.setNotifyOnChange(true);
+                 onResume();
                  return true;
              }
          });
@@ -86,16 +94,12 @@ public class WorkoutMainActivity extends Activity{
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //NEW
-                ////////////////
-
-            //TODO implement a way to delete/modify a set
 
                 final String exercise_name = theExercise.get(position);
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                 SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-                setsDialog.setStuff(exercise_name,the_date);
+                setsDialog.setStuff(exercise_name,the_date,ExIndex.get(position));
                 setsDialog.show(getFragmentManager(),"Diag");
 
                 ///////////////////////////
@@ -199,13 +203,21 @@ public class WorkoutMainActivity extends Activity{
 
         if (!newEx.matches("")) {
 
-            SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-            setsDialog.setStuff(newEx, the_date);
-            setsDialog.show(getFragmentManager(), "Diag");
             mydb.saveExerciseName(the_date, newEx);
+            //theExercise.add(newEx);
+
+
+            SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
+            Integer index = ExIndex.get(ExIndex.size() - 1)+1;
+            setsDialog.setStuff(newEx, the_date, index);
+            setsDialog.show(getFragmentManager(), "Diag");
+
+            ExIndex.add(ExIndex.get(ExIndex.size()-1)+1);
+
             newExercise.setText("");
             theAdapter.setNotifyOnChange(true);
             theAdapter.add(newEx);
+
 
 
             //theAdapter.add(newExercise.getText().toString());

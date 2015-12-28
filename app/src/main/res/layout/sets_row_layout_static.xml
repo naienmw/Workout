@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:context="asdf.listviews.app.MainActivity"
+    android:gravity="center">
+
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewSets_static"
+        android:textSize="24sp"
+        android:textStyle="normal"
+        android:gravity="center"
+        />
+
+</LinearLayout>

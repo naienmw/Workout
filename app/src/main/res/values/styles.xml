@@ -22,10 +22,24 @@
         <item name="colorAccent">@color/accent_material_light_2</item>
     </style>
 
-    <style name="OrangeApp.NoActionBar">
+    <style name="OrangeApp.ActionBar" parent="OrangeApp">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="green_fab" parent="OrangeApp" >
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
+
+    <style name="green.ActionBar" parent="OrangeApp" >
+        <item name="colorAccent">@color/colorGreen</item>
+    </style>
+
+    <style name="purple.ActionBar" parent="OrangeApp" >
+        <item name="colorAccent">@color/colorPurple</item>
+    </style>
+
+
 
 
 </resources>

@@ -11,7 +11,8 @@
     android:id="@+id/workout_name_static"
     android:layout_gravity="center"
     android:layout_margin="@dimen/multiRowMargin"
-    android:textStyle="bold"/>
+    android:textStyle="bold"
+    android:gravity="center"/>
 
     <ListView
         android:layout_width="match_parent"

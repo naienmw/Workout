@@ -4,5 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="multiRowSize">20sp</dimen>
+    <dimen name="multiRowSize_small">15sp</dimen>
     <dimen name="multiRowMargin">15dp</dimen>
 </resources>

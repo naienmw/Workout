@@ -1,5 +1,6 @@
 package com.naien.workout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.PorterDuff;
@@ -17,11 +18,12 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class NewWorkoutActivity extends AppCompatActivity {
+public class NewWorkoutActivity extends Activity {
 
-    String[] allPossibleWorkouts = {"Brust","Rücken","Beine","Schultern"};
+    ArrayList<String> allPossibleWorkouts;
 
     ListAdapter theAdapter;
     TextView theCombi;
@@ -33,12 +35,18 @@ public class NewWorkoutActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.workout_choice_new);
+        allPossibleWorkouts = new ArrayList<>();
+        allPossibleWorkouts.add("Brust");
+        allPossibleWorkouts.add("Rücken");
+        allPossibleWorkouts.add("Schultern");
+        allPossibleWorkouts.add("Arme");
+        allPossibleWorkouts.add("Beine");
 
         mydb = new DBHelper(this);
         theWO = (ListView) findViewById(R.id.workout_choice);
         theCombi = (TextView) findViewById(R.id.workout_combi);
 
-        theAdapter = new my_adapter_sets(this,allPossibleWorkouts);
+        theAdapter = new my_adapter_sets_arraylist(this,allPossibleWorkouts);
         theWO.setAdapter(theAdapter);
 
         theWO.setOnItemClickListener(new AdapterView.OnItemClickListener() {

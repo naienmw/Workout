@@ -24,6 +24,7 @@ public class WorkoutMainStaticActivity extends Activity{
     String the_workout;
     ListAdapter theAdapter;
     ArrayList<String> theExercise;
+    ArrayList<Integer> ExIndex;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -47,6 +48,7 @@ public class WorkoutMainStaticActivity extends Activity{
         my_workout.setText(the_workout);
 
         theExercise = mydb.getAllExercises_Arraylist(the_date);
+        ExIndex = mydb.allExIndex(the_date);
 
 
         theAdapter = new my_adapter(this,theExercise);
@@ -55,16 +57,16 @@ public class WorkoutMainStaticActivity extends Activity{
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                 String theexercise = theExercise.get(i);
+                String theexercise = theExercise.get(i);
 
-                 //final String exercise_name = theExercise[i];
+                //final String exercise_name = theExercise[i];
 
-                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
-                 SetsDialogFragmentBlur_static setsDialog = new SetsDialogFragmentBlur_static();
-                 setsDialog.setStuff(theexercise,the_date);
-                 setsDialog.show(getFragmentManager(),"Diag");
+                //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
+                SetsDialogFragmentBlur_static setsDialog = new SetsDialogFragmentBlur_static();
+                setsDialog.setStuff(theexercise, the_date,ExIndex.get(i));
+                setsDialog.show(getFragmentManager(), "Diag");
 
                  ///////////////////////////
 
