@@ -16,6 +16,7 @@ package com.naien.workout;
         import android.view.MenuItem;
         import android.view.ViewGroup;
         import android.widget.AdapterView;
+        import android.widget.Button;
         import android.widget.EditText;
         import android.widget.FrameLayout;
         import android.widget.ImageButton;
@@ -35,30 +36,30 @@ package com.naien.workout;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText user_Workout_input;
+    //EditText user_Workout_input;
     DBHelper mydb;
     String date_db;
-    String allWorkouts[][];
-    String allWorkoutsListView[][];
-    ListAdapter multiRowAdapter;
+
+    //ListAdapter multiRowAdapter;
     FloatingActionButton myFAB;
     TextView infotext;
     ImageView arrow;
+    TextView currentWorkout;
+    Button showAll;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
-        allWorkouts = new String[1000][2];
+        //allWorkouts = new String[1000][2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        infotext = (TextView) findViewById(R.id.InfoNewWorkout);
+       /* infotext = (TextView) findViewById(R.id.InfoNewWorkout);
         arrow = (ImageView) findViewById(R.id.infoarrow);
         mydb = new DBHelper(this);
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
-
-
+        currentWorkout = (TextView) findViewById(R.id.CurrentWorkoutMain);
+        showAll = (Button) findViewById(R.id.ButtonShowAll);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         //WORKS
         //ArrayList<String> lastsets = mydb.getLastEx("Ü3",3);
 
+        myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+
 
         if(mydb.doesTableExist(mydb.getdb(), date_db)) {
             myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
@@ -76,96 +79,43 @@ public class MainActivity extends AppCompatActivity {
             infotext.setText("Edit today's Workout");
             arrow.setImageResource(R.drawable.arrow_edit);
 
-        }
-
-            allWorkouts = mydb.getAllWorkouts();
-
-            Integer rows = allWorkouts.length;
-            allWorkoutsListView = new String[rows][2];
-
-        allWorkouts = invertArray(allWorkouts);
-
-        for (int i=0;i<rows;i++){
-            String[] parts = allWorkouts[i][0].substring(1).split("_");
+            String[] parts = date_db.substring(1).split("_");
             String date = parts[0] + "." + parts[1] + "." + parts[2];
-            allWorkoutsListView[i][0] = allWorkouts[i][1];
-            allWorkoutsListView[i][1] = date;
+
+            currentWorkout.setText(mydb.getWoName(date_db) + "   -   " + date);
+
+            currentWorkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent normalWO = new Intent(MainActivity.this, WorkoutMainActivity.class);
+
+                    normalWO.putExtra("date", date_db);
+                    normalWO.putExtra("workout_name", mydb.getWoName(date_db));
+
+                    startActivity(normalWO);
+
+                }
+            });
         }
 
-            multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
-            ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
-            theListView.setAdapter(multiRowAdapter);
-        //}
-
+        showAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,AllWorkoutsActivity.class);
+                startActivity(i);
+            }
+        });*/
     }
 
     public void onResume(){
         super.onResume();
 
-        allWorkouts = mydb.getAllWorkouts();
-
-        Integer rows = allWorkouts.length;
-        allWorkoutsListView = new String[rows][2];
-
-        allWorkouts = invertArray(allWorkouts);
-
-        myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
-        if(mydb.doesTableExist(mydb.getdb(),date_db)) {
-            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
-            myFAB.setImageResource(R.drawable.addnewexisting);
-            infotext.setText("Edit today's Workout");
-            arrow.setImageResource(R.drawable.arrow_edit);
-
-        }
-
-
-        for (int i=0;i<rows;i++){
-            String[] parts = allWorkouts[i][0].substring(1).split("_");
-            String date = parts[0] + "." + parts[1] + "." + parts[2];
-            allWorkoutsListView[i][0] = allWorkouts[i][1];
-            allWorkoutsListView[i][1] = date;
-        }
-
-
-
-        multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
-        ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
-        theListView.setAdapter(multiRowAdapter);
-
-        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                //FIRST ITEM IN LISTVIEW HAS i = 0!!!
-
-                TextView v1 = (TextView) findViewById(R.id.textViewWO_multi);
-
-                String tempdate = allWorkoutsListView[i][1];
-                String tempdatedb = DateToDB(tempdate);
-                String workoutstatic = allWorkoutsListView[i][0];
-
-
-                if (!tempdatedb.equals(date_db)) {
-                    Intent staticWO = new Intent(MainActivity.this, WorkoutMainStaticActivity.class);
-
-                    staticWO.putExtra("date_static", tempdatedb);
-                    staticWO.putExtra("workout_name_static", workoutstatic);
-
-                    startActivity(staticWO);
-                } else {
-                    Intent normalWO = new Intent(MainActivity.this, WorkoutMainActivity.class);
-
-                    normalWO.putExtra("date", tempdatedb);
-                    normalWO.putExtra("workout_name", v1.getText().toString());
-
-                    startActivity(normalWO);
-                }
-            }
-
-        });
-
     }
 
-    public void makeNewWorkout(View view){
+
+
+    /*public void makeNewWorkout(View view){
 
         if(!mydb.doesTableExist(mydb.getdb(),date_db)) {
             Intent test = new Intent(this,NewWorkoutActivity.class);
@@ -179,37 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
-       /* String user_Workout =  user_Workout_input.getText().toString();
-        if (!user_Workout.matches("")) {
-            Boolean blub;
-            blub = mydb.doesTableExist(mydb.getdb(),date_db);
-            if (!blub) {
-                Intent workout_main = new Intent(this, WorkoutMainActivity.class);
-                workout_main.putExtra("workout_name", user_Workout);
-                workout_main.putExtra("date", date_db);
-                startActivity(workout_main);
-                mydb.create_new_table(mydb.getdb(), date_db);
-                mydb.saveExerciseName(date_db, user_Workout);
-            }else{
-
-                Integer NoOfEx = mydb.getProfilesCount(date_db);
-
-                Toast.makeText(this, "Date existing, ExCount is " + NoOfEx, Toast.LENGTH_SHORT).show();
-
-                Intent workout_main = new Intent(this, WorkoutMainActivity.class);
-                workout_main.putExtra("workout_name",mydb.getWoName(date_db));
-                workout_main.putExtra("date", date_db);
-                //Integer temp = NoOfEx+1;
-                //workout_main.putExtra("sets",temp);
-
-                startActivity(workout_main);
-
-            }
-        }else{
-            Toast.makeText(this, "Give me a Workout name", Toast.LENGTH_SHORT).show();
-        }*/
-    }
+    }*/
 
     public String DateToDB(String date){
 

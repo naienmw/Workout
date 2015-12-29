@@ -299,36 +299,11 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public Integer deleteContact (Integer id)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete("Workout",
-                "id = ? ",
-                new String[] { Integer.toString(id) });
-    }
-
     public SQLiteDatabase getdb(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db;
     }
 
-
-    public ArrayList<String> getAllCotacts()
-    {
-        ArrayList<String> array_list = new ArrayList<>();
-
-        //hp = new HashMap();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery( "select * from Workout", null );
-        res.moveToFirst();
-
-        while(!res.isAfterLast()){
-            array_list.add(res.getString(res.getColumnIndex(WORKOUT_EXERCISE_NAME)));
-            res.moveToNext();
-        }
-        res.close();
-        return array_list;
-    }
 
     public void FillLineWithZeros(String tablename) {
 

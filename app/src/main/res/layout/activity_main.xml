@@ -7,6 +7,11 @@
     android:fitsSystemWindows="true"
     tools:context="com.naien.simpleworkouttracker.app.MainActivity">
 
-    <include layout="@layout/content_main" />
+    <fragment
+        class="com.naien.workout.MyBlurFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragmentid"
+        />
 
 </android.support.design.widget.CoordinatorLayout>

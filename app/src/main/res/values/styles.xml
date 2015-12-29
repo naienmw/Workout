@@ -29,14 +29,18 @@
 
     <style name="green_fab" parent="OrangeApp" >
         <item name="colorAccent">@color/colorGreen</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="green.ActionBar" parent="OrangeApp" >
+    <style name="green.ActionBar" parent="Theme.AppCompat.Light.NoActionBar" >
         <item name="colorAccent">@color/colorGreen</item>
     </style>
 
     <style name="purple.ActionBar" parent="OrangeApp" >
         <item name="colorAccent">@color/colorPurple</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 

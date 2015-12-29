@@ -20,6 +20,8 @@
     <color name="colorRed">#F44336</color>
     <color name="colorRed_dark">#D32F2F</color>
 
+    <color name="colorWhite_transparent">#80FFFFFF</color>
+
 
     <color name="accent_material_light_1">#f5b800</color>
     <color name="accent_material_light_2">#ffb74d</color>

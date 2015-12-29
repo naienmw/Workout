@@ -208,11 +208,23 @@ public class WorkoutMainActivity extends Activity{
 
 
             SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-            Integer index = ExIndex.get(ExIndex.size() - 1)+1;
+            //Toast.makeText(this,ExIndex.size(),Toast.LENGTH_SHORT).show();
+            Integer index = 2;
+            if(!(ExIndex.size() == 0)){
+                 index = ExIndex.get(ExIndex.size() - 1)+1;
+            }
+
+
             setsDialog.setStuff(newEx, the_date, index);
             setsDialog.show(getFragmentManager(), "Diag");
 
-            ExIndex.add(ExIndex.get(ExIndex.size()-1)+1);
+
+            if(!(ExIndex.size() == 0)) {
+                ExIndex.add(ExIndex.get(ExIndex.size() - 1) + 1);
+            }else{
+                ExIndex.add(2);
+            }
+
 
             newExercise.setText("");
             theAdapter.setNotifyOnChange(true);

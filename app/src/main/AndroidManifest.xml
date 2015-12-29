@@ -26,17 +26,15 @@
             android:theme="@style/green.ActionBar">
         </activity>
         <activity
-            android:name=".ExerciseMainActivity">
-            android:theme="@style/OrangeApp.NoActionBar">
+            android:name=".AllWorkoutsActivity"
+            android:theme="@style/green.ActionBar">
         </activity>
+
         <activity
             android:name=".WorkoutMainStaticActivity"
             android:theme="@style/purple.ActionBar">
         </activity>
-        <activity
-            android:name=".ExerciseMainStaticActivity">
-            android:theme="@style/OrangeApp.NoActionBar">
-        </activity>
+
 
     </application>
 
