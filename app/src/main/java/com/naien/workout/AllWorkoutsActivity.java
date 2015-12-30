@@ -34,8 +34,8 @@ public class AllWorkoutsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_workouts);
 
-        infotext = (TextView) findViewById(R.id.InfoNewWorkout);
-        arrow = (ImageView) findViewById(R.id.infoarrow);
+        //infotext = (TextView) findViewById(R.id.InfoNewWorkout);
+        //arrow = (ImageView) findViewById(R.id.infoarrow);
         mydb = new DBHelper(this);
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
 

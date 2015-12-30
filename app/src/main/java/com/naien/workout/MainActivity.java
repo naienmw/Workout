@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView arrow;
     TextView currentWorkout;
     Button showAll;
+    MyBlurFragment fragment;
+    RelativeLayout rellayout;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         //allWorkouts = new String[1000][2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
        /* infotext = (TextView) findViewById(R.id.InfoNewWorkout);
         arrow = (ImageView) findViewById(R.id.infoarrow);
@@ -108,10 +111,17 @@ public class MainActivity extends AppCompatActivity {
         });*/
     }
 
-    public void onResume(){
-        super.onResume();
+    public void onBackPressed() {
+        MyBlurFragment fragment = (MyBlurFragment)getFragmentManager().findFragmentById(R.id.fragmentid);
+        if (fragment != null && fragment.isVisible()) {
+            fragment.exitReveal(R.id.myToolbar);
+            fragment.enterReveal(R.id.fabAddWorkout);
 
+        }else {
+            super.onBackPressed();
+        }
     }
+
 
 
 
