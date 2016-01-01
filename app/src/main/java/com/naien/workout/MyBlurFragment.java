@@ -18,11 +18,15 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class MyBlurFragment extends Fragment {
@@ -31,6 +35,8 @@ public class MyBlurFragment extends Fragment {
     public FastBlur blur = new FastBlur();
 
     DBHelper mydb;
+    DBHelper_Ex dbex;
+
     String date_db;
 
     //ListAdapter multiRowAdapter;
@@ -38,10 +44,14 @@ public class MyBlurFragment extends Fragment {
     //TextView infotext;
     //ImageView arrow;
     TextView currentWorkout;
-    Button showAll;
-    Button newWo;
+    ImageButton showAll;
+    ImageButton newWo;
     RelativeLayout rellayout;
 
+    Boolean toolbarisshown = new Boolean(false);
+    ListView setsinmain;
+
+    Animation faboben;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,14 +59,18 @@ public class MyBlurFragment extends Fragment {
         image = (ImageView) view.findViewById(R.id.picture);
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
 
-
+        setsinmain = (ListView) view.findViewById(R.id.ListviewcurrentSetsinMain);
 
         mydb = new DBHelper(getActivity());
+        dbex = new DBHelper_Ex(getActivity());
+        dbex.create_all();
+
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
-        showAll = (Button) view.findViewById(R.id.ButtonShowAll);
-        newWo = (Button) view.findViewById(R.id.ButtonNewWo);
+        showAll = (ImageButton) view.findViewById(R.id.ButtonShowAll);
+        newWo = (ImageButton) view.findViewById(R.id.ButtonNewWo);
 
+        faboben = new Animation(getActivity(),myFAB);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
@@ -65,12 +79,26 @@ public class MyBlurFragment extends Fragment {
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
 
-        myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+
         myFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!toolbarisshown){
+                    faboben.startAnimationopen();
                 enterReveal(R.id.myToolbar);
-                exitReveal(R.id.fabAddWorkout);
+                toolbarisshown = true;
+                    myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
+                    myFAB.setImageResource(R.drawable.barbell_accent);
+
+                }else{
+                    exitReveal(R.id.myToolbar);
+                    toolbarisshown = false;
+                    myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
+                    faboben.startAnimationclose();
+                    myFAB.setImageResource(R.drawable.barbell);
+                }
+
+                //exitReveal(R.id.fabAddWorkout);
             }
         });
 
@@ -78,6 +106,7 @@ public class MyBlurFragment extends Fragment {
         if(mydb.doesTableExist(mydb.getdb(), date_db)) {
             //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
             //myFAB.setImageResource(R.drawable.addnewexisting);
+            newWo.setImageResource(R.drawable.edittoday);
             newWo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,6 +118,14 @@ public class MyBlurFragment extends Fragment {
 
                 }
             });
+
+            ArrayList<String> theExs;
+
+            theExs = mydb.getAllExercises_Arraylist(date_db);
+
+            my_adapter_sets_arraylist theAdapter = new my_adapter_sets_arraylist(getActivity(),theExs);
+
+            setsinmain.setAdapter(theAdapter);
 
 
             String[] parts = date_db.substring(1).split("_");
@@ -136,20 +173,36 @@ public class MyBlurFragment extends Fragment {
         rellayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyBlurFragment fragment = (MyBlurFragment)getFragmentManager().findFragmentById(R.id.fragmentid);
-                if (fragment != null && !myFAB.isShown()) {
+                MyBlurFragment fragment = (MyBlurFragment) getFragmentManager().findFragmentById(R.id.fragmentid);
+                if (fragment != null && toolbarisshown) {
                     fragment.exitReveal(R.id.myToolbar);
-                    fragment.enterReveal(R.id.fabAddWorkout);
+                    toolbarisshown = false;
+                    //fragment.enterReveal(R.id.fabAddWorkout);
+                    myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
+                    faboben.startAnimationclose();
+                    myFAB.setImageResource(R.drawable.barbell);
 
-                }else {
+                } else {
                 }
             }
         });
 
-        applyBlur();
+        //applyBlur();
         return view;
     }
 
+    public View getFAB(){
+        return myFAB;
+    }
+
+    public Boolean getisToolbarShown(){
+        return toolbarisshown;
+    }
+
+    public void setisToolbarShown(Boolean shown){
+
+        toolbarisshown = shown;
+    }
 
     public void onResume() {
         super.onResume();
@@ -188,36 +241,33 @@ public class MyBlurFragment extends Fragment {
 
                 }
             });
+
+            ArrayList<String> theExs;
+
+            theExs = mydb.getAllExercises_Arraylist(date_db);
+
+            my_adapter_sets_arraylist theAdapter = new my_adapter_sets_arraylist(getActivity(),theExs);
+
+            setsinmain.setAdapter(theAdapter);
         }
-    };
+    }
 
-    /*public void makeNewWorkout(View view){
-
-        if(!mydb.doesTableExist(mydb.getdb(),date_db)) {
-            Intent test = new Intent(getActivity(),NewWorkoutActivity.class);
-            test.putExtra("date",date_db);
-            startActivity(test);
-        }else{
-            Intent workout_main = new Intent(getActivity(), WorkoutMainActivity.class);
-            workout_main.putExtra("workout_name", mydb.getWoName(date_db));
-            workout_main.putExtra("date", date_db);
-            startActivity(workout_main);
-        }
-
-
-    }*/
 
     void enterReveal(int id) {
         // previously invisible view
         final View myView = getView().findViewById(id);
 
         // get the center for the clipping circle
-        int cx = myView.getMeasuredWidth() / 2;
-        int cy = myView.getMeasuredHeight() / 2;
+        int cx;
+        int cy;
+
+        cx = myView.getRight();
+        cy = myView.getBottom();
 
 
         // get the final radius for the clipping circle
         int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
+        finalRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
 
         // create the animator for this view (the start radius is zero)
         Animator anim =
@@ -227,27 +277,9 @@ public class MyBlurFragment extends Fragment {
 
         // make the view visible and start the animation
         myView.setVisibility(View.VISIBLE);
-        /*anim.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
 
-            }
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                getActivity().getWindow().getEnterTransition().removeListener(mEnterTransitionListener);
-            }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });*/
         anim.start();
     }
 
@@ -257,11 +289,15 @@ public class MyBlurFragment extends Fragment {
         final View myView = getView().findViewById(id);
 
         // get the center for the clipping circle
-        int cx = myView.getMeasuredWidth() / 2;
-        int cy = myView.getMeasuredHeight() / 2;
+        int cx ;
+        int cy ;
+
+        cx = myView.getRight();
+        cy = myView.getBottom();
 
         // get the initial radius for the clipping circle
         int initialRadius = myView.getWidth() / 2;
+        initialRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
 
         // create the animation (the final radius is zero)
         Animator anim =
@@ -273,7 +309,7 @@ public class MyBlurFragment extends Fragment {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 myView.setVisibility(View.INVISIBLE);
-                //myfab.setVisibility(View.VISIBLE);
+
 
             }
         });
@@ -287,7 +323,7 @@ public class MyBlurFragment extends Fragment {
 
 
 
-    private void applyBlur() {
+    /*private void applyBlur() {
         image.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -299,12 +335,12 @@ public class MyBlurFragment extends Fragment {
                 return true;
             }
         });
-    }
-
+    }*/
+/*
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void blur(Bitmap bkg, View view) {
 
-        //long startMs = System.currentTimeMillis();
+
         float scaleFactor = 1;
         float radius = 20;
 
@@ -328,7 +364,7 @@ public class MyBlurFragment extends Fragment {
 
     public String toString() {
         return "RenderScript";
-    }
+    }*/
 
 
 

@@ -69,7 +69,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         sets_old_2 = (ListView) view.findViewById(R.id.listview_sets_old_2);
 
         exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button);
-        exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
+        //exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
 
         addSet =(Button) view.findViewById(R.id.add_set_button);
         user_input_reps = (EditText) view.findViewById(R.id.user_reps_input);

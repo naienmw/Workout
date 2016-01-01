@@ -21,8 +21,8 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabAddWorkout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/fabsize"
+            android:layout_height="@dimen/fabsize"
             android:layout_margin="@dimen/fab_margin"
             android:onClick="composeWorkout"
             android:src="@drawable/addnewcross"

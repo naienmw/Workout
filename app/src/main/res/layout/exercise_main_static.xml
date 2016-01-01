@@ -22,8 +22,8 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/sets_exit_button_static"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/fabsize"
+            android:layout_height="@dimen/fabsize"
             android:src="@drawable/closecross"
             android:layout_gravity="right|center"
             android:layout_marginRight="18dp"

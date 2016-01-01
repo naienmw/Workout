@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AllWorkoutsActivity extends AppCompatActivity {
@@ -22,23 +25,22 @@ public class AllWorkoutsActivity extends AppCompatActivity {
     String allWorkouts[][];
     String allWorkoutsListView[][];
     ListAdapter multiRowAdapter;
+    ListAdapter multiRowAdapter_arraylist;
     FloatingActionButton myFAB;
     TextView infotext;
     ImageView arrow;
+    ArrayList<ArrayList<String>> allWorkouts_Array = new ArrayList<>();
+    ArrayList<ArrayList<String>> allWorkouts_Array_list = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
 
 
-
-        allWorkouts = new String[1000][2];
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_workouts);
 
-        //infotext = (TextView) findViewById(R.id.InfoNewWorkout);
-        //arrow = (ImageView) findViewById(R.id.infoarrow);
+
         mydb = new DBHelper(this);
         myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
-
 
 
         Calendar c = Calendar.getInstance();
@@ -48,67 +50,52 @@ public class AllWorkoutsActivity extends AppCompatActivity {
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
 
-       /* if(mydb.doesTableExist(mydb.getdb(), date_db)) {
-            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
-            myFAB.setImageResource(R.drawable.addnewexisting);
-            infotext.setText("Edit today's Workout");
-            arrow.setImageResource(R.drawable.arrow_edit);
 
-        }*/
-
-            allWorkouts = mydb.getAllWorkouts();
-
-            Integer rows = allWorkouts.length;
-            allWorkoutsListView = new String[rows][2];
-
-        allWorkouts = invertArray(allWorkouts);
-
-        for (int i=0;i<rows;i++){
-            String[] parts = allWorkouts[i][0].substring(1).split("_");
-            String date = parts[0] + "." + parts[1] + "." + parts[2];
-            allWorkoutsListView[i][0] = allWorkouts[i][1];
-            allWorkoutsListView[i][1] = date;
-        }
-
-            multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
-            ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
-            theListView.setAdapter(multiRowAdapter);
-        //}
 
     }
 
     public void onResume(){
         super.onResume();
 
-        allWorkouts = mydb.getAllWorkouts();
+        //allWorkouts = mydb.getAllWorkouts();
 
-        Integer rows = allWorkouts.length;
-        allWorkoutsListView = new String[rows][2];
+        //Integer rows = allWorkouts.length;
+        //allWorkoutsListView = new String[rows][2];
 
-        allWorkouts = invertArray(allWorkouts);
+        //allWorkouts = invertArray(allWorkouts);
 
-        /*myFAB = (FloatingActionButton) findViewById(R.id.fabAddWorkout);
-        if(mydb.doesTableExist(mydb.getdb(),date_db)) {
-            myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
-            myFAB.setImageResource(R.drawable.addnewexisting);
-            infotext.setText("Edit today's Workout");
-            arrow.setImageResource(R.drawable.arrow_edit);
+        allWorkouts_Array_list.clear();
+        allWorkouts_Array.clear();
 
-        }*/
+        allWorkouts_Array = mydb.getAllWorkouts_Arraylist();
+        allWorkouts_Array = invertArraylist(allWorkouts_Array);
 
 
+/*
         for (int i=0;i<rows;i++){
             String[] parts = allWorkouts[i][0].substring(1).split("_");
             String date = parts[0] + "." + parts[1] + "." + parts[2];
             allWorkoutsListView[i][0] = allWorkouts[i][1];
             allWorkoutsListView[i][1] = date;
+        }*/
+
+        for (int i=0;i<allWorkouts_Array.size();i++){
+            ArrayList<String> temp = new ArrayList<>();
+
+            String[] parts = allWorkouts_Array.get(i).get(1).substring(1).split("_");
+            String date = parts[0] + "." + parts[1] + "." + parts[2];
+            temp.add(allWorkouts_Array.get(i).get(0));
+            temp.add(date);
+            allWorkouts_Array_list.add(temp);
         }
 
 
 
-        multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
+        //multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
+        final ListAdapter theAdapter = new my_adapter_multiCol_arraylist(this,allWorkouts_Array_list);
+
         ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
-        theListView.setAdapter(multiRowAdapter);
+        theListView.setAdapter(theAdapter);
 
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -117,9 +104,11 @@ public class AllWorkoutsActivity extends AppCompatActivity {
 
                 TextView v1 = (TextView) findViewById(R.id.textViewWO_multi);
 
-                String tempdate = allWorkoutsListView[i][1];
+                String tempdate = allWorkouts_Array_list.get(i).get(1);//allWorkoutsListView[i][1];
                 String tempdatedb = DateToDB(tempdate);
-                String workoutstatic = allWorkoutsListView[i][0];
+                String workoutstatic = allWorkouts_Array_list.get(i).get(0);//allWorkoutsListView[i][0];
+
+                //Toast.makeText(AllWorkoutsActivity.this,theAdapter.getItem(i).toString(),Toast.LENGTH_SHORT).show();
 
 
                 if (!tempdatedb.equals(date_db)) {
@@ -172,6 +161,20 @@ public class AllWorkoutsActivity extends AppCompatActivity {
         }
 
         return blub;
+    }
+
+    public ArrayList<ArrayList<String>> invertArraylist(ArrayList<ArrayList<String>> list){
+        ArrayList<ArrayList<String>> returnlist = new ArrayList<ArrayList<String>>();
+
+
+        for (int i = 0;i<list.size();i++){
+            ArrayList<String> workout = new ArrayList<>();
+            workout.add(list.get(list.size()-i-1).get(0));
+            workout.add(list.get(list.size()-i-1).get(1));
+            returnlist.add(workout);
+        }
+
+        return returnlist;
     }
 
 

@@ -34,6 +34,11 @@
     <style name="OrangeApp.ActionBar" parent="OrangeApp">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/accent_material_light_3</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:colorBackground">@color/background</item>
     </style>
 </resources>

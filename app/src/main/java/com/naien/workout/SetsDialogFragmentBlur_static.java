@@ -82,7 +82,7 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
         theAdapter = new my_adapter_sets_arraylist_static(getActivity(),theSets_fine);
         sets.setAdapter(theAdapter);
-        exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
+        //exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
 
         exit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

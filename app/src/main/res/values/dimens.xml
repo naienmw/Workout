@@ -6,4 +6,5 @@
     <dimen name="multiRowSize">20sp</dimen>
     <dimen name="multiRowSize_small">15sp</dimen>
     <dimen name="multiRowMargin">15dp</dimen>
+    <dimen name="fabsize">56dp</dimen>
 </resources>

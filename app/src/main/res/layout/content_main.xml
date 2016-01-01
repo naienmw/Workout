@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,58 +10,104 @@
     tools:context="com.naien.simpleworkouttracker.app.MainActivity"
     >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Workout - Tracker"
+        android:id="@+id/overheadtext"
+        android:background="@color/primary"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="@color/primary_text"/>
+
     <ImageView
+        android:layout_below="@+id/overheadtext"
         android:id="@+id/picture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/mainbg"
-        android:scaleType="centerCrop" />
+        android:layout_height="200dp"
+        android:src="@drawable/backgroundgym"
+        android:scaleType="centerCrop"
+        />
     <TextView
         android:id="@+id/CurrentWorkoutMain"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Go to the Gym allready!"
-        android:textColor="@android:color/white"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/picture"
         android:textSize="20sp"
-        android:padding="-1dp"/>
+        android:layout_marginTop="50dp"
+        android:textStyle="bold|italic"
+
+        />
 
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabAddWorkout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/addnewcross"
+            android:layout_width="@dimen/fabsize"
+            android:layout_height="@dimen/fabsize"
+            android:src="@drawable/barbell"
             android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_alignBottom="@+id/picture"
+            android:layout_marginBottom="-28dp"
+            android:scaleType="centerCrop"
             />
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPurple_dark"
+        android:layout_alignBottom="@+id/picture"
+        android:background="@color/accent"
         android:id="@+id/myToolbar"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="left"
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show All"
-            android:id="@+id/ButtonShowAll"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="new WO"
-            android:id="@+id/ButtonNewWo"/>
+    >
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/showall"
+            android:id="@+id/ButtonShowAll"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            />
 
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/addnew"
+            android:id="@+id/ButtonNewWo"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_toRightOf="@+id/ButtonShowAll"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            />
+
+</RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
-
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@color/divider"
+    android:dividerHeight="1dp"
+    android:id="@+id/ListviewcurrentSetsinMain"
+    android:layout_below="@+id/CurrentWorkoutMain"
+    android:layout_marginTop="20dp"
+    android:background="@drawable/border_coloraccent"
+    android:layout_marginRight="-2dp"
+    android:layout_marginLeft="-2dp">
+</ListView>
 
 
 </RelativeLayout>

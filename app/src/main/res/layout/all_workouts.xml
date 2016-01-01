@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="All Workouts"
+        android:textSize="20sp"
+        android:id="@+id/workout_name_all"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:background="@color/primary"
+        android:textColor="@color/primary_text"
+        />
+    <ImageView
+        android:layout_below="@+id/workout_name_all"
+        android:id="@+id/picture_exercise_all"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/exercise_random"
+        android:scaleType="centerCrop"
+        />
            <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/ListViewWorkouts"
             android:dividerHeight="1dp"
-            android:layout_margin="@dimen/multiRowMargin"
-            android:divider="@color/accent_material_light_2"
-            android:background="@drawable/border_orange"
+            android:layout_marginTop="0dp"
+            android:divider="@color/divider"
+            android:background="@drawable/border_coloraccent"
+            android:layout_below="@+id/picture_exercise_all"
+               android:paddingLeft="-2dp"
+               android:paddingRight="-2dp"
             />
 
-</FrameLayout>
+</RelativeLayout>

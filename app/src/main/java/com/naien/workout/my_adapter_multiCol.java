@@ -58,7 +58,6 @@ class my_adapter_multiCol extends BaseAdapter{
         txtFirst.setText(myList[position][0]);
         txtSecond.setText(myList[position][1]);
 
-
         return convertView;
     }
 }

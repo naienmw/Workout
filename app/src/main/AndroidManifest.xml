@@ -22,17 +22,14 @@
             android:theme="@style/OrangeApp.NoActionBar">
         </activity>
         <activity
-            android:name=".WorkoutMainActivity"
-            android:theme="@style/green.ActionBar">
+            android:name=".WorkoutMainActivity">
         </activity>
         <activity
-            android:name=".AllWorkoutsActivity"
-            android:theme="@style/green.ActionBar">
+            android:name=".AllWorkoutsActivity">
         </activity>
 
         <activity
-            android:name=".WorkoutMainStaticActivity"
-            android:theme="@style/purple.ActionBar">
+            android:name=".WorkoutMainStaticActivity">
         </activity>
 
 

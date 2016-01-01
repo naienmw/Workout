@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,12 +38,11 @@ public class WorkoutMainActivity extends Activity{
     ArrayList<String> theExercise;
     FloatingActionButton NewEx;
     ArrayList<Integer> ExIndex;
+    String PrimaryWorkout;
+    ImageView ExPic;
 
 
     protected void onCreate(Bundle savedInstanceState) {
-
-        //theExercise = new String[100];
-
         super.onCreate(savedInstanceState);
 
     }
@@ -60,6 +60,21 @@ public class WorkoutMainActivity extends Activity{
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
 
+        PrimaryWorkout = getPrimaryWorkout(the_workout);
+        ExPic = (ImageView)findViewById(R.id.picture_exercise);
+
+        switch(PrimaryWorkout) {
+            case "Brust":   ExPic.setImageResource(R.drawable.chest);
+                break;
+            case "Beine":   ExPic.setImageResource(R.drawable.legs);
+                break;
+            case "Arme":   ExPic.setImageResource(R.drawable.arms);
+                break;
+            case "Schultern":   ExPic.setImageResource(R.drawable.shoulders);
+                break;
+            case "Rücken":   ExPic.setImageResource(R.drawable.back);
+                break;
+        }
         TextView my_workout = (TextView) findViewById(R.id.workout_name);
         my_workout.setText(the_workout);
 
@@ -245,5 +260,18 @@ public class WorkoutMainActivity extends Activity{
         }else{
             Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public String getPrimaryWorkout(String longworkout){
+        String primary;
+
+        if(!longworkout.contains("/")){
+            primary = longworkout;
+        }else{
+            String temp[] = longworkout.split("/");
+            primary = temp[0];
+        }
+
+        return primary;
     }
 }

@@ -19,10 +19,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String CONTACTS_TABLE_NAME = "Workout";
     public static final String WORKOUT_EXERCISE_NAME = "name";
     public static final String[] ALL_SETS = new String[]{"set1","set2","set3","set4","set5","set6","set7","set8","set9","set10","set11","set12","set13"};
-    SQLiteDatabase db;
+
     String[][] allWorkouts;
 
-    private HashMap hp;
 
     public DBHelper(Context context)
     {
@@ -41,9 +40,6 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         db.close();
     }
-
-
-
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -295,6 +291,28 @@ public class DBHelper extends SQLiteOpenHelper {
                 c.moveToNext();
             }
         c.close();
+        return allWorkouts;
+    }
+
+    public ArrayList<ArrayList<String>> getAllWorkouts_Arraylist(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);
+        ArrayList<ArrayList<String>> allWorkouts = new ArrayList<ArrayList<String>>();
+
+
+        c.moveToFirst();
+        while (!c.isAfterLast() ) {
+            Integer index = c.getColumnIndex("name");
+            String date = c.getString(index);
+            ArrayList<String> oneWorkout = new ArrayList<>();
+
+            oneWorkout.add(getWoName(date));
+            oneWorkout.add(date);
+            allWorkouts.add(oneWorkout);
+            c.moveToNext();
+        }
+        c.close();
+
         return allWorkouts;
     }
 

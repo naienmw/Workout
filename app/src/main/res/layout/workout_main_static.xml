@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
 <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
     android:text="Workout Name"
-    android:textSize="25sp"
+    android:textSize="20sp"
     android:id="@+id/workout_name_static"
     android:layout_gravity="center"
-    android:layout_margin="@dimen/multiRowMargin"
-    android:textStyle="bold"
-    android:gravity="center"/>
+    android:gravity="center"
+    android:background="@color/primary"
+    android:textColor="@color/primary_text"/>
+    <ImageView
+        android:layout_below="@+id/workout_name_static"
+        android:id="@+id/picture_exercise_static"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/exercise_random"
+        android:scaleType="centerCrop"
+        />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listview_exercises_static"
-        android:layout_margin="@dimen/multiRowMargin"
-        android:divider="@null"
-        android:dividerHeight="0dp">
+        android:divider="@color/divider"
+        android:dividerHeight="1dp"
+        android:background="@drawable/border_coloraccent"
+        android:layout_below="@id/picture_exercise_static"
+        android:paddingLeft="-2dp"
+        android:paddingRight="-2dp"
+        >
 
     </ListView>
 
-</LinearLayout>
+</RelativeLayout>
