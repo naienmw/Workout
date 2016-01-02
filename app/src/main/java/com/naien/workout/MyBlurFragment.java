@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
@@ -64,6 +65,10 @@ public class MyBlurFragment extends Fragment {
         mydb = new DBHelper(getActivity());
         dbex = new DBHelper_Ex(getActivity());
         dbex.create_all();
+        dbex.saveExerciseName("Brust", "Bankdrücken");
+        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.addnew_pressed);
+        dbex.saveExerciseImage("Brust","Bankdrücken",icon);
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
@@ -71,6 +76,9 @@ public class MyBlurFragment extends Fragment {
         newWo = (ImageButton) view.findViewById(R.id.ButtonNewWo);
 
         faboben = new Animation(getActivity(),myFAB);
+
+        Bitmap temp = dbex.getExerciseImage("Brust","Bankdrücken");
+        myFAB.setImageBitmap(temp);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
