@@ -49,7 +49,7 @@ public class MyBlurFragment extends Fragment {
     ImageButton newWo;
     RelativeLayout rellayout;
 
-    Boolean toolbarisshown = new Boolean(false);
+    Boolean toolbarisshown = false;
     ListView setsinmain;
 
     Animation faboben;
@@ -65,10 +65,9 @@ public class MyBlurFragment extends Fragment {
         mydb = new DBHelper(getActivity());
         dbex = new DBHelper_Ex(getActivity());
         dbex.create_all();
-        dbex.saveExerciseName("Brust", "Bankdrücken");
-        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                R.drawable.addnew_pressed);
-        dbex.saveExerciseImage("Brust","Bankdrücken",icon);
+        //////////////////EXERCISES TO DATABASE//////////////////////////////
+        saveExercises();
+        /////////////////////////////////////////////////////////////////////
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
@@ -77,8 +76,8 @@ public class MyBlurFragment extends Fragment {
 
         faboben = new Animation(getActivity(),myFAB);
 
-        Bitmap temp = dbex.getExerciseImage("Brust","Bankdrücken");
-        myFAB.setImageBitmap(temp);
+        //Bitmap temp = dbex.getExerciseImage("Brust","Bankdrücken");
+        //myFAB.setImageBitmap(temp);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
@@ -373,6 +372,57 @@ public class MyBlurFragment extends Fragment {
     public String toString() {
         return "RenderScript";
     }*/
+
+
+
+    public void saveExercises(){
+
+        dbex.saveExerciseName("Brust", "Bankdrücken");
+        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress);
+        dbex.saveExerciseImage("Brust","Bankdrücken",icon);
+
+        dbex.saveExerciseName("Brust", "Bankdrücken-schräg");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress_incline);
+        dbex.saveExerciseImage("Brust","Bankdrücken-schräg",icon);
+
+        dbex.saveExerciseName("Brust", "Bankdrücken-schräg-HS");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress_incline_hs);
+        dbex.saveExerciseImage("Brust","Bankdrücken-schräg-HS",icon);
+
+        dbex.saveExerciseName("Brust", "Bankdrücken-KH");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress_dumbbell);
+        dbex.saveExerciseImage("Brust","Bankdrücken-KH",icon);
+
+        dbex.saveExerciseName("Brust", "Bankdrücken-schräg-KH");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress_incline_dumbbell);
+        dbex.saveExerciseImage("Brust","Bankdrücken-schräg-KH",icon);
+
+        dbex.saveExerciseName("Brust", "Bankdrücken-HS");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress_hs);
+        dbex.saveExerciseImage("Brust","Bankdrücken-HS",icon);
+
+        dbex.saveExerciseName("Brust", "Bankdrücken-schräg2-HS");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_benchpress_incline2_hs);
+        dbex.saveExerciseImage("Brust","Bankdrücken-schräg2-HS",icon);
+
+        dbex.saveExerciseName("Brust", "Butterfly-M");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_butterfly_m);
+        dbex.saveExerciseImage("Brust","Butterfly-M",icon);
+
+        dbex.saveExerciseName("Brust", "Butterfly-incline-Kabel");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_butterfly_incline_cable);
+        dbex.saveExerciseImage("Brust","Butterfly-incline-Kabel",icon);
+
+    }
 
 
 

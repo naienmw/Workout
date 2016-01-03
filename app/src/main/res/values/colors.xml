@@ -27,7 +27,7 @@
     <color name="accent_material_light_2">#ffb74d</color>
     <color name="accent_material_light_3">#FB8C00</color>
     <color name="colorBlue">#4c4cff</color>
-    <color name="transparent">#00ffff</color>
+    <color name="transparent">#000c6515</color>
 
     <color name="primary">#FF9800</color>
     <color name="primary_dark">#F57C00</color>

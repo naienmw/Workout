@@ -1,5 +1,7 @@
 package com.naien.workout;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -8,6 +10,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.Window;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +45,10 @@ public class WorkoutMainActivity extends Activity{
     ArrayList<Integer> ExIndex;
     String PrimaryWorkout;
     ImageView ExPic;
+    RelativeLayout RelLayoutChoice;
+    ListView ListViewChoice;
+    Animation faboben;
+    Boolean toolbarisshown = false;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +69,13 @@ public class WorkoutMainActivity extends Activity{
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
 
+
+
         PrimaryWorkout = getPrimaryWorkout(the_workout);
         ExPic = (ImageView)findViewById(R.id.picture_exercise);
+
+        ListViewChoice = (ListView)findViewById(R.id.listview_exercises_choice);
+        RelLayoutChoice = (RelativeLayout) findViewById(R.id.rellayout_exchoice);
 
         switch(PrimaryWorkout) {
             case "Brust":   ExPic.setImageResource(R.drawable.chest);
@@ -83,10 +97,12 @@ public class WorkoutMainActivity extends Activity{
 
         NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
 
-        NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorRed));
+        faboben = new Animation(this,NewEx);
+
+
 
         theAdapter = new my_adapter(this,theExercise);
-        //ListView theListView = (ListView) findViewById(R.id.listview_exercises);
+
         theListView.setAdapter(theAdapter);
 
         theListView.setClickable(true);
@@ -114,94 +130,11 @@ public class WorkoutMainActivity extends Activity{
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                 SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-                setsDialog.setStuff(exercise_name,the_date,ExIndex.get(position));
+
+                setsDialog.setStuff(exercise_name, the_date, ExIndex.get(position));
                 setsDialog.show(getFragmentManager(),"Diag");
 
                 ///////////////////////////
-
-/*
-
-                final Dialog dialog = new Dialog(WorkoutMainActivity.this);
-
-                dialog.setContentView(R.layout.exercise_main);
-                dialog.setTitle(exercise_name);
-
-                TextView ex = (TextView) dialog.findViewById(R.id.workout_name_in_ex);
-                ListView sets = (ListView) dialog.findViewById(R.id.listview_sets);
-                Button exit = (Button) dialog.findViewById(R.id.sets_exit_button);
-                Button addSet =(Button) dialog.findViewById(R.id.add_set_button);
-                final EditText user_input_reps = (EditText) dialog.findViewById(R.id.user_reps_input);
-                final EditText user_input_weight = (EditText) dialog.findViewById(R.id.user_weight_input);
-
-                ex.setText(theExercise[position]);
-
-                final ArrayList<String> allSets;
-
-                mydb = new DBHelper(WorkoutMainActivity.this);
-                allSets = mydb.getAllSets(the_date,exercise_name);
-
-                ArrayList<String> theSets_fine = new ArrayList<String>();
-
-                for (String temp : allSets) {
-                    String[] temp_div = temp.split(",");
-                    theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
-                }
-
-                theAdapter = new my_adapter_sets_arraylist(WorkoutMainActivity.this,theSets_fine);
-                sets.setAdapter(theAdapter);
-
-                exit.setOnClickListener(new View.OnClickListener() {
-
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-
-                });
-
-                addSet.setOnClickListener(new View.OnClickListener(){
-                    public void onClick(View v){
-                        Integer count_ex = mydb.getExIndex(the_date,exercise_name); //number of Exercise in Workout
-
-                        Integer count_sets = allSets.size();
-
-                        if (!user_input_reps.getText().toString().matches("")){
-                            if (!user_input_weight.getText().toString().matches("")){
-
-                                String newEx = user_input_reps.getText().toString() + "," + user_input_weight.getText().toString();
-                                allSets.add(newEx);
-
-                                ArrayList<String> theSets_fine = new ArrayList<String>();
-
-                                for (String temp : allSets) {
-                                    String[] temp_div = temp.split(",");
-                                    theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
-                                }
-
-                                theAdapter = new my_adapter_sets_arraylist(WorkoutMainActivity.this, theSets_fine);
-                                ListView theListView = (ListView) dialog.findViewById(R.id.listview_sets);
-                                theListView.setAdapter(theAdapter);
-
-                                mydb.put_set(the_date,count_ex,count_sets+1,newEx);
-
-
-                            }else{
-                                Toast.makeText(WorkoutMainActivity.this,"Give me some weight",Toast.LENGTH_SHORT).show();
-                            }
-                        }else{
-                            Toast.makeText(WorkoutMainActivity.this,"Give me some Reps",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                dialog.show();*/
-                ///////////////////////
-
-                //Just uncomment and use for old view of Sets with new Activitiy (ExMain)
-                /*Intent ex = new Intent(WorkoutMainActivity.this,ExerciseMainActivity.class);
-
-                    ex.putExtra("exercise",theExercise[position]);
-                    ex.putExtra("date",the_date);
-                startActivity(ex);*/
 
             }
         }
@@ -214,6 +147,23 @@ public class WorkoutMainActivity extends Activity{
 
         EditText newExercise = (EditText) findViewById(R.id.user_Exercise_Input);
         String newEx = newExercise.getText().toString();
+
+        if (!toolbarisshown){
+            faboben.startAnimationopen();
+            enterReveal(R.id.rellayout_exchoice);
+            toolbarisshown = true;
+            NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
+            NewEx.setImageResource(R.drawable.add_new_cross_accent);
+
+        }else{
+            exitReveal(R.id.rellayout_exchoice);
+            toolbarisshown = false;
+            NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
+            faboben.startAnimationclose();
+            NewEx.setImageResource(R.drawable.addnewcross);
+        }
+
+
 
 
         if (!newEx.matches("")) {
@@ -246,17 +196,6 @@ public class WorkoutMainActivity extends Activity{
             theAdapter.add(newEx);
 
 
-
-            //theAdapter.add(newExercise.getText().toString());
-
-            /*Intent workout_main = new Intent(this, ExerciseMainActivity.class);
-
-            workout_main.putExtra("exercise",newExercise.getText().toString());
-
-            workout_main.putExtra("date", the_date);
-
-            startActivity(workout_main);*/
-
         }else{
             Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();
         }
@@ -273,5 +212,72 @@ public class WorkoutMainActivity extends Activity{
         }
 
         return primary;
+    }
+
+
+    void enterReveal(int id) {
+        // previously invisible view
+        final View myView = findViewById(id);
+
+        // get the center for the clipping circle
+        int cx;
+        int cy;
+
+        cx = myView.getRight();
+        cy = myView.getBottom();
+
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
+        finalRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
+
+        // create the animator for this view (the start radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+
+
+
+        // make the view visible and start the animation
+        myView.setVisibility(View.VISIBLE);
+
+
+
+        anim.start();
+    }
+
+
+    void exitReveal(int id) {
+        // previously visible view
+        final View myView = findViewById(id);
+
+        // get the center for the clipping circle
+        int cx ;
+        int cy ;
+
+        cx = myView.getRight();
+        cy = myView.getBottom();
+
+        // get the initial radius for the clipping circle
+        int initialRadius = myView.getWidth() / 2;
+        initialRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
+
+        // create the animation (the final radius is zero)
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
+
+        // make the view invisible when the animation is done
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                myView.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
+
+        // start the animation
+
+        anim.start();
     }
 }

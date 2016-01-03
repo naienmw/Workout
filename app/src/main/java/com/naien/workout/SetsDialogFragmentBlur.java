@@ -1,20 +1,29 @@
 package com.naien.workout;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +40,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     String the_date;
     Integer ExNum;
     DBHelper mydb;
+    DBHelper_Ex mydbex;
 
     ArrayAdapter theAdapter;
     ArrayAdapter theAdapterold_1;
@@ -44,6 +54,9 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     EditText user_input_weight;
     ListView sets_old_1;
     ListView sets_old_2;
+
+    ImageView eximage;
+    Dialog dialog;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,35 +73,54 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_main, null);
 
-        builder.setView(view);
+        final Drawable d = new ColorDrawable(Color.BLACK);
+        d.setAlpha(0);
 
 
         ex = (TextView) view.findViewById(R.id.workout_name_in_ex);
         sets = (ListView) view.findViewById(R.id.listview_sets);
         sets_old_1 = (ListView) view.findViewById(R.id.listview_sets_old_1);
         sets_old_2 = (ListView) view.findViewById(R.id.listview_sets_old_2);
+        eximage = (ImageView) view.findViewById(R.id.eximage);
 
         exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button);
-        //exit.setBackgroundTintList(getResources().getColorStateList(R.color.colorGreen));
 
         addSet =(Button) view.findViewById(R.id.add_set_button);
         user_input_reps = (EditText) view.findViewById(R.id.user_reps_input);
         user_input_weight = (EditText) view.findViewById(R.id.user_weight_input);
 
+        builder.setView(view);
 
-        return builder.create();
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(d);
+
+
+        return dialog;
     }
-
+    public void onResume(){
+        super.onResume();
+        //dialog.getWindow().setLayout(1080, 1700);
+        dialog.getWindow().setGravity(Gravity.CENTER);
+    }
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+
 
         ex.setText(exercise_name);
 
         final ArrayList<String> allSets;
 
         mydb = new DBHelper(getActivity());
-        //allSets = mydb.getAllSets(the_date,exercise_name);
+        mydbex = new DBHelper_Ex(getActivity());
+
+        Bitmap bmp = mydbex.getExerciseImage("Brust",exercise_name);
+        eximage.setImageBitmap(bmp);
+
+
+        eximage.setClipToOutline(true);
+
         allSets = mydb.getAllSets_index(the_date,ExNum);
 
         ArrayList<String> theSets_fine = new ArrayList<>();
@@ -110,8 +142,6 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
         ArrayList<String> list2 = oldsets2.getList();
 
-        //ArrayList<String> SetsOld_1 = list1;
-        //ArrayList<String> SetsOld_2 = list2;
 
         theAdapterold_1 = new my_adapter_sets_arraylist_old(getActivity(),list1);
         theAdapterold_2 = new my_adapter_sets_arraylist_old(getActivity(),list2);
@@ -125,6 +155,8 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
             }
         });
         sets.setLongClickable(true);
+
+        //getDialog().getWindow().setLayout(1080, 1920);
 
         sets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -142,22 +174,23 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
             }
         });
 
+
         addSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Integer count_ex; //= mydb.getExIndex(the_date, exercise_name); //number of Exercise in Workout
+                Integer count_ex;
                 count_ex = ExNum;
 
                 Integer count_sets = allSets.size();
 
-                if (!user_input_reps.getText().toString().matches("")){
-                    if (!user_input_weight.getText().toString().matches("")){
+                if (!user_input_reps.getText().toString().matches("")) {
+                    if (!user_input_weight.getText().toString().matches("")) {
 
                         String newEx = user_input_reps.getText().toString() + "," + user_input_weight.getText().toString();
                         allSets.add(newEx);
 
-                        String newEx_fine=user_input_reps.getText().toString() + " x " + user_input_weight.getText().toString();
+                        String newEx_fine = user_input_reps.getText().toString() + " x " + user_input_weight.getText().toString();
 
                         ArrayList<String> theSets_fine = new ArrayList<>();
 
@@ -166,9 +199,6 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
                             theSets_fine.add(temp_div[0] + " x " + temp_div[1]);
                         }
 
-                        //theAdapter = new my_adapter_sets_arraylist(getActivity(), theSets_fine);
-
-                        //sets.setAdapter(theAdapter);
 
                         theAdapter.add(newEx_fine);
                         theAdapter.setNotifyOnChange(true);
@@ -179,21 +209,22 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
                         user_input_weight.setText("");
                         user_input_reps.setText("");
 
-                        Toast.makeText(getActivity(),"SET CREATED",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "SET CREATED", Toast.LENGTH_SHORT).show();
 
                         user_input_reps.requestFocus();
 
-                    }else{
+                    } else {
                         Toast.makeText(getActivity(), "Give me some weight", Toast.LENGTH_SHORT).show();
                     }
-                }else{
-                    Toast.makeText(getActivity(),"Give me some Reps",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Give me some Reps", Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
 
     }
+
 
 
     protected int getBlurRadius() {

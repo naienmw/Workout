@@ -13,6 +13,7 @@
     android:background="@color/primary"
     android:textColor="@color/primary_text"
     />
+
     <ImageView
         android:layout_below="@+id/workout_name"
         android:id="@+id/picture_exercise"
@@ -21,6 +22,25 @@
         android:src="@drawable/exercise_random"
         android:scaleType="centerCrop"
         />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/workout_name"
+        android:id="@+id/rellayout_exchoice"
+        android:visibility="invisible"
+        android:background="@drawable/border_coloraccent_bold"
+        >
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="1dp"
+        android:divider="@color/divider"
+        android:layout_margin="3dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/listview_exercises_choice">
+    </ListView>
+    </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/ExNewButton"
         android:layout_width="@dimen/fabsize"

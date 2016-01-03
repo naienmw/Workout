@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="300dp"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="360dp"
+    android:layout_height="500dp"
+    android:layout_gravity="center"
+    >
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sets_exit_button"
+        android:layout_width="@dimen/fabsize"
+        android:layout_height="@dimen/fabsize"
+        android:src="@drawable/closecross"
+        android:layout_toRightOf="@+id/mainrellayout"
+        android:layout_marginLeft="-28dp"
+        android:layout_alignTop="@+id/mainrellayout"
+        android:layout_marginTop="-28dp"
+        />
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/colorWhite"
+        android:id="@+id/mainrellayout">
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="70dp"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/fab_margin">
+        android:id="@+id/linlayouttop"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="blaa"
             android:textSize="25sp"
             android:layout_gravity="center"
             android:id="@+id/workout_name_in_ex"
             android:textStyle="bold"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/sets_exit_button"
-            android:layout_width="@dimen/fabsize"
-            android:layout_height="@dimen/fabsize"
-            android:src="@drawable/closecross"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="18dp"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
             />
+
     </LinearLayout>
 
 
@@ -35,9 +55,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="center"
         android:layout_marginTop="@dimen/multiRowMargin"
-        android:layout_marginBottom="@dimen/multiRowMargin">
+        android:layout_marginBottom="@dimen/multiRowMargin"
+        android:id="@+id/linlayoutnumbers"
+        android:layout_below="@+id/linlayouttop"
+        android:layout_centerHorizontal="true"
+        android:background="@color/transparent">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,9 +114,11 @@
         </LinearLayout>
     </LinearLayout>
 <LinearLayout
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="260dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_below="@+id/linlayoutnumbers"
+    android:layout_centerHorizontal="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -101,6 +126,7 @@
         android:layout_marginLeft="@dimen/multiRowMargin"
         android:layout_marginRight="@dimen/multiRowMargin"
         android:layout_marginBottom="@dimen/multiRowMargin"
+        android:id="@+id/linlayoutbottom"
         >
     <ListView
         android:layout_width="match_parent"
@@ -114,14 +140,13 @@
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
         <ListView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/listview_sets_old_1"
             android:layout_weight="1"
-            android:background="@drawable/border"
+            android:background="@drawable/border_coloraccent"
             >
         </ListView>
         <ListView
@@ -129,7 +154,7 @@
             android:layout_height="0dp"
             android:id="@+id/listview_sets_old_2"
             android:layout_weight="1"
-            android:background="@drawable/border"
+            android:background="@drawable/border_coloraccent"
             android:layout_marginTop="-2dp"
             >
         </ListView>
@@ -137,17 +162,31 @@
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:text="@string/longpressdelete"
-        android:layout_weight="1"
-        android:gravity="center"
         android:textStyle="bold"
-        android:textColor="@color/colorGreen"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+        android:textColor="@color/secondary_text"
+        android:layout_marginBottom="0dp"
+        android:gravity="center"
+        />
 
 </LinearLayout>
 
 
 
+    </RelativeLayout>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="70dp"
+        android:src="@drawable/legs"
+        android:elevation="4dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_corners"
+        android:id="@+id/eximage"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"/>
+
+</RelativeLayout>
+
+</FrameLayout>
