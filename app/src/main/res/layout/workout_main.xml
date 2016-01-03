@@ -31,7 +31,7 @@
         android:visibility="invisible"
         android:background="@drawable/border_coloraccent_bold"
         >
-    <ListView
+    <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dp"
@@ -39,7 +39,7 @@
         android:layout_margin="3dp"
         android:layout_centerVertical="true"
         android:id="@+id/listview_exercises_choice">
-    </ListView>
+    </ExpandableListView>
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/ExNewButton"
