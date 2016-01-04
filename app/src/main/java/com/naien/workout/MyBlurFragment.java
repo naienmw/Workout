@@ -377,8 +377,10 @@ public class MyBlurFragment extends Fragment {
 
     public void saveExercises(){
 
-        dbex.saveExerciseName("Brust", "Bankdrücken");
-        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
+        Bitmap icon;
+
+       /* dbex.saveExerciseName("Brust", "Bankdrücken");
+         icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.eximage_benchpress);
         dbex.saveExerciseImage("Brust","Bankdrücken",icon);
 
@@ -420,7 +422,27 @@ public class MyBlurFragment extends Fragment {
         dbex.saveExerciseName("Brust", "Butterfly-incline-Kabel");
         icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.eximage_butterfly_incline_cable);
-        dbex.saveExerciseImage("Brust","Butterfly-incline-Kabel",icon);
+        dbex.saveExerciseImage("Brust","Butterfly-incline-Kabel",icon);*/
+
+       /* dbex.saveExerciseName("Schultern", "Seitheben-KH");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_butterfly_m);
+        dbex.saveExerciseImage("Schultern","Seitheben-KH",icon);
+
+        dbex.saveExerciseName("Rücken", "Kreuzheben");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_butterfly_m);
+        dbex.saveExerciseImage("Rücken","Kreuzheben",icon);
+
+        dbex.saveExerciseName("Arme", "Bi-Curls-KH");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_butterfly_m);
+        dbex.saveExerciseImage("Arme","Bi-Curls-KH",icon);
+
+        dbex.saveExerciseName("Beine", "Beinstrecker");
+        icon = BitmapFactory.decodeResource(getActivity().getResources(),
+                R.drawable.eximage_butterfly_m);
+        dbex.saveExerciseImage("Beine","Beinstrecker",icon);*/
 
     }
 

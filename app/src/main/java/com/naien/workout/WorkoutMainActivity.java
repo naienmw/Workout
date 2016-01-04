@@ -38,12 +38,14 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 public class WorkoutMainActivity extends Activity{
 
     DBHelper mydb;
+    DBHelper_Ex mydb_ex;
 
     String the_date;
     String the_workout;
     ArrayAdapter theAdapter;
     ArrayList<String> theExercise;
     FloatingActionButton NewEx;
+    FloatingActionButton FABTest;
     ArrayList<Integer> ExIndex;
     String PrimaryWorkout;
     ImageView ExPic;
@@ -70,6 +72,7 @@ public class WorkoutMainActivity extends Activity{
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setClickable(false);
         mydb = new DBHelper(this);
+        mydb_ex = new DBHelper_Ex(this);
         Intent i = getIntent();
 
         the_date = i.getStringExtra("date");
@@ -80,11 +83,44 @@ public class WorkoutMainActivity extends Activity{
         PrimaryWorkout = getPrimaryWorkout(the_workout);
         ExPic = (ImageView)findViewById(R.id.picture_exercise);
 
+         listDataHeader = new ArrayList<String>();
+         listDataChild = new HashMap<String, List<String>>();
+
         ListViewChoice = (ExpandableListView)findViewById(R.id.listview_exercises_choice);
-         temp_list_data();
+        temp_list_data(); //fill the list from database
         explistadapter = new ExpListAdapter(this,listDataHeader,listDataChild);
 
         ListViewChoice.setAdapter(explistadapter);
+
+        ListViewChoice.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                 onchildclick(groupPosition,childPosition);
+
+                 return false;
+             }
+        });
+
+         /*
+         FABTest = (FloatingActionButton) findViewById(R.id.FABTEST);
+
+         FABTest.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 ListViewChoice.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
+                         Toast.makeText(getApplicationContext(),listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),Toast.LENGTH_SHORT).show();
+
+                         return false;
+                     }
+                 });
+             }
+         }); */
+
+
 
         RelLayoutChoice = (RelativeLayout) findViewById(R.id.rellayout_exchoice);
 
@@ -127,7 +163,8 @@ public class WorkoutMainActivity extends Activity{
 
                  theAdapter.remove(Ex);
                  theAdapter.setNotifyOnChange(true);
-                 onResume();
+                 exitReveal(R.id.rellayout_exchoice);
+                 //onResume();
                  return true;
              }
          });
@@ -153,15 +190,18 @@ public class WorkoutMainActivity extends Activity{
     }
 
     private void temp_list_data(){
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
 
-        // Adding child data
-        listDataHeader.add("Top 250");
-        listDataHeader.add("Now Showing");
-        listDataHeader.add("Coming Soon..");
 
-        // Adding child data
+        // Adding head data
+        listDataHeader.add("Brust");
+        listDataHeader.add("Schultern");
+        listDataHeader.add("Rücken");
+        listDataHeader.add("Arme");
+        listDataHeader.add("Beine");
+
+        listDataChild = mydb_ex.getExHM();
+
+        /*// Adding child data
         List<String> top250 = new ArrayList<String>();
         top250.add("The Shawshank Redemption");
         top250.add("The Godfather");
@@ -188,14 +228,14 @@ public class WorkoutMainActivity extends Activity{
 
         listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);
+        listDataChild.put(listDataHeader.get(2), comingSoon);*/
     }
 
 
     public void AddNewExercise(View view) {
 
-        EditText newExercise = (EditText) findViewById(R.id.user_Exercise_Input);
-        String newEx = newExercise.getText().toString();
+        //EditText newExercise = (EditText) findViewById(R.id.user_Exercise_Input);
+        //String newEx = newExercise.getText().toString();
 
         if (!toolbarisshown){
             faboben.startAnimationopen();
@@ -215,7 +255,7 @@ public class WorkoutMainActivity extends Activity{
 
 
 
-        if (!newEx.matches("")) {
+        /*if (!newEx.matches("")) {
 
             mydb.saveExerciseName(the_date, newEx);
             //theExercise.add(newEx);
@@ -247,7 +287,7 @@ public class WorkoutMainActivity extends Activity{
 
         }else{
             Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     public String getPrimaryWorkout(String longworkout){
@@ -329,4 +369,37 @@ public class WorkoutMainActivity extends Activity{
 
         anim.start();
     }
+
+    public void onchildclick(int groupposition, int childposition){
+
+        String exname = listDataChild.get(listDataHeader.get(groupposition)).get(childposition);
+
+        mydb.saveExerciseName(the_date, exname);
+        //theExercise.add(newEx);
+
+
+        SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
+        //Toast.makeText(this,ExIndex.size(),Toast.LENGTH_SHORT).show();
+        Integer index = 2;
+        if(!(ExIndex.size() == 0)){
+            index = ExIndex.get(ExIndex.size() - 1)+1;
+        }
+
+
+        setsDialog.setStuff(exname, the_date, index);
+        setsDialog.show(getFragmentManager(), "Diag");
+
+
+        if(!(ExIndex.size() == 0)) {
+            ExIndex.add(ExIndex.get(ExIndex.size() - 1) + 1);
+        }else{
+            ExIndex.add(2);
+        }
+
+
+        //newExercise.setText("");
+        theAdapter.setNotifyOnChange(true);
+        theAdapter.add(exname);
+    }
+
 }

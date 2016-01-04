@@ -15,6 +15,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DBHelper_Ex extends SQLiteOpenHelper {
 
@@ -69,28 +70,6 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         db.close();
     }
 
-    /*protected long saveBitmap(String tablename, String exname , Bitmap bmp)
-    {
-        int size = bmp.getRowBytes() * bmp.getHeight();
-        ByteBuffer b = ByteBuffer.allocate(size); bmp.copyPixelsToBuffer(b);
-        byte[] bytes = new byte[size];
-        b.get(bytes, 0, bytes.length);
-        ContentValues cv=new ContentValues();
-        cv.put(CHUNK, bytes);
-        this.id= database.insert(TABLE, null, cv);
-    }*/
-
-   /* public boolean put_ex(String tablename,Integer count_ex, Integer count_set, String reps_weight) {
-
-        String[] line = {count_ex.toString()};
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        String temp = "name"
-        contentValues.put(temp, reps_weight);
-        db.update(tablename, contentValues, "id = ? ", line);
-        db.close();
-        return true;
-    }*/
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -124,19 +103,7 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         return temp;
     }
 
-    /*public void deleteSetinEx(String tablename,String Ex,Integer count_set){
-        Integer temp = getExIndex(tablename, Ex);
-        put_set(tablename, temp, count_set, "0");
-        ArrayList<String> allsetsupdate = getAllSets(tablename, Ex);
-        putnewSetArray(tablename, Ex, allsetsupdate);
-    }
 
-    public void deleteSetinEx_index(String tablename,Integer Exindex,Integer count_set){
-        //Integer temp = getExIndex(tablename, Ex);
-        put_set(tablename, Exindex, count_set, "0");
-        ArrayList<String> allsetsupdate = getAllSets_index(tablename, Exindex);
-        putnewSetArray_index(tablename, Exindex, allsetsupdate);
-    }*/
 
     public boolean deleteExinWO(String tablename,String Ex){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -156,33 +123,6 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
     }
 
 
-    /*public void putnewSetArray(String tablename,String Ex,ArrayList<String> newSets){
-
-        for (int k = 1;k<14;k++) {
-            put_set(tablename,getExIndex(tablename,Ex),k,"0");
-        }
-
-        Integer i = 1;
-        for (String temp:newSets){
-            put_set(tablename,getExIndex(tablename,Ex),i,temp);
-            i = i+1;
-        }
-
-    }
-
-    public void putnewSetArray_index(String tablename,Integer ExCount,ArrayList<String> newSets){
-
-        for (int k = 1;k<14;k++) {
-            put_set(tablename,ExCount,k,"0");
-        }
-
-        Integer i = 1;
-        for (String temp:newSets){
-            put_set(tablename,ExCount,i,temp);
-            i = i+1;
-        }
-
-    }*/
 
     public boolean saveExerciseName(String tablename, String name) {
 
@@ -272,7 +212,19 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         return false;
     }
 
+    public HashMap<String, List<String>> getExHM(){
 
+        HashMap<String, List<String>> exs = new HashMap<>();
+
+        exs.put("Brust",getAllExercises_Arraylist("Brust"));
+        exs.put("Schultern",getAllExercises_Arraylist("Schultern"));
+        exs.put("Rücken",getAllExercises_Arraylist("Rücken"));
+        exs.put("Arme",getAllExercises_Arraylist("Arme"));
+        exs.put("Beine",getAllExercises_Arraylist("Beine"));
+
+        return exs;
+
+    }
 
 
     public String getWoName(String date){
@@ -289,28 +241,6 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         return WoName;
     }
 
-    public String[] getAllExercises(String date){
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Integer temp;
-
-        Cursor c =  db.rawQuery("select * from " + date + "", null);
-        c.moveToFirst();
-        temp = c.getCount();
-        String ExName[] = new String[temp-1];
-
-
-        c = db.rawQuery("select * from " + date + "",null);
-        c.moveToFirst();
-        Integer i = 0;
-        while(c.moveToNext()) {
-            ExName[i] = c.getString(1);
-            i = i+1;
-        }
-        c.close();
-        return ExName;
-    }
 
     public ArrayList<String> getAllExercises_Arraylist(String date){
 
@@ -322,10 +252,11 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery("select * from " + date + "",null);
         c.moveToFirst();
-        Integer i = 0;
-        while(c.moveToNext()) {
+        //Integer i = 0;
+        while(!c.isAfterLast()) {
             ExName.add(c.getString(1));
-            i = i+1;
+            //i = i+1;
+            c.moveToNext();
         }
         c.close();
 

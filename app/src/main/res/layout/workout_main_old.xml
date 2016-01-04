@@ -53,18 +53,18 @@
         android:layout_below="@+id/picture_exercise"
         />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/FABTEST"
-        android:layout_width="@dimen/fabsize"
-        android:layout_height="@dimen/fabsize"
-        android:src="@android:drawable/radiobutton_on_background"
-        android:onClick="AddNewExercise"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/picture_exercise"
-        />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Excercise Name"
+        android:id="@+id/user_Exercise_Input"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/picture_exercise"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -81,9 +81,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listview_exercises"
+        android:layout_marginTop="@dimen/multiRowMargin"
         android:divider="@color/divider"
         android:dividerHeight="1dp"
-        android:layout_below="@+id/rellayout_exchoice"
+        android:layout_below="@+id/user_Exercise_Input"
+        android:paddingBottom="30dp"
         android:background="@drawable/border_coloraccent"
         android:layout_above="@+id/textlongdelete"
         android:paddingRight="-2dp"
