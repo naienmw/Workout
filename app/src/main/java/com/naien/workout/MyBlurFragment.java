@@ -66,7 +66,7 @@ public class MyBlurFragment extends Fragment {
         dbex = new DBHelper_Ex(getActivity());
         dbex.create_all();
         //////////////////EXERCISES TO DATABASE//////////////////////////////
-        //saveExercises();
+        saveExercises();
         /////////////////////////////////////////////////////////////////////
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
