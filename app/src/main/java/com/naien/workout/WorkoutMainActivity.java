@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
@@ -45,19 +47,21 @@ public class WorkoutMainActivity extends Activity{
     ArrayAdapter theAdapter;
     ArrayList<String> theExercise;
     FloatingActionButton NewEx;
-    FloatingActionButton FABTest;
+    FloatingActionButton FABEditEx;
     ArrayList<Integer> ExIndex;
     String PrimaryWorkout;
     ImageView ExPic;
     RelativeLayout RelLayoutChoice;
     ExpandableListView ListViewChoice;
     Animation faboben;
+    Animation_EditEx faboben_edit_ex;
     Boolean toolbarisshown = false;
 
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     ExpListAdapter explistadapter;
 
+    Boolean editex = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,8 @@ public class WorkoutMainActivity extends Activity{
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
 
+         editex = false;
+
 
 
         PrimaryWorkout = getPrimaryWorkout(the_workout);
@@ -94,31 +100,14 @@ public class WorkoutMainActivity extends Activity{
 
         ListViewChoice.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-                 onchildclick(groupPosition,childPosition);
+                onchildclick(groupPosition, childPosition);
 
-                 return false;
-             }
+                return false;
+            }
         });
 
-         /*
-         FABTest = (FloatingActionButton) findViewById(R.id.FABTEST);
-
-         FABTest.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 ListViewChoice.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-
-                     public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-
-                         Toast.makeText(getApplicationContext(),listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),Toast.LENGTH_SHORT).show();
-
-                         return false;
-                     }
-                 });
-             }
-         }); */
 
 
 
@@ -143,8 +132,23 @@ public class WorkoutMainActivity extends Activity{
         ExIndex = mydb.allExIndex(the_date);
 
         NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
+        FABEditEx = (FloatingActionButton)findViewById(R.id.FABEditEx);
+        //FABEditEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
 
         faboben = new Animation(this,NewEx);
+        faboben_edit_ex = new Animation_EditEx(this,FABEditEx);
+
+         FABEditEx.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 if(!editex) {
+                     editex = true;
+                 }else{
+                     editex = false;
+                 }
+             }
+         });
 
 
 
@@ -164,7 +168,12 @@ public class WorkoutMainActivity extends Activity{
                  theAdapter.remove(Ex);
                  theAdapter.setNotifyOnChange(true);
                  exitReveal(R.id.rellayout_exchoice);
-                 //onResume();
+                 //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
+                 //NewEx.setImageResource(R.drawable.addnewcross);
+                 faboben.startAnimationclose();
+                 faboben_edit_ex.startAnimationclose();
+                 toolbarisshown = false;
+
                  return true;
              }
          });
@@ -174,14 +183,13 @@ public class WorkoutMainActivity extends Activity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-                final String exercise_name = theExercise.get(position);
+                String exercise_name = theExercise.get(position);
+                String exercise_head = getHeadfromHMvalue(mydb_ex.getExHM(), exercise_name);
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                 SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-
-                setsDialog.setStuff(exercise_name, the_date, ExIndex.get(position));
+                setsDialog.setStuff(exercise_head,exercise_name, the_date, ExIndex.get(position));
                 setsDialog.show(getFragmentManager(),"Diag");
-
                 ///////////////////////////
 
             }
@@ -192,7 +200,7 @@ public class WorkoutMainActivity extends Activity{
     private void temp_list_data(){
 
 
-        // Adding head data
+
         listDataHeader.add("Brust");
         listDataHeader.add("Schultern");
         listDataHeader.add("Rücken");
@@ -201,93 +209,37 @@ public class WorkoutMainActivity extends Activity{
 
         listDataChild = mydb_ex.getExHM();
 
-        /*// Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
 
-        List<String> nowShowing = new ArrayList<String>();
-        nowShowing.add("The Conjuring");
-        nowShowing.add("Despicable Me 2");
-        nowShowing.add("Turbo");
-        nowShowing.add("Grown Ups 2");
-        nowShowing.add("Red 2");
-        nowShowing.add("The Wolverine");
-
-        List<String> comingSoon = new ArrayList<String>();
-        comingSoon.add("2 Guns");
-        comingSoon.add("The Smurfs 2");
-        comingSoon.add("The Spectacular Now");
-        comingSoon.add("The Canyons");
-        comingSoon.add("Europa Report");
-
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), nowShowing);
-        listDataChild.put(listDataHeader.get(2), comingSoon);*/
     }
 
 
     public void AddNewExercise(View view) {
 
-        //EditText newExercise = (EditText) findViewById(R.id.user_Exercise_Input);
-        //String newEx = newExercise.getText().toString();
 
         if (!toolbarisshown){
             faboben.startAnimationopen();
             enterReveal(R.id.rellayout_exchoice);
             toolbarisshown = true;
-            NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
-            NewEx.setImageResource(R.drawable.add_new_cross_accent);
+            //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
+            //NewEx.setImageResource(R.drawable.add_new_cross_accent);
+
+            FABEditEx.setVisibility(View.VISIBLE);
+            faboben_edit_ex.startAnimationopen();
+
+
 
         }else{
             exitReveal(R.id.rellayout_exchoice);
             toolbarisshown = false;
-            NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
+            //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
             faboben.startAnimationclose();
-            NewEx.setImageResource(R.drawable.addnewcross);
+            //NewEx.setImageResource(R.drawable.addnewcross);
+
+            faboben_edit_ex.startAnimationclose();
+            FABEditEx.setVisibility(View.INVISIBLE);
         }
 
 
-
-
-        /*if (!newEx.matches("")) {
-
-            mydb.saveExerciseName(the_date, newEx);
-            //theExercise.add(newEx);
-
-
-            SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-            //Toast.makeText(this,ExIndex.size(),Toast.LENGTH_SHORT).show();
-            Integer index = 2;
-            if(!(ExIndex.size() == 0)){
-                 index = ExIndex.get(ExIndex.size() - 1)+1;
-            }
-
-
-            setsDialog.setStuff(newEx, the_date, index);
-            setsDialog.show(getFragmentManager(), "Diag");
-
-
-            if(!(ExIndex.size() == 0)) {
-                ExIndex.add(ExIndex.get(ExIndex.size() - 1) + 1);
-            }else{
-                ExIndex.add(2);
-            }
-
-
-            newExercise.setText("");
-            theAdapter.setNotifyOnChange(true);
-            theAdapter.add(newEx);
-
-
-        }else{
-            Toast.makeText(WorkoutMainActivity.this, "Please Enter a Exercise", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     public String getPrimaryWorkout(String longworkout){
@@ -370,36 +322,63 @@ public class WorkoutMainActivity extends Activity{
         anim.start();
     }
 
-    public void onchildclick(int groupposition, int childposition){
-
+    public void onchildclick(int groupposition, int childposition) {
         String exname = listDataChild.get(listDataHeader.get(groupposition)).get(childposition);
+        String exhead = listDataHeader.get(groupposition);
 
-        mydb.saveExerciseName(the_date, exname);
-        //theExercise.add(newEx);
-
-
-        SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
-        //Toast.makeText(this,ExIndex.size(),Toast.LENGTH_SHORT).show();
-        Integer index = 2;
-        if(!(ExIndex.size() == 0)){
-            index = ExIndex.get(ExIndex.size() - 1)+1;
-        }
+        if (!editex) {
 
 
-        setsDialog.setStuff(exname, the_date, index);
-        setsDialog.show(getFragmentManager(), "Diag");
+
+            mydb.saveExerciseName(the_date, exname);
+            //theExercise.add(newEx);
 
 
-        if(!(ExIndex.size() == 0)) {
-            ExIndex.add(ExIndex.get(ExIndex.size() - 1) + 1);
+            SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
+
+            Integer index = 2;
+            if (!(ExIndex.size() == 0)) {
+                index = ExIndex.get(ExIndex.size() - 1) + 1;
+            }
+
+
+            setsDialog.setStuff(exhead,exname, the_date, index);
+            setsDialog.show(getFragmentManager(), "Diag");
+
+
+            if (!(ExIndex.size() == 0)) {
+                ExIndex.add(ExIndex.get(ExIndex.size() - 1) + 1);
+            } else {
+                ExIndex.add(2);
+            }
+
+            theAdapter.setNotifyOnChange(true);
+            theAdapter.add(exname);
         }else{
-            ExIndex.add(2);
+            Toast.makeText(getApplicationContext(), listDataChild.get(listDataHeader.get(groupposition)).get(childposition), Toast.LENGTH_SHORT).show();
+
+            EditExDialogFragmentBlur setsDialog = new EditExDialogFragmentBlur();
+
+            setsDialog.setStuff(exhead,exname);
+            setsDialog.show(getFragmentManager(), "Diag");
+            editex = false;
+            toolbarisshown = false;
         }
+    }
 
+    public String getHeadfromHMvalue(HashMap<String, List<String>> hm, String value){
+        String head;
 
-        //newExercise.setText("");
-        theAdapter.setNotifyOnChange(true);
-        theAdapter.add(exname);
+        for (Map.Entry<String, List<String>> entry : hm.entrySet()) {
+            for (String temp : entry.getValue()){
+                if (Objects.equals(value, temp)) {
+                    return entry.getKey();
+                }
+            }
+
+        }
+        return "Rücken";
+
     }
 
 }

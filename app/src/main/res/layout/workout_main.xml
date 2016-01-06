@@ -29,16 +29,17 @@
         android:layout_below="@+id/workout_name"
         android:id="@+id/rellayout_exchoice"
         android:visibility="invisible"
-        android:background="@color/primary"
+        android:background="@android:color/white"
         >
     <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="1dp"
-        android:divider="@color/divider"
         android:layout_margin="3dp"
         android:layout_centerVertical="true"
-        android:id="@+id/listview_exercises_choice">
+        android:id="@+id/listview_exercises_choice"
+        android:childDivider="@color/divider"
+        android:headerDividersEnabled="false"
+        >
     </ExpandableListView>
     </RelativeLayout>
     <android.support.design.widget.FloatingActionButton
@@ -54,15 +55,17 @@
         />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/FABTEST"
+        android:id="@+id/FABEditEx"
         android:layout_width="@dimen/fabsize"
         android:layout_height="@dimen/fabsize"
-        android:src="@android:drawable/radiobutton_on_background"
+        android:src="@drawable/barbell"
         android:onClick="AddNewExercise"
         android:layout_alignParentRight="true"
         android:layout_marginRight="18dp"
-        android:layout_marginTop="29dp"
+        android:layout_marginTop="-120dp"
         android:layout_below="@+id/picture_exercise"
+        android:visibility="invisible"
+        android:scaleType="centerCrop"
         />
 
 
@@ -86,8 +89,8 @@
         android:layout_below="@+id/rellayout_exchoice"
         android:background="@drawable/border_coloraccent"
         android:layout_above="@+id/textlongdelete"
-        android:paddingRight="-2dp"
-        android:paddingLeft="-2dp"
+        android:paddingRight="-4dp"
+        android:paddingLeft="-4dp"
         android:layout_marginBottom="10dp"
         >
     </ListView>

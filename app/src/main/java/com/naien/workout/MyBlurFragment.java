@@ -66,7 +66,7 @@ public class MyBlurFragment extends Fragment {
         dbex = new DBHelper_Ex(getActivity());
         dbex.create_all();
         //////////////////EXERCISES TO DATABASE//////////////////////////////
-        saveExercises();
+        //saveExercises();
         /////////////////////////////////////////////////////////////////////
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
@@ -188,6 +188,8 @@ public class MyBlurFragment extends Fragment {
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     faboben.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
+
+
 
                 } else {
                 }
@@ -379,7 +381,7 @@ public class MyBlurFragment extends Fragment {
 
         Bitmap icon;
 
-       /* dbex.saveExerciseName("Brust", "Bankdrücken");
+        dbex.saveExerciseName("Brust", "Bankdrücken");
          icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.eximage_benchpress);
         dbex.saveExerciseImage("Brust","Bankdrücken",icon);
@@ -422,9 +424,9 @@ public class MyBlurFragment extends Fragment {
         dbex.saveExerciseName("Brust", "Butterfly-incline-Kabel");
         icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.eximage_butterfly_incline_cable);
-        dbex.saveExerciseImage("Brust","Butterfly-incline-Kabel",icon);*/
+        dbex.saveExerciseImage("Brust","Butterfly-incline-Kabel",icon);
 
-       /* dbex.saveExerciseName("Schultern", "Seitheben-KH");
+        dbex.saveExerciseName("Schultern", "Seitheben-KH");
         icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.eximage_butterfly_m);
         dbex.saveExerciseImage("Schultern","Seitheben-KH",icon);
@@ -442,7 +444,7 @@ public class MyBlurFragment extends Fragment {
         dbex.saveExerciseName("Beine", "Beinstrecker");
         icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.eximage_butterfly_m);
-        dbex.saveExerciseImage("Beine","Beinstrecker",icon);*/
+        dbex.saveExerciseImage("Beine","Beinstrecker",icon);
 
     }
 

@@ -37,6 +37,8 @@ import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
     String exercise_name;
+    String exercise_head;
+
     String the_date;
     Integer ExNum;
     DBHelper mydb;
@@ -62,7 +64,8 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void setStuff(String Exname,String date,Integer num){
+    public void setStuff(String Exhead,String Exname,String date,Integer num){
+        exercise_head = Exhead;
         exercise_name = Exname;
         the_date = date;
         ExNum = num;
@@ -100,7 +103,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     }
     public void onResume(){
         super.onResume();
-        //dialog.getWindow().setLayout(1080, 1700);
+
         dialog.getWindow().setGravity(Gravity.CENTER);
     }
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -115,7 +118,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         mydb = new DBHelper(getActivity());
         mydbex = new DBHelper_Ex(getActivity());
 
-        Bitmap bmp = mydbex.getExerciseImage("Brust",exercise_name);
+        Bitmap bmp = mydbex.getExerciseImage(exercise_head,exercise_name);
         eximage.setImageBitmap(bmp);
 
 

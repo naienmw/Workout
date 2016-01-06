@@ -156,6 +156,19 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         return true;
     }
 
+    public boolean updateExerciseName(String tablename, String newexname, String oldexname) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] temp =  new String[]{Integer.toString(getExIndex(tablename, oldexname))};
+
+        ContentValues cv = new ContentValues();
+        cv.put("name", newexname);
+
+        db.update(tablename, cv, "id = ? ", temp);
+
+        return true;
+    }
+
     public Bitmap getExerciseImage(String tablename, String exname){
 
         SQLiteDatabase db = this.getReadableDatabase();

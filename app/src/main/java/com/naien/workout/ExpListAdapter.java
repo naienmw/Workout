@@ -100,4 +100,8 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
+    public void notifyDataSetChanged(){
+        super.notifyDataSetChanged();
+    }
 }
