@@ -166,6 +166,7 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
 
         db.update(tablename, cv, "id = ? ", temp);
 
+        db.close();
         return true;
     }
 

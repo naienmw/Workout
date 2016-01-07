@@ -94,6 +94,8 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
         ex.setText(exercise_name);
         user_newexname.setText(exercise_name);
         user_newexhead.setText(exercise_head);
+        user_newexhead.setKeyListener(null);
+        user_newexhead.setEnabled(false);
 
         mydbex = new DBHelper_Ex(getActivity());
 
@@ -111,50 +113,57 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
         applyEx.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                if(!user_newexname.getText().toString().equals("")){
-                    switch (user_newexhead.getText().toString()) {
-                        case "Brust":
-                            mydbex.updateExerciseName("Brust", user_newexname.getText().toString(), exercise_name);
-                            Intent intent = new Intent(getActivity(), WorkoutMainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            dismiss();
+                String newex=user_newexname.getText().toString();
+                if(!newex.equals("")){
+                    if(!newex.equals(exercise_name)) {
+                        switch (exercise_head) {
+                            case "Brust":
+                                mydbex.updateExerciseName("Brust", newex, exercise_name);
+                                Intent intent = new Intent(getActivity(), WorkoutMainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                                dismiss();
 
-                            break;
-                        case "Beine":
-                            mydbex.updateExerciseName("Beine",user_newexname.getText().toString(),exercise_name);
+                                break;
+                            case "Beine":
+                                mydbex.updateExerciseName("Beine", newex, exercise_name);
 
-                            intent = new Intent(getActivity(), WorkoutMainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            dismiss();
-                            break;
-                        case "Rücken":
-                            mydbex.updateExerciseName("Rücken",user_newexname.getText().toString(),exercise_name);
+                                intent = new Intent(getActivity(), WorkoutMainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                                dismiss();
+                                break;
+                            case "Rücken":
+                                mydbex.updateExerciseName("Rücken", newex, exercise_name);
 
-                            intent = new Intent(getActivity(), WorkoutMainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            dismiss();
-                            break;
-                        case "Arme":
-                            mydbex.updateExerciseName("Arme",user_newexname.getText().toString(),exercise_name);
+                                intent = new Intent(getActivity(), WorkoutMainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                                dismiss();
+                                break;
+                            case "Arme":
+                                mydbex.updateExerciseName("Arme", newex, exercise_name);
 
-                           intent = new Intent(getActivity(), WorkoutMainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            dismiss();
-                            break;
-                        case "Schultern":
-                            mydbex.updateExerciseName("Schultern",user_newexname.getText().toString(),exercise_name);
+                                intent = new Intent(getActivity(), WorkoutMainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                                dismiss();
+                                break;
+                            case "Schultern":
+                                mydbex.updateExerciseName("Schultern", newex, exercise_name);
 
-                            intent = new Intent(getActivity(), WorkoutMainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            startActivity(intent);
-                            dismiss();
-                            break;
-                        default: Toast.makeText(getActivity(),"Wrong Exercise Type",Toast.LENGTH_SHORT).show();
-                            break;
+                                intent = new Intent(getActivity(), WorkoutMainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                startActivity(intent);
+                                dismiss();
+                                break;
+                            default:
+                                Toast.makeText(getActivity(), "Wrong Exercise Type", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }else{
+                        Toast.makeText(getActivity(), "Nothing Changed", Toast.LENGTH_SHORT).show();
+                        dismiss();
                     }
                 }
             }

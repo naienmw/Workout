@@ -48,6 +48,7 @@ public class WorkoutMainActivity extends Activity{
     ArrayList<String> theExercise;
     FloatingActionButton NewEx;
     FloatingActionButton FABEditEx;
+    FloatingActionButton FABNewEx;
     ArrayList<Integer> ExIndex;
     String PrimaryWorkout;
     ImageView ExPic;
@@ -55,6 +56,8 @@ public class WorkoutMainActivity extends Activity{
     ExpandableListView ListViewChoice;
     Animation faboben;
     Animation_EditEx faboben_edit_ex;
+    Animation_NewEx faboben_new_ex;
+
     Boolean toolbarisshown = false;
 
     List<String> listDataHeader;
@@ -132,11 +135,15 @@ public class WorkoutMainActivity extends Activity{
         ExIndex = mydb.allExIndex(the_date);
 
         NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
+
         FABEditEx = (FloatingActionButton)findViewById(R.id.FABEditEx);
-        //FABEditEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
+
+        FABNewEx = (FloatingActionButton)findViewById(R.id.FABNewEx);
+        FABNewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent_second));
 
         faboben = new Animation(this,NewEx);
         faboben_edit_ex = new Animation_EditEx(this,FABEditEx);
+        faboben_new_ex = new Animation_NewEx(this,FABNewEx);
 
          FABEditEx.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -167,12 +174,16 @@ public class WorkoutMainActivity extends Activity{
 
                  theAdapter.remove(Ex);
                  theAdapter.setNotifyOnChange(true);
-                 exitReveal(R.id.rellayout_exchoice);
-                 //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
-                 //NewEx.setImageResource(R.drawable.addnewcross);
-                 faboben.startAnimationclose();
-                 faboben_edit_ex.startAnimationclose();
-                 toolbarisshown = false;
+                 if(toolbarisshown) {
+                     exitReveal(R.id.rellayout_exchoice);
+
+                     faboben.startAnimationclose();
+                     NewEx.setImageResource(R.drawable.addnewcross);
+
+                     faboben_edit_ex.startAnimationclose();
+                     faboben_new_ex.startAnimationclose();
+                     toolbarisshown = false;
+                 }
 
                  return true;
              }
@@ -218,10 +229,13 @@ public class WorkoutMainActivity extends Activity{
 
         if (!toolbarisshown){
             faboben.startAnimationopen();
+            NewEx.setImageResource(R.drawable.barbell);
+
             enterReveal(R.id.rellayout_exchoice);
             toolbarisshown = true;
-            //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
-            //NewEx.setImageResource(R.drawable.add_new_cross_accent);
+
+            FABNewEx.setVisibility(View.VISIBLE);
+            faboben_new_ex.startAnimationopen();
 
             FABEditEx.setVisibility(View.VISIBLE);
             faboben_edit_ex.startAnimationopen();
@@ -233,10 +247,13 @@ public class WorkoutMainActivity extends Activity{
             toolbarisshown = false;
             //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
             faboben.startAnimationclose();
-            //NewEx.setImageResource(R.drawable.addnewcross);
+            NewEx.setImageResource(R.drawable.addnewcross);
 
             faboben_edit_ex.startAnimationclose();
             FABEditEx.setVisibility(View.INVISIBLE);
+
+            faboben_new_ex.startAnimationclose();
+            FABNewEx.setVisibility(View.INVISIBLE);
         }
 
 
@@ -328,8 +345,6 @@ public class WorkoutMainActivity extends Activity{
 
         if (!editex) {
 
-
-
             mydb.saveExerciseName(the_date, exname);
             //theExercise.add(newEx);
 
@@ -363,6 +378,7 @@ public class WorkoutMainActivity extends Activity{
             setsDialog.show(getFragmentManager(), "Diag");
             editex = false;
             toolbarisshown = false;
+            NewEx.setImageResource(R.drawable.addnewcross);
         }
     }
 

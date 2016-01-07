@@ -4,21 +4,23 @@
     android:startOffset="10">
 
     <scale
+        android:interpolator="@android:anim/overshoot_interpolator"
         android:duration="200"
         android:fromXScale="0.0"
         android:fromYScale="0.0"
-        android:interpolator="@android:anim/overshoot_interpolator"
+
         android:toXScale="1.0"
         android:pivotX="50%"
         android:pivotY="50%"
         android:toYScale="1.0"/>
 
     <translate
+        android:interpolator="@anim/my_overshoot"
         android:duration="200"
         android:fromXDelta="0.0"
-        android:fromYDelta="10%p"
+        android:fromYDelta="20%p"
         android:toYDelta="0.0"
-        android:interpolator="@android:interpolator/anticipate_overshoot"/>
+         />
 
 
 </set>
