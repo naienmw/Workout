@@ -25,7 +25,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:layout_below="@+id/workout_name"
         android:id="@+id/rellayout_exchoice"
         android:visibility="invisible"
@@ -101,12 +101,13 @@
         android:id="@+id/listview_exercises"
         android:divider="@color/divider"
         android:dividerHeight="1dp"
-        android:layout_below="@+id/rellayout_exchoice"
+        android:layout_below="@+id/picture_exercise"
         android:background="@drawable/border_coloraccent"
         android:layout_above="@+id/textlongdelete"
         android:paddingRight="-4dp"
         android:paddingLeft="-4dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="40dp"
         >
     </ListView>
 

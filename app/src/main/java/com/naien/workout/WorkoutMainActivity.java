@@ -54,11 +54,12 @@ public class WorkoutMainActivity extends Activity{
     ImageView ExPic;
     RelativeLayout RelLayoutChoice;
     ExpandableListView ListViewChoice;
+
     Animation faboben;
     Animation_EditEx faboben_edit_ex;
     Animation_NewEx faboben_new_ex;
 
-    Boolean toolbarisshown = false;
+    Boolean toolbarisshown;
 
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -86,7 +87,7 @@ public class WorkoutMainActivity extends Activity{
         the_workout = i.getStringExtra("workout_name");
 
          editex = false;
-
+        toolbarisshown = false;
 
 
         PrimaryWorkout = getPrimaryWorkout(the_workout);
@@ -154,6 +155,16 @@ public class WorkoutMainActivity extends Activity{
                  }else{
                      editex = false;
                  }
+             }
+         });
+
+         FABNewEx.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 NewExDialogFragmentBlur exnew = new NewExDialogFragmentBlur();
+                 exnew.show(getFragmentManager(),"newEx");
+
              }
          });
 

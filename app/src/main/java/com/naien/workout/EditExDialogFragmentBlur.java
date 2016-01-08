@@ -54,7 +54,6 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
         exercise_head = Exhead;
     }
 
-
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_edit, null);
@@ -90,12 +89,12 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
 
         super.onActivityCreated(savedInstanceState);
 
-
         ex.setText(exercise_name);
         user_newexname.setText(exercise_name);
         user_newexhead.setText(exercise_head);
         user_newexhead.setKeyListener(null);
         user_newexhead.setEnabled(false);
+
 
         mydbex = new DBHelper_Ex(getActivity());
 
