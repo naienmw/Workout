@@ -39,13 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
     Animation fabclose;
     FloatingActionButton myFAB;
+    copydbhelper createdbex;
 
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        createdbex = new copydbhelper(this);
+        createdbex.createDatabase();
     }
 
     public void onBackPressed() {

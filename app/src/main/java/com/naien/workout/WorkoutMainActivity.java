@@ -86,7 +86,7 @@ public class WorkoutMainActivity extends Activity{
         the_date = i.getStringExtra("date");
         the_workout = i.getStringExtra("workout_name");
 
-         editex = false;
+        editex = false;
         toolbarisshown = false;
 
 
@@ -138,9 +138,10 @@ public class WorkoutMainActivity extends Activity{
         NewEx = (FloatingActionButton)findViewById(R.id.ExNewButton);
 
         FABEditEx = (FloatingActionButton)findViewById(R.id.FABEditEx);
+        FABEditEx.setBackgroundTintList(getResources().getColorStateList(R.color.FABEditEx));
 
         FABNewEx = (FloatingActionButton)findViewById(R.id.FABNewEx);
-        FABNewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent_second));
+        FABNewEx.setBackgroundTintList(getResources().getColorStateList(R.color.FABNewEx));
 
         faboben = new Animation(this,NewEx);
         faboben_edit_ex = new Animation_EditEx(this,FABEditEx);
@@ -186,7 +187,7 @@ public class WorkoutMainActivity extends Activity{
                  theAdapter.remove(Ex);
                  theAdapter.setNotifyOnChange(true);
                  if(toolbarisshown) {
-                     exitReveal(R.id.rellayout_exchoice);
+                     exitReveal(R.id.rellayout_exchoice,R.id.ExNewButton);
 
                      faboben.startAnimationclose();
                      NewEx.setImageResource(R.drawable.addnewcross);
@@ -242,7 +243,7 @@ public class WorkoutMainActivity extends Activity{
             faboben.startAnimationopen();
             NewEx.setImageResource(R.drawable.barbell);
 
-            enterReveal(R.id.rellayout_exchoice);
+            enterReveal(R.id.rellayout_exchoice,R.id.ExNewButton);
             toolbarisshown = true;
 
             FABNewEx.setVisibility(View.VISIBLE);
@@ -254,7 +255,7 @@ public class WorkoutMainActivity extends Activity{
 
 
         }else{
-            exitReveal(R.id.rellayout_exchoice);
+            exitReveal(R.id.rellayout_exchoice,R.id.ExNewButton);
             toolbarisshown = false;
             //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
             faboben.startAnimationclose();
@@ -284,16 +285,17 @@ public class WorkoutMainActivity extends Activity{
     }
 
 
-    void enterReveal(int id) {
+    void enterReveal(int id,int startid) {
         // previously invisible view
         final View myView = findViewById(id);
+        final View start = findViewById(startid);
 
         // get the center for the clipping circle
         int cx;
         int cy;
 
-        cx = myView.getRight();
-        cy = myView.getBottom();
+        cx = start.getLeft() + start.getWidth()/2;
+        cy = start.getTop() - start.getHeight()/2;
 
 
         // get the final radius for the clipping circle
@@ -315,17 +317,17 @@ public class WorkoutMainActivity extends Activity{
     }
 
 
-    void exitReveal(int id) {
+    void exitReveal(int id,int startid) {
         // previously visible view
         final View myView = findViewById(id);
+        final View start = findViewById(startid);
 
         // get the center for the clipping circle
         int cx ;
         int cy ;
 
-        cx = myView.getRight();
-        cy = myView.getBottom();
-
+        cx = start.getLeft() + start.getWidth()/2;
+        cy = start.getTop() - start.getHeight()/2;
         // get the initial radius for the clipping circle
         int initialRadius = myView.getWidth() / 2;
         initialRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());

@@ -36,7 +36,7 @@
         android:text="Go to the Gym allready!"
         android:layout_below="@+id/picture"
         android:textSize="20sp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:textStyle="bold|italic"
 
         />

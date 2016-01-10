@@ -63,8 +63,8 @@ public class MyBlurFragment extends Fragment {
         setsinmain = (ListView) view.findViewById(R.id.ListviewcurrentSetsinMain);
 
         mydb = new DBHelper(getActivity());
-        dbex = new DBHelper_Ex(getActivity());
-        dbex.create_all();
+        //dbex = new DBHelper_Ex(getActivity());
+        //dbex.create_all();
         //////////////////EXERCISES TO DATABASE//////////////////////////////
         //saveExercises();
         /////////////////////////////////////////////////////////////////////
