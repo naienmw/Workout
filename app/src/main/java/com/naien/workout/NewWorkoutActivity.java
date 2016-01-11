@@ -54,7 +54,7 @@ public class NewWorkoutActivity extends Activity {
 
                 String temp = String.valueOf(adapterView.getItemAtPosition(i));
 
-                Toast.makeText(NewWorkoutActivity.this, temp, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(NewWorkoutActivity.this, temp, Toast.LENGTH_SHORT).show();
 
                 if (!theCombi.getText().toString().contains(temp)){
                     if(theCombi.getText().toString().equals("")) {
