@@ -1,5 +1,6 @@
 package com.naien.workout;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +38,7 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
     FloatingActionButton exit ;
     Button applyEx ;
     EditText user_newexname;
-    EditText user_newexhead;
+    TextView user_newexhead;
     ExpListAdapter adapter;
 
     ListView listview_head;
@@ -65,7 +67,7 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
         eximage = (ImageView) view.findViewById(R.id.eximage_new);
 
         user_newexname = (EditText) view.findViewById(R.id.edit_new_ex_name);
-        user_newexhead = (EditText) view.findViewById(R.id.edit_new_ex_head);
+        user_newexhead = (TextView) view.findViewById(R.id.edit_new_ex_head);
 
         listview_head = (ListView) view.findViewById(R.id.listview_head_exercises);
         heads = new ArrayList<>();
@@ -123,6 +125,7 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 user_newexhead.setText(heads.get(position));
+
                 listview_head.setVisibility(View.GONE);
                 visible = false;
             }

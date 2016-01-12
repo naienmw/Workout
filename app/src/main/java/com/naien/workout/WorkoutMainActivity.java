@@ -74,7 +74,8 @@ public class WorkoutMainActivity extends Activity{
         if (Build.VERSION.SDK_INT < 21){
             pretty_Animation = false;
         }else{
-            pretty_Animation = true;}
+            pretty_Animation = true;
+        }
 
     }
 

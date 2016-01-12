@@ -54,9 +54,17 @@ public class MyBlurFragment extends Fragment {
 
     Animation faboben;
 
+    Boolean pretty_Animation;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
+
+        if (Build.VERSION.SDK_INT < 21){
+            pretty_Animation = false;
+        }else{
+            pretty_Animation = true;
+        }
+
         image = (ImageView) view.findViewById(R.id.picture);
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
 
@@ -92,13 +100,21 @@ public class MyBlurFragment extends Fragment {
             public void onClick(View v) {
                 if (!toolbarisshown){
                     faboben.startAnimationopen();
-                enterReveal(R.id.myToolbar);
+                    if(pretty_Animation) {
+                        enterReveal(R.id.myToolbar);
+                    }else{
+                        getView().findViewById(R.id.myToolbar).setVisibility(View.VISIBLE);
+                    }
                 toolbarisshown = true;
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
                     myFAB.setImageResource(R.drawable.barbell_accent);
 
                 }else{
-                    exitReveal(R.id.myToolbar);
+                    if(pretty_Animation) {
+                        exitReveal(R.id.myToolbar);
+                    }else{
+                        getView().findViewById(R.id.myToolbar).setVisibility(View.INVISIBLE);
+                    }
                     toolbarisshown = false;
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     faboben.startAnimationclose();
@@ -182,7 +198,11 @@ public class MyBlurFragment extends Fragment {
             public void onClick(View v) {
                 MyBlurFragment fragment = (MyBlurFragment) getFragmentManager().findFragmentById(R.id.fragmentid);
                 if (fragment != null && toolbarisshown) {
-                    fragment.exitReveal(R.id.myToolbar);
+                    if(pretty_Animation) {
+                        fragment.exitReveal(R.id.myToolbar);
+                    }else{
+                        getView().findViewById(R.id.myToolbar).setVisibility(View.INVISIBLE);
+                    }
                     toolbarisshown = false;
                     //fragment.enterReveal(R.id.fabAddWorkout);
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));

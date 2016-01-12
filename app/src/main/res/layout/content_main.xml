@@ -30,15 +30,17 @@
         />
     <TextView
         android:id="@+id/CurrentWorkoutMain"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Go to the Gym allready!"
         android:layout_below="@+id/picture"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:textStyle="bold|italic"
-
+        android:background="@android:drawable/list_selector_background"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
         />
 
 
