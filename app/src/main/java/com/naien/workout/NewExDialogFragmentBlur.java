@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
@@ -35,6 +39,10 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
     EditText user_newexhead;
     ExpListAdapter adapter;
 
+    ListView listview_head;
+    ArrayList<String> heads;
+    Boolean visible;
+
 
     ImageView eximage;
     Dialog dialog;
@@ -48,6 +56,7 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_new, null);
 
+
         final Drawable d = new ColorDrawable(Color.BLACK);
         d.setAlpha(0);
 
@@ -57,6 +66,20 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
 
         user_newexname = (EditText) view.findViewById(R.id.edit_new_ex_name);
         user_newexhead = (EditText) view.findViewById(R.id.edit_new_ex_head);
+
+        listview_head = (ListView) view.findViewById(R.id.listview_head_exercises);
+        heads = new ArrayList<>();
+        heads.add("Brust");
+        heads.add("Schultern");
+        heads.add("Rücken");
+        heads.add("Arme");
+        heads.add("Beine");
+
+        listview_head.setVisibility(View.GONE);
+        visible = false;
+
+        my_adapter_sets_arraylist the_Adapter = new my_adapter_sets_arraylist(getActivity(),heads);
+        listview_head.setAdapter(the_Adapter);
 
         exit = (FloatingActionButton)view.findViewById(R.id.edit_ex_exit_button);
 
@@ -75,9 +98,35 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
 
         dialog.getWindow().setGravity(Gravity.CENTER);
     }
+
+
+
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+
+
+        user_newexhead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!visible) {
+                    listview_head.setVisibility(View.VISIBLE);
+                    visible = true;
+                }else{
+                    listview_head.setVisibility(View.GONE);
+                    visible = false;
+                }
+            }
+        });
+
+        listview_head.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                user_newexhead.setText(heads.get(position));
+                listview_head.setVisibility(View.GONE);
+                visible = false;
+            }
+        });
 
 
         mydbex = new DBHelper_Ex(getActivity());
@@ -85,7 +134,7 @@ public class NewExDialogFragmentBlur extends BlurDialogFragment {
         //Bitmap bmp = mydbex.getExerciseImage(exercise_head, exercise_name);
         //eximage.setImageBitmap(bmp);
 
-        eximage.setClipToOutline(true);
+        //eximage.setClipToOutline(true);
 
         exit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

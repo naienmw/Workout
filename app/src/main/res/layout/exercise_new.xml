@@ -67,7 +67,7 @@
             android:text="Apply"
             android:padding="10dp"
             android:layout_margin="0dp"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:id="@+id/apply_new_ex_button"
             />
 
@@ -75,7 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:id="@+id/linlayout_temp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,10 +96,21 @@
                     android:layout_gravity="bottom"
                     android:id="@+id/edit_new_ex_head"
                     android:hint="Brust/Rücken/..."
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:editable="false"/>
             </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
+        <ListView
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:id="@+id/listview_head_exercises"
+            android:visibility="visible"
+            android:layout_below="@id/linlayoutnumbers"
+            android:layout_marginLeft="130dp">
+        </ListView>
+
 
     </RelativeLayout>
 

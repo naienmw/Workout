@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -66,9 +67,14 @@ public class WorkoutMainActivity extends Activity{
     ExpListAdapter explistadapter;
 
     Boolean editex = false;
+    Boolean pretty_Animation;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT < 21){
+            pretty_Animation = false;
+        }else{
+            pretty_Animation = true;}
 
     }
 
@@ -187,7 +193,11 @@ public class WorkoutMainActivity extends Activity{
                  theAdapter.remove(Ex);
                  theAdapter.setNotifyOnChange(true);
                  if(toolbarisshown) {
-                     exitReveal(R.id.rellayout_exchoice,R.id.ExNewButton);
+                     if(pretty_Animation) {
+                         exitReveal(R.id.rellayout_exchoice, R.id.ExNewButton);
+                     }else{
+                         findViewById(R.id.rellayout_exchoice).setVisibility(View.INVISIBLE);
+                     }
 
                      faboben.startAnimationclose();
                      NewEx.setImageResource(R.drawable.addnewcross);
@@ -242,8 +252,12 @@ public class WorkoutMainActivity extends Activity{
         if (!toolbarisshown){
             faboben.startAnimationopen();
             NewEx.setImageResource(R.drawable.barbell);
+            if(pretty_Animation) {
+                enterReveal(R.id.rellayout_exchoice, R.id.ExNewButton);
+            }else{
+                findViewById(R.id.rellayout_exchoice).setVisibility(View.VISIBLE);
+            }
 
-            enterReveal(R.id.rellayout_exchoice,R.id.ExNewButton);
             toolbarisshown = true;
 
             FABNewEx.setVisibility(View.VISIBLE);
@@ -255,7 +269,11 @@ public class WorkoutMainActivity extends Activity{
 
 
         }else{
-            exitReveal(R.id.rellayout_exchoice,R.id.ExNewButton);
+            if(pretty_Animation) {
+                exitReveal(R.id.rellayout_exchoice, R.id.ExNewButton);
+            }else{
+                findViewById(R.id.rellayout_exchoice).setVisibility(View.INVISIBLE);
+            }
             toolbarisshown = false;
             //NewEx.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
             faboben.startAnimationclose();
@@ -333,6 +351,7 @@ public class WorkoutMainActivity extends Activity{
         initialRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
 
         // create the animation (the final radius is zero)
+
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(myView, cx, cy, initialRadius, 0);
 
