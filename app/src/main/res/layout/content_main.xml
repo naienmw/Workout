@@ -38,7 +38,7 @@
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:textStyle="bold|italic"
-        android:background="@android:drawable/list_selector_background"
+        android:background="@drawable/textview_selector_backgroun"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
         />
@@ -68,31 +68,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:gravity="left"
-
-    >
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/showall"
+    android:gravity="left">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginRight="85dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show All"
             android:id="@+id/ButtonShowAll"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:background="@drawable/textview_selector_backgroun"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@color/colorWhite"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold"
             />
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/addnew"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New"
             android:id="@+id/ButtonNewWo"
-            android:scaleType="fitCenter"
-            android:background="@android:color/transparent"
-            android:layout_toRightOf="@+id/ButtonShowAll"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="50dp"
+            android:layout_weight="1"
+
+            android:background="@drawable/textview_selector_backgroun"
+
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textStyle="bold"
             />
+    </LinearLayout>
 
 </RelativeLayout>
 

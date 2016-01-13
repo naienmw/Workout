@@ -33,6 +33,7 @@
     <color name="primary_dark">#F57C00</color>
     <color name="primary_light">#FFE0B2</color>
     <color name="accent">#f44336</color>
+    <color name="textview_background">#a5d1d1d1</color>
 
     <color name="FABNewEx">#64dd17</color>
     <color name="FABEditEx">#ffea00</color>

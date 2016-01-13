@@ -45,8 +45,8 @@ public class MyBlurFragment extends Fragment {
     //TextView infotext;
     //ImageView arrow;
     TextView currentWorkout;
-    ImageButton showAll;
-    ImageButton newWo;
+    TextView showAll;
+    TextView newWo;
     RelativeLayout rellayout;
 
     Boolean toolbarisshown = false;
@@ -79,8 +79,8 @@ public class MyBlurFragment extends Fragment {
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
-        showAll = (ImageButton) view.findViewById(R.id.ButtonShowAll);
-        newWo = (ImageButton) view.findViewById(R.id.ButtonNewWo);
+        showAll = (TextView) view.findViewById(R.id.ButtonShowAll);
+        newWo = (TextView) view.findViewById(R.id.ButtonNewWo);
 
         faboben = new Animation(getActivity(),myFAB);
 
@@ -129,7 +129,7 @@ public class MyBlurFragment extends Fragment {
         if(mydb.doesTableExist(mydb.getdb(), date_db)) {
             //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
             //myFAB.setImageResource(R.drawable.addnewexisting);
-            newWo.setImageResource(R.drawable.edittoday);
+            newWo.setText("Edit Current");
             newWo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
