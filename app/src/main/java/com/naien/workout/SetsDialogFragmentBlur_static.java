@@ -4,6 +4,9 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
@@ -33,6 +36,8 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
     FloatingActionButton exit ;
     Integer ExNum;
 
+    Dialog dialog;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +60,19 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
         builder.setView(view);
 
 
+
+        final Drawable d = new ColorDrawable(Color.BLACK);
+        d.setAlpha(0);
+
+
         ex = (TextView) view.findViewById(R.id.workout_name_in_ex_static);
         sets = (ListView) view.findViewById(R.id.listview_sets_static);
         exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button_static);
 
-        return builder.create();
+        dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(d);
+
+        return dialog;
     }
 
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -94,8 +107,9 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
     public void onResume(){
         super.onResume();
-        Window window = getDialog().getWindow();
-        window.setLayout(650, AbsListView.LayoutParams.WRAP_CONTENT);
+        //Window window = getDialog().getWindow();
+        //window.setLayout(650, AbsListView.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setGravity(Gravity.CENTER);
     }
 
 

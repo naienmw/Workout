@@ -1,14 +1,39 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="360dp"
+        android:layout_height="500dp"
+        android:layout_gravity="center"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/sets_exit_button_static"
+            android:layout_width="@dimen/fabsize"
+            android:layout_height="@dimen/fabsize"
+            android:src="@drawable/closecross"
+            android:layout_alignRight="@+id/linlayout_ex_static"
+            android:layout_alignTop="@+id/linlayout_ex_static"
+            android:layout_marginRight="@dimen/fabsize_half_negative"
+            android:layout_marginTop="@dimen/fabsize_half_negative"
+            />
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:layout_centerInParent="true"
+    android:background="@color/colorWhite"
+    android:id="@+id/linlayout_ex_static"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,37 +43,21 @@
             android:id="@+id/workout_name_in_ex_static"
             android:textStyle="bold"
             android:layout_weight="1"
-            android:gravity="center_horizontal"/>
+            android:gravity="center"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/sets_exit_button_static"
-            android:layout_width="@dimen/fabsize"
-            android:layout_height="@dimen/fabsize"
-            android:src="@drawable/closecross"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="18dp"
-            />
-    </LinearLayout>
-
-<LinearLayout
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_margin="@dimen/multiRowMargin"
-    android:layout_gravity="center"
-    >
     <ListView
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="0dp"
         android:id="@+id/listview_sets_static"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:layout_weight="50">
+        android:layout_weight="10"
+        android:layout_gravity="center">
     </ListView>
-</LinearLayout>
-
-
-
 
 </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
 

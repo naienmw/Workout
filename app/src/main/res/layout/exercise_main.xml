@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:id="@+id/user_weight_input"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:gravity="center"/>
             </LinearLayout>
         </LinearLayout>

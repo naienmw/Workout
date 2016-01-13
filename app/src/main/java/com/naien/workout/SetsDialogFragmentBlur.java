@@ -122,7 +122,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         eximage.setImageBitmap(bmp);
 
 
-        eximage.setClipToOutline(true);
+        //eximage.setClipToOutline(true);
 
         allSets = mydb.getAllSets_index(the_date,ExNum);
 
