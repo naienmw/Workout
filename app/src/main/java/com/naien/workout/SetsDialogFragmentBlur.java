@@ -10,13 +10,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.text.InputType;
 import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -26,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,8 +64,10 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     ImageView eximage;
     Dialog dialog;
 
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
     }
 
     public void setStuff(String Exhead,String Exname,String date,Integer num){
@@ -71,13 +77,29 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         ExNum = num;
     }
 
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.exercise_main, container, false);
+        ex = (TextView) view.findViewById(R.id.workout_name_in_ex);
+        sets = (ListView) view.findViewById(R.id.listview_sets);
+        sets_old_1 = (ListView) view.findViewById(R.id.listview_sets_old_1);
+        sets_old_2 = (ListView) view.findViewById(R.id.listview_sets_old_2);
+        eximage = (ImageView) view.findViewById(R.id.eximage);
 
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_main, null);
+        exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button);
 
-        final Drawable d = new ColorDrawable(Color.BLACK);
-        d.setAlpha(0);
+        addSet =(Button) view.findViewById(R.id.add_set_button);
+        user_input_reps = (EditText) view.findViewById(R.id.user_reps_input);
+        user_input_weight = (EditText) view.findViewById(R.id.user_weight_input);
+        return view;
+    }
+
+
+   /* public Dialog onCreateDialog(Bundle savedInstanceState) {
+        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_main, null);
+
+        //final Drawable d = new ColorDrawable(Color.BLACK);
+        //d.setAlpha(0);
 
 
         ex = (TextView) view.findViewById(R.id.workout_name_in_ex);
@@ -94,17 +116,41 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
 
         builder.setView(view);
 
+        // creating the fullscreen dialog
+
+
         dialog = builder.create();
 
-        dialog.getWindow().setBackgroundDrawable(d);
+
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        //dialog.getWindow().setGravity(Gravity.CENTER);
+
+        //setStyle(DialogFragment.STYLE_NORMAL, R.style.TransparentDialog);
+
+
+
+        //dialog.getWindow().setBackgroundDrawable(d);
 
 
         return dialog;
-    }
+    }*/
+
     public void onResume(){
+
         super.onResume();
 
-        dialog.getWindow().setGravity(Gravity.CENTER);
+
+    }
+
+    public void onStart(){
+        super.onStart();
+        Dialog d = getDialog();
+        if (d!=null){
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            d.getWindow().setLayout(width, height);
+        }
     }
     public void onActivityCreated(Bundle savedInstanceState) {
 
@@ -241,21 +287,21 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         return true;
     }
 
-    @Override
+    //@Override
     protected boolean isDimmingEnable() {
         // Enable or disable the dimming effect.
         // Disabled by default.
         return true;
     }
 
-    @Override
+    //@Override
     protected boolean isRenderScriptEnable() {
         // Enable or disable the use of RenderScript for blurring effect
         // Disabled by default.
         return false;
     }
 
-    @Override
+    //@Override
     protected boolean isDebugEnable() {
         // Enable or disable debug mode.
         // False by default.

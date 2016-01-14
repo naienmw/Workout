@@ -4,12 +4,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
@@ -35,10 +37,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
+//import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
 
-public class WorkoutMainActivity extends Activity{
+public class WorkoutMainActivity extends AppCompatActivity {
 
     DBHelper mydb;
     DBHelper_Ex mydb_ex;
@@ -221,6 +223,7 @@ public class WorkoutMainActivity extends Activity{
                 String exercise_head = getHeadfromHMvalue(mydb_ex.getExHM(), exercise_name);
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
+                //FragmentTransaction ft = getFragmentManager().beginTransaction();
                 SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
                 setsDialog.setStuff(exercise_head,exercise_name, the_date, ExIndex.get(position));
                 setsDialog.show(getFragmentManager(),"Diag");
@@ -410,8 +413,8 @@ public class WorkoutMainActivity extends Activity{
             setsDialog.setStuff(exhead,exname);
             setsDialog.show(getFragmentManager(), "Diag");
             editex = false;
-            toolbarisshown = false;
-            NewEx.setImageResource(R.drawable.addnewcross);
+            //toolbarisshown = false;
+            //NewEx.setImageResource(R.drawable.addnewcross);
         }
     }
 

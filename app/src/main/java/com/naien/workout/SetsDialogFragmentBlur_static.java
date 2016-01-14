@@ -10,11 +10,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,6 +44,7 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
     }
 
 
@@ -52,8 +56,16 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
     }
 
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.exercise_main_static, container, false);
+        ex = (TextView) view.findViewById(R.id.workout_name_in_ex_static);
+        sets = (ListView) view.findViewById(R.id.listview_sets_static);
+        exit = (FloatingActionButton) view.findViewById(R.id.sets_exit_button_static);
+        return view;
+    }
 
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+    /*public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_main_static, null);
 
@@ -73,7 +85,7 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
         dialog.getWindow().setBackgroundDrawable(d);
 
         return dialog;
-    }
+    }*/
 
     public void onActivityCreated(Bundle savedInstanceState) {
 
@@ -105,11 +117,21 @@ public class SetsDialogFragmentBlur_static extends BlurDialogFragment {
 
     }
 
+    public void onStart(){
+        super.onStart();
+        Dialog d = getDialog();
+        if (d!=null){
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            d.getWindow().setLayout(width, height);
+        }
+    }
+
     public void onResume(){
         super.onResume();
         //Window window = getDialog().getWindow();
         //window.setLayout(650, AbsListView.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setGravity(Gravity.CENTER);
+        //dialog.getWindow().setGravity(Gravity.CENTER);
     }
 
 

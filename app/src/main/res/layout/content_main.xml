@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to the Gym allready!"
+        android:text="Go to the Gym already!"
         android:layout_below="@+id/picture"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
@@ -43,18 +43,6 @@
         android:paddingLeft="10dp"
         />
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabAddWorkout"
-            android:layout_width="@dimen/fabsize"
-            android:layout_height="@dimen/fabsize"
-            android:src="@drawable/barbell"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:layout_alignBottom="@+id/picture"
-            android:layout_marginBottom="-28dp"
-            android:scaleType="centerCrop"
-            />
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -123,6 +111,18 @@
     android:layout_marginRight="-2dp"
     android:layout_marginLeft="-2dp">
 </ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAddWorkout"
+        android:layout_width="@dimen/fabsize"
+        android:layout_height="@dimen/fabsize"
+        android:src="@drawable/barbell"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignBottom="@+id/picture"
+        android:layout_marginBottom="-28dp"
+        android:scaleType="centerCrop"
+        />
 
 
 </RelativeLayout>

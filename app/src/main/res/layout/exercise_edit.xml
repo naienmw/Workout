@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    >
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="360dp"
-    android:layout_height="500dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@android:color/transparent"
     >
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/edit_ex_exit_button"
-        android:layout_width="@dimen/fabsize"
-        android:layout_height="@dimen/fabsize"
-        android:src="@drawable/closecross"
-        android:layout_toRightOf="@+id/mainrellayout"
-        android:layout_marginLeft="-28dp"
-        android:layout_alignTop="@+id/mainrellayout"
-        android:layout_marginTop="-28dp"
-        />
+
 
     <RelativeLayout
         android:layout_width="280dp"
@@ -46,6 +34,7 @@
             android:textStyle="bold"
             android:layout_marginLeft="40dp"
             android:gravity="center"
+            android:textColor="@color/primary_text"
             />
 
     </LinearLayout>
@@ -94,6 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:id="@+id/user_new_ex_head"
+                    android:textColor="@color/secondary_text"
 
                     android:gravity="center" />
             </LinearLayout>
@@ -101,6 +91,17 @@
     </LinearLayout>
 
     </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/edit_ex_exit_button"
+        android:layout_width="@dimen/fabsize"
+        android:layout_height="@dimen/fabsize"
+        android:src="@drawable/closecross"
+        android:layout_toRightOf="@+id/mainrellayout"
+        android:layout_marginLeft="-28dp"
+        android:layout_alignTop="@+id/mainrellayout"
+        android:layout_marginTop="-28dp"
+        />
 
     <ImageView
         android:layout_width="100dp"
@@ -116,4 +117,4 @@
 
 </RelativeLayout>
 
-</FrameLayout>
+

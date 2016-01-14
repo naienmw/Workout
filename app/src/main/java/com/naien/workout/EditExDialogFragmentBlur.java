@@ -2,6 +2,7 @@ package com.naien.workout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,7 +11,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +50,7 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
     }
 
     public void setStuff(String Exhead, String Exname){
@@ -54,7 +58,24 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
         exercise_head = Exhead;
     }
 
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.exercise_edit, container, false);
+
+        ex = (TextView) view.findViewById(R.id.edit_name_in_ex);
+
+        eximage = (ImageView) view.findViewById(R.id.eximage_edit);
+
+        user_newexname = (EditText) view.findViewById(R.id.user_new_ex_name);
+        user_newexhead = (EditText) view.findViewById(R.id.user_new_ex_head);
+
+        exit = (FloatingActionButton)view.findViewById(R.id.edit_ex_exit_button);
+
+        applyEx = (Button)view.findViewById(R.id.apply_ex_button);
+
+        return view;
+    }
+
+   /* public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.exercise_edit, null);
 
@@ -79,11 +100,11 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
         dialog.getWindow().setBackgroundDrawable(d);
 
         return dialog;
-    }
+    }*/
     public void onResume(){
         super.onResume();
 
-        dialog.getWindow().setGravity(Gravity.CENTER);
+        //dialog.getWindow().setGravity(Gravity.CENTER);
     }
     public void onActivityCreated(Bundle savedInstanceState) {
 
@@ -101,7 +122,7 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
         Bitmap bmp = mydbex.getExerciseImage(exercise_head, exercise_name);
         eximage.setImageBitmap(bmp);
 
-        eximage.setClipToOutline(true);
+        //eximage.setClipToOutline(true);
 
         exit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

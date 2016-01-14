@@ -3,6 +3,7 @@ package com.naien.workout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -17,7 +18,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 
-public class WorkoutMainStaticActivity extends Activity{
+public class WorkoutMainStaticActivity extends AppCompatActivity{
 
     DBHelper mydb;
 

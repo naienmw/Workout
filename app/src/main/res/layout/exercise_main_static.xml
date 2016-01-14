@@ -1,25 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="360dp"
-        android:layout_height="500dp"
-        android:layout_gravity="center"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/mainrellayout_exstatic"
         >
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/sets_exit_button_static"
-            android:layout_width="@dimen/fabsize"
-            android:layout_height="@dimen/fabsize"
-            android:src="@drawable/closecross"
-            android:layout_alignRight="@+id/linlayout_ex_static"
-            android:layout_alignTop="@+id/linlayout_ex_static"
-            android:layout_marginRight="@dimen/fabsize_half_negative"
-            android:layout_marginTop="@dimen/fabsize_half_negative"
-            />
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -43,7 +36,8 @@
             android:id="@+id/workout_name_in_ex_static"
             android:textStyle="bold"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="@color/primary_text"/>
 
     <ListView
         android:layout_width="150dp"
@@ -59,5 +53,17 @@
 
     </RelativeLayout>
 
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sets_exit_button_static"
+        android:layout_width="@dimen/fabsize"
+        android:layout_height="@dimen/fabsize"
+        android:src="@drawable/closecross"
+        android:layout_alignRight="@+id/mainrellayout_exstatic"
+        android:layout_alignTop="@+id/mainrellayout_exstatic"
+        android:layout_marginRight="@dimen/fabsize_half_negative"
+        android:layout_marginTop="@dimen/fabsize_half_negative"
+        />
+
+
+</RelativeLayout>
 
