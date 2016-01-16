@@ -14,7 +14,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:background="@color/primary"
-    android:textColor="@color/primary_text"/>
+    android:textColor="@color/primary_text_light"/>
     <ImageView
         android:layout_below="@+id/workout_name_static"
         android:id="@+id/picture_exercise_static"

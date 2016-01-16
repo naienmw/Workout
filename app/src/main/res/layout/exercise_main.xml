@@ -9,15 +9,15 @@
             android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@color/colorWhite"
-            android:id="@+id/mainrellayout">
+            android:background="@drawable/border_coloraccent_bold"
+            android:id="@+id/mainrellayout"
+            >
             <LinearLayout
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:orientation="horizontal"
                 android:id="@+id/linlayouttop"
                 android:layout_centerHorizontal="true"
-                android:background="@color/colorWhite"
                 android:gravity="center"
                 >
                 <TextView

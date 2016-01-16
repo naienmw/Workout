@@ -18,7 +18,7 @@
         android:background="@color/primary"
         android:gravity="center"
         android:textSize="20sp"
-        android:textColor="@color/primary_text"/>
+        android:textColor="@color/primary_text_light"/>
 
     <ImageView
         android:layout_below="@+id/overheadtext"

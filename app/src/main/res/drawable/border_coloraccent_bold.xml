@@ -4,5 +4,5 @@
     <!-- <solid android:color="#00000000" /> -->
     <!-- use this for a background colour -->
     <solid android:color="@color/background" />
-    <stroke android:width="3dp" android:color="@color/accent" />
+    <stroke android:width="2dp" android:color="@color/accent" />
 </shape>
