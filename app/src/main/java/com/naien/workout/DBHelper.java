@@ -316,6 +316,30 @@ public class DBHelper extends SQLiteOpenHelper {
         return allWorkouts;
     }
 
+    public ArrayList<ArrayList<String>> getAllWorkouts_Arraylist_db(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);
+        ArrayList<ArrayList<String>> allWorkouts = new ArrayList<ArrayList<String>>();
+
+
+        c.moveToFirst();
+        while (!c.isAfterLast() ) {
+            Integer index = c.getColumnIndex("name");
+            String date = c.getString(index);
+            ArrayList<String> oneWorkout = new ArrayList<>();
+
+            oneWorkout.add(getWoName(date));
+            oneWorkout.add(date);
+            allWorkouts.add(oneWorkout);
+            c.moveToNext();
+        }
+        c.close();
+
+        return allWorkouts;
+    }
+
+
+
 
     public SQLiteDatabase getdb(){
         SQLiteDatabase db = this.getWritableDatabase();

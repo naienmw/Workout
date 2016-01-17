@@ -1,10 +1,13 @@
 package com.naien.workout;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -12,7 +15,9 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -24,13 +29,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 
 public class MyBlurFragment extends Fragment {
+
 
     private ImageView image;
     public FastBlur blur = new FastBlur();
@@ -66,12 +75,12 @@ public class MyBlurFragment extends Fragment {
         }
 
         image = (ImageView) view.findViewById(R.id.picture);
-        currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
+        //currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
 
         setsinmain = (ListView) view.findViewById(R.id.ListviewcurrentSetsinMain);
 
         mydb = new DBHelper(getActivity());
-        //dbex = new DBHelper_Ex(getActivity());
+        dbex = new DBHelper_Ex(getActivity());
         //dbex.create_all();
         //////////////////EXERCISES TO DATABASE//////////////////////////////
         //saveExercises();
@@ -92,7 +101,6 @@ public class MyBlurFragment extends Fragment {
         int month = c.get(Calendar.MONTH) +1;
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
-
 
 
         myFAB.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +134,7 @@ public class MyBlurFragment extends Fragment {
         });
 
 
-        if(mydb.doesTableExist(mydb.getdb(), date_db)) {
+        /*if(mydb.doesTableExist(mydb.getdb(), date_db)) {
             //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
             //myFAB.setImageResource(R.drawable.addnewexisting);
             newWo.setText("Edit Current");
@@ -160,12 +168,17 @@ public class MyBlurFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
+                    XML_Saver_Class save_db_user = new XML_Saver_Class(mydb.getdb());
+                    //XML_Saver_Class save_db_ex = new XML_Saver_Class(dbex.getdb());
+
                     Intent normalWO = new Intent(getActivity(), WorkoutMainActivity.class);
 
                     normalWO.putExtra("date", date_db);
                     normalWO.putExtra("workout_name", mydb.getWoName(date_db));
 
-                    startActivity(normalWO);
+                    //save_db_user.backup();
+
+                    //startActivity(normalWO);
 
                 }
             });
@@ -181,7 +194,7 @@ public class MyBlurFragment extends Fragment {
 
                 }
             });
-        }
+        }*/
 
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,12 +222,12 @@ public class MyBlurFragment extends Fragment {
                     faboben.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
 
-
-
                 } else {
                 }
             }
         });
+
+
 
         //applyBlur();
         return view;
@@ -235,9 +248,10 @@ public class MyBlurFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-        if(mydb.doesTableExist(mydb.getdb(), date_db)) {
+        if (mydb.doesTableExist(mydb.getdb(), date_db)) {
             //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
             //myFAB.setImageResource(R.drawable.addnewexisting);
+            newWo.setText("Edit Current");
             newWo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -249,8 +263,15 @@ public class MyBlurFragment extends Fragment {
 
                 }
             });
-            //infotext.setText("Edit today's Workout");
-            //arrow.setImageResource(R.drawable.arrow_edit);
+
+            ArrayList<String> theExs;
+
+            theExs = mydb.getAllExercises_Arraylist(date_db);
+
+            my_adapter_sets_arraylist theAdapter = new my_adapter_sets_arraylist(getActivity(), theExs);
+
+            setsinmain.setAdapter(theAdapter);
+
 
             String[] parts = date_db.substring(1).split("_");
             String date = parts[0] + "." + parts[1] + "." + parts[2];
@@ -261,25 +282,41 @@ public class MyBlurFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
+                    XML_Saver_Class save_db_user = new XML_Saver_Class(mydb.getdb(),getActivity());
+                    //XML_Saver_Class save_db_ex = new XML_Saver_Class(dbex.getdb());
+
                     Intent normalWO = new Intent(getActivity(), WorkoutMainActivity.class);
 
                     normalWO.putExtra("date", date_db);
                     normalWO.putExtra("workout_name", mydb.getWoName(date_db));
+                    Toast.makeText(getActivity(), Environment.getExternalStorageState().toString(),Toast.LENGTH_SHORT).show();
+
+                    try{
+                    save_db_user.backup();}
+                    catch (Exception e){
+                        Toast.makeText(getActivity(), "failed", Toast.LENGTH_SHORT).show();
+                    }
 
                     startActivity(normalWO);
 
                 }
             });
+        } else {
+            newWo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            ArrayList<String> theExs;
 
-            theExs = mydb.getAllExercises_Arraylist(date_db);
+                    Intent test = new Intent(getActivity(), NewWorkoutActivity.class);
+                    test.putExtra("date", date_db);
+                    startActivity(test);
 
-            my_adapter_sets_arraylist theAdapter = new my_adapter_sets_arraylist(getActivity(),theExs);
-
-            setsinmain.setAdapter(theAdapter);
+                }
+            });
         }
     }
+
+
 
 
     void enterReveal(int id) {
