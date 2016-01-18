@@ -134,6 +134,8 @@ public class XML_Saver_Class_Exercises
     public void restore() throws Exception
     {
 
+        verifyStoragePermissions(myactivity);
+
         File localFile = new File(BACKUP_PATH + "/your_Exercises.xml");
         Document localDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(localFile);
         localDocument.getDocumentElement().normalize();
@@ -148,6 +150,15 @@ public class XML_Saver_Class_Exercises
 
                 Element localElement = (Element)localNode;
                 Log.d("TABLE",  localElement.getAttribute("name"));
+
+
+                String deleteifnotex = "drop table if exists " + localElement.getAttribute("name") + " ";
+
+                this.connection.execSQL(deleteifnotex);
+
+                String createifnotex = "create table if not exists " + localElement.getAttribute("name") + " " + "(id integer primary key, name text) ";
+
+                this.connection.execSQL(createifnotex);
 
                 this.connection.execSQL("DELETE FROM " + localElement.getAttribute("name"));
 

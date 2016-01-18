@@ -140,6 +140,8 @@ public class XML_Saver_Class
     public void restore() throws Exception
     {
 
+        verifyStoragePermissions(myactivity);
+
         File localFile = new File(BACKUP_PATH + "/your_Sets.xml");
         Document localDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(localFile);
         localDocument.getDocumentElement().normalize();
@@ -154,6 +156,10 @@ public class XML_Saver_Class
 
                 Element localElement = (Element)localNode;
                 Log.d("TABLE",  localElement.getAttribute("name"));
+
+                String deleteifnotex = "drop table if exists " + localElement.getAttribute("name") + " ";
+
+                this.connection.execSQL(deleteifnotex);
 
                 String createifnotex = "create table if not exists " + localElement.getAttribute("name") + " " +
                         "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text,set8 text,set9 text,set10 text,set11 text,set12 text,set13 text)";
