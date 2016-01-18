@@ -119,8 +119,8 @@ public class EditExDialogFragmentBlur extends BlurDialogFragment {
 
         mydbex = new DBHelper_Ex(getActivity());
 
-        Bitmap bmp = mydbex.getExerciseImage(exercise_head, exercise_name);
-        eximage.setImageBitmap(bmp);
+        //Bitmap bmp = mydbex.getExerciseImage(exercise_head, exercise_name);
+        //eximage.setImageBitmap(bmp);
 
         //eximage.setClipToOutline(true);
 

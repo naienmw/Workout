@@ -1,11 +1,22 @@
 package com.naien.workout;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+import android.widget.Toast;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,22 +28,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
-import android.widget.Toast;
-
-public class XML_Saver_Class
+public class XML_Saver_Class_Exercises
 {
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -44,7 +40,6 @@ public class XML_Saver_Class
     //Sql Verbindung
     private SQLiteDatabase connection;
     private Activity myactivity;
-    private DBHelper mydb;
     private DBHelper_Ex mydb_ex;
 
     //Backup Pfad - entsprechend anpassen
@@ -54,11 +49,10 @@ public class XML_Saver_Class
      * Konstruktor
      * @param paramSQLiteDatabase
      */
-    public XML_Saver_Class(SQLiteDatabase paramSQLiteDatabase, Activity activity)
+    public XML_Saver_Class_Exercises(SQLiteDatabase paramSQLiteDatabase, Activity activity)
     {
         this.connection = paramSQLiteDatabase;
         this.myactivity = activity;
-        mydb = new DBHelper(activity);
         mydb_ex =  new DBHelper_Ex(activity);
     }
 
@@ -89,7 +83,7 @@ public class XML_Saver_Class
 
 
         //Hier alle Tabellen auflisten die gesichert werden sollen
-        String[] tables = getWorkouts();
+        String[] tables = {"Arme","Beine","Brust","Rücken","Schultern"};
 
         Document localDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         Element localElement1 = localDocument.createElement("backup");
@@ -107,7 +101,7 @@ public class XML_Saver_Class
                 String[] arrayOfString = localCursor.getColumnNames();
                 Element localElement2 = localDocument.createElement("item");
                 localElement55.appendChild(localElement2);
-                for (int i = 0; i < arrayOfString.length; i++)
+                for (int i = 0; i < 2;i++)//arrayOfString.length; i++)
                 {
                     Element localElement3 = localDocument.createElement(arrayOfString[i]);
 
@@ -128,9 +122,9 @@ public class XML_Saver_Class
             } // ende while
         } //ende for tables
 
-        TransformerFactory.newInstance().newTransformer().transform(new DOMSource(localDocument), new StreamResult(new File(BACKUP_PATH + "/your_Sets.xml")));
+        TransformerFactory.newInstance().newTransformer().transform(new DOMSource(localDocument), new StreamResult(new File(BACKUP_PATH+ "/your_Exercises.xml")));
         Log.d("BACKUP", "FINISHED to " + BACKUP_PATH);
-        Toast.makeText(myactivity,"Sets Backup successfull to "+ BACKUP_PATH+ " !",Toast.LENGTH_LONG).show();
+        Toast.makeText(myactivity,"Exercise Backup successfull to "+BACKUP_PATH+" !",Toast.LENGTH_LONG).show();
         return false;
     }
 
@@ -140,7 +134,7 @@ public class XML_Saver_Class
     public void restore() throws Exception
     {
 
-        File localFile = new File(BACKUP_PATH + "/your_Sets.xml");
+        File localFile = new File(BACKUP_PATH + "/your_Exercises.xml");
         Document localDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(localFile);
         localDocument.getDocumentElement().normalize();
         NodeList localNodeList = localDocument.getElementsByTagName("table");
@@ -154,11 +148,6 @@ public class XML_Saver_Class
 
                 Element localElement = (Element)localNode;
                 Log.d("TABLE",  localElement.getAttribute("name"));
-
-                String createifnotex = "create table if not exists " + localElement.getAttribute("name") + " " +
-                        "(id integer primary key, name text,set1 text,set2 text, set3 text,set4 text,set5 text,set6 text,set7 text,set8 text,set9 text,set10 text,set11 text,set12 text,set13 text)";
-
-                this.connection.execSQL(createifnotex);
 
                 this.connection.execSQL("DELETE FROM " + localElement.getAttribute("name"));
 
@@ -180,8 +169,6 @@ public class XML_Saver_Class
                         aSpalten.add(node.getNodeName());
                         aWerte.add(node.getTextContent());
                     }
-
-
 
                     String sql ="INSERT INTO " +localElement.getAttribute("name") + "(";
 
@@ -228,17 +215,5 @@ public class XML_Saver_Class
         }
     }
 
-    public String[] getWorkouts(){
-
-        ArrayList<ArrayList<String>> wo = mydb.getAllWorkouts_Arraylist();
-
-        String[] workouts = new String[wo.size()];
-        for(int i = 0 ; i < workouts.length;i++){
-            workouts[i] = wo.get(i).get(1);
-        }
-
-        return workouts;
-
-    }
 
 }

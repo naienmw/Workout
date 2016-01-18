@@ -73,6 +73,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
     Boolean editex = false;
     Boolean pretty_Animation;
     XML_Saver_Class save_db_user;
+    XML_Saver_Class_Exercises save_db_ex;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +97,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
         //XML_Saver_Class save_db_user = new XML_Saver_Class(mydb.getdb(),this);
         save_db_user = new XML_Saver_Class(mydb.getdb(),this);
+        save_db_ex = new XML_Saver_Class_Exercises(mydb_ex.getdb(),this);
 
 
         Intent i = getIntent();
@@ -195,8 +197,17 @@ public class WorkoutMainActivity extends AppCompatActivity {
              public void onClick(View v) {
                  try{
                      save_db_user.backup();}
+                     //save_db_user.restore();}
+
                  catch (Exception e){
-                     Toast.makeText(WorkoutMainActivity.this, "didnt save", Toast.LENGTH_SHORT).show();
+                     Toast.makeText(WorkoutMainActivity.this, "Something went wrong when trying to backup your Sets)", Toast.LENGTH_SHORT).show();
+                 }
+
+                 try{
+                     save_db_ex.backup();}
+                    //save_db_ex.restore();}
+                 catch (Exception e){
+                     Toast.makeText(WorkoutMainActivity.this, "Something went wrong when trying to backup Exercises", Toast.LENGTH_SHORT).show();
                  }
              }
          });

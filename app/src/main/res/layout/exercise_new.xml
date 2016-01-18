@@ -9,7 +9,7 @@
         android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@color/colorWhite"
+        android:background="@drawable/border_coloraccent_bold"
         android:id="@+id/mainrellayout_new">
     <LinearLayout
         android:layout_width="300dp"
@@ -17,7 +17,6 @@
         android:orientation="horizontal"
         android:id="@+id/linlayouttop"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorWhite"
         android:gravity="center"
         >
         <TextView
