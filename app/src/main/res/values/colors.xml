@@ -37,6 +37,7 @@
 
     <color name="FABNewEx">#64dd17</color>
     <color name="FABEditEx">#ffea00</color>
+    <color name="FABBackup">#ff3d00</color>
 
 
     <color name="primary_text">#212121</color>

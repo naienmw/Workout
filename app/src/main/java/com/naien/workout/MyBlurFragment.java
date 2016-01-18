@@ -282,20 +282,12 @@ public class MyBlurFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                    XML_Saver_Class save_db_user = new XML_Saver_Class(mydb.getdb(),getActivity());
-                    //XML_Saver_Class save_db_ex = new XML_Saver_Class(dbex.getdb());
 
                     Intent normalWO = new Intent(getActivity(), WorkoutMainActivity.class);
 
                     normalWO.putExtra("date", date_db);
                     normalWO.putExtra("workout_name", mydb.getWoName(date_db));
-                    Toast.makeText(getActivity(), Environment.getExternalStorageState().toString(),Toast.LENGTH_SHORT).show();
 
-                    try{
-                    save_db_user.backup();}
-                    catch (Exception e){
-                        Toast.makeText(getActivity(), "failed", Toast.LENGTH_SHORT).show();
-                    }
 
                     startActivity(normalWO);
 
