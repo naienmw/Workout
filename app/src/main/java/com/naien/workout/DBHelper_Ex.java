@@ -130,7 +130,7 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
             contentValues.put("name", name);
-            contentValues.put("image", "0");
+            //contentValues.put("image", "0");
 
             db.insert(tablename, null, contentValues);
             db.close();
