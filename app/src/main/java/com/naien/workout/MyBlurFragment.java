@@ -51,6 +51,8 @@ public class MyBlurFragment extends Fragment {
 
     //ListAdapter multiRowAdapter;
     FloatingActionButton myFAB;
+    FloatingActionButton FABBackup;
+
     //TextView infotext;
     //ImageView arrow;
     TextView currentWorkout;
@@ -62,8 +64,13 @@ public class MyBlurFragment extends Fragment {
     ListView setsinmain;
 
     Animation faboben;
+    Animation_Backup faboben_backup;
 
     Boolean pretty_Animation;
+
+    XML_Saver_Class save_db_user;
+    XML_Saver_Class_Exercises save_db_ex;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
@@ -81,17 +88,26 @@ public class MyBlurFragment extends Fragment {
 
         mydb = new DBHelper(getActivity());
         dbex = new DBHelper_Ex(getActivity());
+
+        save_db_user = new XML_Saver_Class(mydb.getdb(),getActivity());
+        save_db_ex = new XML_Saver_Class_Exercises(dbex.getdb(),getActivity());
+
         //dbex.create_all();
         //////////////////EXERCISES TO DATABASE//////////////////////////////
         //saveExercises();
         /////////////////////////////////////////////////////////////////////
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
+
+        FABBackup = (FloatingActionButton) view.findViewById(R.id.FABBackup);
+        FABBackup.setBackgroundTintList(getResources().getColorStateList(R.color.FABBackup));
+
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
         showAll = (TextView) view.findViewById(R.id.ButtonShowAll);
         newWo = (TextView) view.findViewById(R.id.ButtonNewWo);
 
         faboben = new Animation(getActivity(),myFAB);
+        faboben_backup = new Animation_Backup(getActivity(),FABBackup);
 
         //Bitmap temp = dbex.getExerciseImage("Brust","Bankdrücken");
         //myFAB.setImageBitmap(temp);
@@ -102,12 +118,39 @@ public class MyBlurFragment extends Fragment {
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
+        FABBackup.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try{
+                    save_db_user.backup();
+                    //save_db_user.restore();
+                    Toast.makeText(getActivity(),"Backup successful (User Sets)",Toast.LENGTH_SHORT).show();}
+
+
+
+                catch (Exception e){
+                    Toast.makeText(getActivity(), "Something went wrong when trying to backup your Sets)", Toast.LENGTH_SHORT).show();
+                }
+
+                try{
+                    save_db_ex.backup();
+                    //save_db_ex.restore();
+                    Toast.makeText(getActivity(),"Backup successful (Exercises)",Toast.LENGTH_SHORT).show();}
+                catch (Exception e){
+                    Toast.makeText(getActivity(), "Something went wrong when trying to backup Exercises", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         myFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!toolbarisshown){
                     faboben.startAnimationopen();
+                    FABBackup.setVisibility(View.VISIBLE);
+                    faboben_backup.startAnimationopen();
                     if(pretty_Animation) {
                         enterReveal(R.id.myToolbar);
                     }else{
@@ -127,6 +170,7 @@ public class MyBlurFragment extends Fragment {
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     faboben.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
+                    faboben_backup.startAnimationclose();
                 }
 
                 //exitReveal(R.id.fabAddWorkout);
@@ -221,6 +265,9 @@ public class MyBlurFragment extends Fragment {
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     faboben.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
+
+                    faboben_backup.startAnimationclose();
+                    FABBackup.setVisibility(View.INVISIBLE);
 
                 } else {
                 }

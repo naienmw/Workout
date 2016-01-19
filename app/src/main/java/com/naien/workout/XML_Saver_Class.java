@@ -130,7 +130,6 @@ public class XML_Saver_Class
 
         TransformerFactory.newInstance().newTransformer().transform(new DOMSource(localDocument), new StreamResult(new File(BACKUP_PATH + "/your_Sets.xml")));
         Log.d("BACKUP", "FINISHED to " + BACKUP_PATH);
-        Toast.makeText(myactivity,"Sets Backup successfull to "+ BACKUP_PATH+ " !",Toast.LENGTH_LONG).show();
         return false;
     }
 

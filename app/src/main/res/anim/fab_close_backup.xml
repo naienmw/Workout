@@ -15,10 +15,8 @@
 
     <translate
         android:duration="100"
-        android:fromXDelta="0.0"
         android:fromYDelta="0.0"
-        android:toYDelta="20%p"
-        android:toXDelta="15%p"
+        android:toYDelta="15%p"
         android:interpolator="@android:interpolator/overshoot"/>
 
 </set>

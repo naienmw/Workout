@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/framemain"
-
     android:orientation="vertical"
     tools:context="com.naien.simpleworkouttracker.app.MainActivity"
     >
@@ -56,12 +55,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:gravity="left">
+    android:gravity="left"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:layout_marginRight="85dp">
+        android:layout_marginRight="85dp"
+        android:id="@+id/linlayout_toolbar">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,6 +96,7 @@
             />
     </LinearLayout>
 
+
 </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
@@ -113,6 +115,19 @@
 </ListView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/FABBackup"
+        android:layout_width="@dimen/fabsize"
+        android:layout_height="@dimen/fabsize"
+        android:src="@drawable/addnewcross"
+        android:visibility="invisible"
+        android:scaleType="centerCrop"
+        android:layout_alignTop="@id/myToolbar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fabsize_half_negative"
+        />
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAddWorkout"
         android:layout_width="@dimen/fabsize"
         android:layout_height="@dimen/fabsize"
@@ -120,7 +135,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_alignBottom="@+id/picture"
-        android:layout_marginBottom="-28dp"
+        android:layout_marginBottom="@dimen/fabsize_half_negative"
         android:scaleType="centerCrop"
         />
 

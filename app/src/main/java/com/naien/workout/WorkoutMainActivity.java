@@ -52,7 +52,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
     FloatingActionButton NewEx;
     FloatingActionButton FABEditEx;
     FloatingActionButton FABNewEx;
-    FloatingActionButton FABBackup;
+
     ArrayList<Integer> ExIndex;
     String PrimaryWorkout;
     ImageView ExPic;
@@ -62,7 +62,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
     Animation faboben;
     Animation_EditEx faboben_edit_ex;
     Animation_NewEx faboben_new_ex;
-    Animation_Backup faboben_backup;
+
 
     Boolean toolbarisshown;
 
@@ -72,8 +72,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
     Boolean editex = false;
     Boolean pretty_Animation;
-    XML_Saver_Class save_db_user;
-    XML_Saver_Class_Exercises save_db_ex;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,10 +93,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
         theListView.setClickable(false);
         mydb = new DBHelper(this);
         mydb_ex = new DBHelper_Ex(this);
-
-        //XML_Saver_Class save_db_user = new XML_Saver_Class(mydb.getdb(),this);
-        save_db_user = new XML_Saver_Class(mydb.getdb(),this);
-        save_db_ex = new XML_Saver_Class_Exercises(mydb_ex.getdb(),this);
 
 
         Intent i = getIntent();
@@ -161,13 +156,11 @@ public class WorkoutMainActivity extends AppCompatActivity {
         FABNewEx = (FloatingActionButton)findViewById(R.id.FABNewEx);
         FABNewEx.setBackgroundTintList(getResources().getColorStateList(R.color.FABNewEx));
 
-        FABBackup = (FloatingActionButton) findViewById(R.id.FABBackup);
-        FABBackup.setBackgroundTintList(getResources().getColorStateList(R.color.FABBackup));
 
         faboben = new Animation(this,NewEx);
         faboben_edit_ex = new Animation_EditEx(this,FABEditEx);
         faboben_new_ex = new Animation_NewEx(this,FABNewEx);
-        faboben_backup = new Animation_Backup(this,FABBackup);
+
 
          FABEditEx.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -188,27 +181,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
                  NewExDialogFragmentBlur exnew = new NewExDialogFragmentBlur();
                  exnew.show(getFragmentManager(),"newEx");
 
-             }
-         });
-
-         FABBackup.setOnClickListener(new View.OnClickListener() {
-
-             @Override
-             public void onClick(View v) {
-                 try{
-                     save_db_user.backup();}
-                     //save_db_user.restore();}
-
-                 catch (Exception e){
-                     Toast.makeText(WorkoutMainActivity.this, "Something went wrong when trying to backup your Sets)", Toast.LENGTH_SHORT).show();
-                 }
-
-                 try{
-                     save_db_ex.backup();}
-                    //save_db_ex.restore();}
-                 catch (Exception e){
-                     Toast.makeText(WorkoutMainActivity.this, "Something went wrong when trying to backup Exercises", Toast.LENGTH_SHORT).show();
-                 }
              }
          });
 
@@ -241,7 +213,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
                      faboben_edit_ex.startAnimationclose();
                      faboben_new_ex.startAnimationclose();
-                     faboben_backup.startAnimationclose();
                      toolbarisshown = false;
                  }
 
@@ -305,8 +276,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
             FABEditEx.setVisibility(View.VISIBLE);
             faboben_edit_ex.startAnimationopen();
 
-            FABBackup.setVisibility(View.VISIBLE);
-            faboben_backup.startAnimationopen();
 
 
 
@@ -327,8 +296,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
             faboben_new_ex.startAnimationclose();
             FABNewEx.setVisibility(View.INVISIBLE);
 
-            faboben_backup.startAnimationclose();
-            FABBackup.setVisibility(View.INVISIBLE);
         }
 
 
