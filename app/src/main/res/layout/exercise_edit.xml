@@ -75,6 +75,7 @@
                     android:id="@+id/user_new_ex_name"
 
                     android:gravity="center"
+                    android:textColor="@color/primary_text"
                     />
 
                 <EditText

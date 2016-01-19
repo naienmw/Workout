@@ -86,7 +86,8 @@
                             android:layout_gravity="bottom"
                             android:id="@+id/user_reps_input"
                             android:inputType="number"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:textColor="@color/primary_text"/>
 
                         <EditText
                             android:layout_width="80dp"
@@ -94,7 +95,8 @@
                             android:layout_gravity="bottom"
                             android:id="@+id/user_weight_input"
                             android:inputType="numberDecimal"
-                            android:gravity="center"/>
+                            android:gravity="center"
+                            android:textColor="@color/primary_text"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
