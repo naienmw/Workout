@@ -44,7 +44,12 @@ public class MyBlurFragment extends Fragment {
     private ImageView image;
     public FastBlur blur = new FastBlur();
 
+    copydbhelper createdbex;
+
     DBHelper mydb;
+
+
+
     DBHelper_Ex dbex;
 
     String date_db;
@@ -81,16 +86,17 @@ public class MyBlurFragment extends Fragment {
             pretty_Animation = true;
         }
 
+
+
         image = (ImageView) view.findViewById(R.id.picture);
         //currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
 
         setsinmain = (ListView) view.findViewById(R.id.ListviewcurrentSetsinMain);
 
         mydb = new DBHelper(getActivity());
-        dbex = new DBHelper_Ex(getActivity());
 
-        save_db_user = new XML_Saver_Class(mydb.getdb(),getActivity());
-        save_db_ex = new XML_Saver_Class_Exercises(dbex.getdb(),getActivity());
+
+
 
         //dbex.create_all();
         //////////////////EXERCISES TO DATABASE//////////////////////////////
@@ -126,8 +132,6 @@ public class MyBlurFragment extends Fragment {
                     save_db_user.backup();
                     //save_db_user.restore();
                     Toast.makeText(getActivity(),"Backup successful (User Sets)",Toast.LENGTH_SHORT).show();}
-
-
 
                 catch (Exception e){
                     Toast.makeText(getActivity(), "Something went wrong when trying to backup your Sets)", Toast.LENGTH_SHORT).show();
@@ -299,6 +303,19 @@ public class MyBlurFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
+
+
+
+
+
+        createdbex = new copydbhelper(getActivity());
+        createdbex.createDatabase();
+
+        dbex = new DBHelper_Ex(getActivity());
+
+        save_db_user = new XML_Saver_Class(mydb.getdb(),getActivity());
+        save_db_ex = new XML_Saver_Class_Exercises(dbex.getdb(),getActivity());
+
         if (mydb.doesTableExist(mydb.getdb(), date_db)) {
             //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
             //myFAB.setImageResource(R.drawable.addnewexisting);
@@ -477,7 +494,7 @@ public class MyBlurFragment extends Fragment {
 
 
 
-    public void saveExercises(){
+    /*public void saveExercises(){
 
         Bitmap icon;
 
@@ -546,7 +563,7 @@ public class MyBlurFragment extends Fragment {
                 R.drawable.eximage_butterfly_m);
         dbex.saveExerciseImage("Beine","Beinstrecker",icon);
 
-    }
+    }*/
 
 
 

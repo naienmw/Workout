@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     Animation fabclose;
     Animation_Backup fabclose_bu;
     FloatingActionButton myFAB;
-    copydbhelper createdbex;
+
     FloatingActionButton myFAB_bu;
 
 
@@ -48,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createdbex = new copydbhelper(this);
-        createdbex.createDatabase();
+
     }
 
     public void onBackPressed() {

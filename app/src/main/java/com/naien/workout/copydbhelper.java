@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,6 +14,8 @@ import java.io.OutputStream;
 import java.util.Locale;
 
 public class copydbhelper extends SQLiteOpenHelper {
+
+    boolean dbExist = true;
 
     private static final String DB_PATH = "/data/data/com.naien.workout/databases/";
 
@@ -23,12 +26,16 @@ public class copydbhelper extends SQLiteOpenHelper {
     public SQLiteDatabase db;
 
     public copydbhelper(Context context) {
-        super(context, DB_NAME, null, 1);
+
+        super(context, DB_NAME , null, 1);
+        getWritableDatabase();
         this.myContext = context;
+        close();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        dbExist = false;
     }
 
     @Override
@@ -40,16 +47,17 @@ public class copydbhelper extends SQLiteOpenHelper {
     }
 
     private void createDB() {
-        boolean dbExist = DBExists();
 
         if(!dbExist) {
-            this.getReadableDatabase();
+            getWritableDatabase();
             copyDBFromResource();
         }
     }
 
     private boolean DBExists() {
         SQLiteDatabase db = null;
+
+        //getReadableDatabase();
 
         try {
             String databasePath = DB_PATH + DB_NAME;
@@ -68,6 +76,7 @@ public class copydbhelper extends SQLiteOpenHelper {
     }
 
     private void copyDBFromResource() {
+        //close();
         InputStream inputStream = null;
         OutputStream outStream = null;
         String dbFilePath = DB_PATH + DB_NAME;
@@ -85,6 +94,8 @@ public class copydbhelper extends SQLiteOpenHelper {
             outStream.flush();
             outStream.close();
             inputStream.close();
+
+            //getWritableDatabase().close();
 
         } catch (IOException e) {
             throw new Error("Problem copying database from resource file.");
