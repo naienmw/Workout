@@ -284,6 +284,10 @@ public class MyBlurFragment extends Fragment {
         return myFAB;
     }
 
+    public FloatingActionButton getFAB_bu(){
+        return FABBackup;
+    }
+
     public Boolean getisToolbarShown(){
         return toolbarisshown;
     }

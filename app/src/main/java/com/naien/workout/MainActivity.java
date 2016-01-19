@@ -38,8 +38,10 @@ package com.naien.workout;
 public class MainActivity extends AppCompatActivity {
 
     Animation fabclose;
+    Animation_Backup fabclose_bu;
     FloatingActionButton myFAB;
     copydbhelper createdbex;
+    FloatingActionButton myFAB_bu;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +55,16 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         MyBlurFragment fragment = (MyBlurFragment)getFragmentManager().findFragmentById(R.id.fragmentid);
         myFAB = (FloatingActionButton)fragment.getFAB();
+        myFAB_bu = fragment.getFAB_bu();
         fabclose = new Animation(this,myFAB);
+        fabclose_bu = new Animation_Backup(this,myFAB_bu);
         if (fragment != null && fragment.getisToolbarShown()) {
             fragment.exitReveal(R.id.myToolbar);
             fragment.setisToolbarShown(false);
             fragment.getFAB().setBackgroundTintList(getResources().getColorStateList(R.color.accent));
             myFAB.setImageResource(R.drawable.barbell);
             fabclose.startAnimationclose();
+            fabclose_bu.startAnimationclose();
 
         }else {
             super.onBackPressed();
