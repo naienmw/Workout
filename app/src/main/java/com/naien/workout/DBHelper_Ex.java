@@ -87,6 +87,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             }
             cursor.close();
         }
+        //DEBUG
+        db.close();
         return false;
     }
 
@@ -100,6 +102,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             temp = c.getInt(0);
         }
         c.close();
+        //DEBUG
+        db.close();
         return temp;
     }
 
@@ -136,6 +140,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             db.close();
             return true;
         }
+        //DEBUG
+        db.close();
 
         return false;
     }
@@ -152,6 +158,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         cv.put("image", data);
 
         db.update(tablename, cv, "id = ? ", temp);
+        //DEBUG
+        db.close();
 
         return true;
     }
@@ -189,6 +197,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         if (cur != null && !cur.isClosed()) {
             cur.close();
         }
+        //DEBUG
+        db.close();
 
         return null ;
     }
@@ -211,6 +221,9 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             while (!cur.isAfterLast()) {
                 if (cur.getCount() > 0) {
 
+                    //DEBUG
+                    db.close();
+
                     return true;
                 }
                 cur.moveToNext();
@@ -221,6 +234,9 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         if (cur != null && !cur.isClosed()) {
             cur.close();
         }
+
+        //DEBUG
+        db.close();
 
 
         return false;
@@ -252,6 +268,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
              WoName= res.getString(res.getColumnIndex("name"));
         }
         res.close();
+        //DEBUG
+        db.close();
         return WoName;
     }
 
@@ -272,7 +290,10 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             //i = i+1;
             c.moveToNext();
         }
+
         c.close();
+        //DEBUG
+        db.close();
 
         return ExName;
     }
@@ -293,6 +314,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             i = i+1;
         }
         c.close();
+        //DEBUG
+        db.close();
 
         return ExIndex;
     }
@@ -317,6 +340,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             c.moveToNext();
         }
         c.close();
+        //DEBUG
+        db.close();
 
         return allWorkouts;
     }
@@ -325,6 +350,11 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
     public SQLiteDatabase getdb(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db;
+    }
+
+    public void closedb(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.close();
     }
 
 
@@ -368,6 +398,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             }
         }
         cursor.close();
+        //DEBUG
+        db.close();
         return allSetsinEx;
     }
 
@@ -390,6 +422,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
             }
         }
         cursor.close();
+        //DEBUG
+        db.close();
         return allSetsinEx;
     }
 
@@ -412,6 +446,8 @@ public class DBHelper_Ex extends SQLiteOpenHelper {
         cursor.close();
 
         dates.remove(0);
+        //DEBUG
+        db.close();
 
         return dates;
     }

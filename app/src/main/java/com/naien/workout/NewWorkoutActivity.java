@@ -97,12 +97,14 @@ public class NewWorkoutActivity extends Activity {
         if (!user_Workout.matches("")) {
             Boolean blub;
             blub = mydb.doesTableExist(mydb.getdb(),date_db);
+            mydb.getdb().close();
             if (!blub) {
                 Intent workout_main = new Intent(this, WorkoutMainActivity.class);
                 workout_main.putExtra("workout_name", user_Workout);
                 workout_main.putExtra("date", date_db);
                 startActivity(workout_main);
                 mydb.create_new_table(mydb.getdb(), date_db);
+                mydb.getdb().close();
                 mydb.saveExerciseName(date_db, user_Workout);
             }else{
 

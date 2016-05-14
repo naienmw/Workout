@@ -96,10 +96,10 @@ public class ExerciseMainActivity extends Activity {
 
 
             }else{
-                Toast.makeText(this,"Give me some weight",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.toast_weight,Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(this,"Give me some Reps",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_reps,Toast.LENGTH_SHORT).show();
         }
 
 

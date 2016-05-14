@@ -57,6 +57,8 @@ public class DBHelper extends SQLiteOpenHelper {
             }
             cursor.close();
         }
+        //DEBUG
+        db.close();
         return false;
     }
 
@@ -70,6 +72,8 @@ public class DBHelper extends SQLiteOpenHelper {
             temp = c.getInt(0);
         }
         c.close();
+        //DEBUG
+        db.close();
         return temp;
     }
 
@@ -197,6 +201,8 @@ public class DBHelper extends SQLiteOpenHelper {
              WoName= res.getString(res.getColumnIndex("name"));
         }
         res.close();
+        //DEBUG
+        db.close();
         return WoName;
     }
 
@@ -220,6 +226,8 @@ public class DBHelper extends SQLiteOpenHelper {
             i = i+1;
         }
         c.close();
+        //DEBUG
+        db.close();
         return ExName;
     }
 
@@ -239,6 +247,8 @@ public class DBHelper extends SQLiteOpenHelper {
             i = i+1;
         }
         c.close();
+        //DEBUG
+        db.close();
 
         return ExName;
     }
@@ -259,6 +269,8 @@ public class DBHelper extends SQLiteOpenHelper {
             i = i+1;
         }
         c.close();
+        //DEBUG
+        db.close();
 
         return ExIndex;
     }
@@ -291,6 +303,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 c.moveToNext();
             }
         c.close();
+        //DEBUG
+        db.close();
         return allWorkouts;
     }
 
@@ -312,6 +326,8 @@ public class DBHelper extends SQLiteOpenHelper {
             c.moveToNext();
         }
         c.close();
+        //DEBUG
+        db.close();
 
         return allWorkouts;
     }
@@ -334,6 +350,8 @@ public class DBHelper extends SQLiteOpenHelper {
             c.moveToNext();
         }
         c.close();
+        //DEBUG
+        db.close();
 
         return allWorkouts;
     }
@@ -344,6 +362,32 @@ public class DBHelper extends SQLiteOpenHelper {
     public SQLiteDatabase getdb(){
         SQLiteDatabase db = this.getWritableDatabase();
         return db;
+    }
+
+    //CAREFULL!!
+    public void clear(){
+
+        SQLiteDatabase db =this.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        String tableName="";
+        if (c.moveToFirst()) {
+
+            while ( !c.isAfterLast() ) {
+
+                tableName = c.getString( c.getColumnIndex("name"));
+                if(!tableName.equals("android_metadata")){
+                    db.execSQL("DROP TABLE '"+tableName+"'");
+                }
+                c.moveToNext();
+            }
+        }
+
+        c.close();
+    }
+
+    public void closedb(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.close();
     }
 
 
@@ -387,6 +431,8 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         cursor.close();
+        //DEBUG
+        db.close();
         return allSetsinEx;
     }
 
@@ -409,6 +455,8 @@ public class DBHelper extends SQLiteOpenHelper {
             }
         }
         cursor.close();
+        //DEBUG
+        db.close();
         return allSetsinEx;
     }
 
@@ -429,6 +477,8 @@ public class DBHelper extends SQLiteOpenHelper {
             c.moveToNext();
         }*/
         cursor.close();
+        //DEBUG
+        db.close();
 
         dates.remove(0);
 

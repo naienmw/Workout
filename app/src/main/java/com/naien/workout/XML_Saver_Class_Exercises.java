@@ -137,78 +137,84 @@ public class XML_Saver_Class_Exercises
         verifyStoragePermissions(myactivity);
 
         File localFile = new File(BACKUP_PATH + "/your_Exercises.xml");
-        Document localDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(localFile);
-        localDocument.getDocumentElement().normalize();
-        NodeList localNodeList = localDocument.getElementsByTagName("table");
+        if(localFile.canRead()){
+            Document localDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(localFile);
+            localDocument.getDocumentElement().normalize();
+            NodeList localNodeList = localDocument.getElementsByTagName("table");
 
-        for (int i = 0; i<localNodeList.getLength() ; i++)
-        {
-
-            Node localNode = localNodeList.item(i);
-            if (localNode.getNodeType() == 1)
+            for (int i = 0; i<localNodeList.getLength() ; i++)
             {
 
-                Element localElement = (Element)localNode;
-                Log.d("TABLE",  localElement.getAttribute("name"));
-
-
-                String deleteifnotex = "drop table if exists " + localElement.getAttribute("name") + " ";
-
-                this.connection.execSQL(deleteifnotex);
-
-                String createifnotex = "create table if not exists " + localElement.getAttribute("name") + " " + "(id integer primary key, name text) ";
-
-                this.connection.execSQL(createifnotex);
-
-                this.connection.execSQL("DELETE FROM " + localElement.getAttribute("name"));
-
-                NodeList nl = localElement.getElementsByTagName("item");
-                for (int a = 0; a < nl.getLength(); a++)
+                Node localNode = localNodeList.item(i);
+                if (localNode.getNodeType() == 1)
                 {
 
-                    ArrayList<String> aSpalten = new ArrayList<String>();
-                    ArrayList<String> aWerte = new ArrayList<String>();
+                    Element localElement = (Element)localNode;
+                    Log.d("TABLE",  localElement.getAttribute("name"));
 
-                    Node el = nl.item(a);
 
-                    NodeList spalten = el.getChildNodes();
+                    String deleteifnotex = "drop table if exists " + localElement.getAttribute("name") + " ";
 
-                    for (int s = 0; s < spalten.getLength(); s++)
+                    this.connection.execSQL(deleteifnotex);
+
+                    String createifnotex = "create table if not exists " + localElement.getAttribute("name") + " " + "(id integer primary key, name text) ";
+
+                    this.connection.execSQL(createifnotex);
+
+                    this.connection.execSQL("DELETE FROM " + localElement.getAttribute("name"));
+
+                    NodeList nl = localElement.getElementsByTagName("item");
+                    for (int a = 0; a < nl.getLength(); a++)
                     {
-                        Node node = spalten.item(s);
 
-                        aSpalten.add(node.getNodeName());
-                        aWerte.add(node.getTextContent());
-                    }
+                        ArrayList<String> aSpalten = new ArrayList<String>();
+                        ArrayList<String> aWerte = new ArrayList<String>();
 
-                    String sql ="INSERT INTO " +localElement.getAttribute("name") + "(";
+                        Node el = nl.item(a);
 
-                    for  (String s : aSpalten)
-                    {
-                        sql = sql + "`"+s+"`";
-                        if (aSpalten.get(aSpalten.size()-1)!=s)
+                        NodeList spalten = el.getChildNodes();
+
+                        for (int s = 0; s < spalten.getLength(); s++)
                         {
-                            sql = sql + ",";
+                            Node node = spalten.item(s);
+
+                            aSpalten.add(node.getNodeName());
+                            aWerte.add(node.getTextContent());
                         }
-                    }
 
-                    sql = sql + ") VALUES (";
+                        String sql ="INSERT INTO " +localElement.getAttribute("name") + "(";
 
-                    for  (String s : aWerte)
-                    {
-                        sql = sql + "'"+s+"'";
-                        if (aWerte.get(aWerte.size()-1)!=s)
+                        for  (String s : aSpalten)
                         {
-                            sql = sql + ",";
+                            sql = sql + "`"+s+"`";
+                            if (aSpalten.get(aSpalten.size()-1)!=s)
+                            {
+                                sql = sql + ",";
+                            }
                         }
+
+                        sql = sql + ") VALUES (";
+
+                        for  (String s : aWerte)
+                        {
+                            sql = sql + "'"+s+"'";
+                            if (aWerte.get(aWerte.size()-1)!=s)
+                            {
+                                sql = sql + ",";
+                            }
+                        }
+                        sql = sql + ");";
+                        Log.d("SQL", sql);
+                        this.connection.execSQL(sql);
+                        aSpalten.clear(); aWerte.clear();
                     }
-                    sql = sql + ");";
-                    Log.d("SQL", sql);
-                    this.connection.execSQL(sql);
-                    aSpalten.clear(); aWerte.clear();
                 }
             }
+        }else{
+            throw new Exception();
         }
+
+        mydb_ex.closedb();
 
     }
 

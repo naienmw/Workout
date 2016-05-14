@@ -19,6 +19,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.view.Gravity;
@@ -39,6 +40,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -55,7 +58,7 @@ public class MyBlurFragment extends Fragment {
 
     DBHelper mydb;
 
-
+    boolean really_restore;
 
     DBHelper_Ex dbex;
     Boolean openfabs = true;
@@ -122,30 +125,52 @@ public class MyBlurFragment extends Fragment {
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
+
         FABRestore.setOnClickListener(new View.OnClickListener() {
+
+            AlertDialog restore = new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.REALLYsuretorestore)
+                    .setCancelable(false)
+                    .setPositiveButton("JA", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        save_db_user.restore();
+                                        Toast.makeText(getActivity(), R.string.re_set_suc, Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getActivity(), R.string.re_sets_fail, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    try {
+                                        save_db_ex.restore();
+                                        Toast.makeText(getActivity(), R.string.re_ex_suc, Toast.LENGTH_SHORT).show();
+                                    } catch (Exception e) {
+                                        Toast.makeText(getActivity(), R.string.re_ex_fail, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    getActivity().finish();
+                                }
+                            }, 500);
+
+                            Toast.makeText(getActivity(), R.string.toast_restoring, Toast.LENGTH_SHORT).show();
+                            restore.cancel();
+                        }
+                    })
+                    .setNegativeButton("Lieber nicht", null)
+                    .create();
 
             @Override
             public void onClick(View v) {
-
+                really_restore = false;
                 new AlertDialog.Builder(getActivity())
                         .setMessage(R.string.suretorestore)
                             .setCancelable(false)
                             .setPositiveButton("Ja", new DialogInterface.OnClickListener(){
                                 public void onClick(DialogInterface dialog, int id){
-                                    try{
-                                        save_db_user.restore();
-                                        Toast.makeText(getActivity(), R.string.re_set_suc,Toast.LENGTH_SHORT).show();}
-
-                                    catch (Exception e){
-                                        Toast.makeText(getActivity(), R.string.re_sets_fail, Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    try{
-                                        save_db_ex.restore();
-                                        Toast.makeText(getActivity(), R.string.re_ex_suc,Toast.LENGTH_SHORT).show();}
-                                    catch (Exception e){
-                                        Toast.makeText(getActivity(), R.string.re_ex_fail, Toast.LENGTH_SHORT).show();
-                                    }
+                                    restore.show();
                                 }
                             })
                             .setNegativeButton("Nein",null)
@@ -283,8 +308,7 @@ public class MyBlurFragment extends Fragment {
         save_db_ex = new XML_Saver_Class_Exercises(dbex.getdb(),getActivity());
 
         if (mydb.doesTableExist(mydb.getdb(), date_db)) {
-            //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
-            //myFAB.setImageResource(R.drawable.addnewexisting);
+            mydb.getdb().close();
             newWo.setText("Edit Current");
             newWo.setOnClickListener(new View.OnClickListener() {
                 @Override

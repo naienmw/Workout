@@ -78,6 +78,11 @@ public class WorkoutMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         pretty_Animation = Build.VERSION.SDK_INT >= 21;
 
+        mydb = new DBHelper(this);
+        mydb_ex = new DBHelper_Ex(this);
+
+        mydb_ex.closedb();
+        mydb.closedb();
     }
 
      @Override
@@ -87,9 +92,8 @@ public class WorkoutMainActivity extends AppCompatActivity {
         this.setContentView(R.layout.workout_main);
         ListView theListView = (ListView) findViewById(R.id.listview_exercises);
         theListView.setClickable(false);
-        mydb = new DBHelper(this);
-        mydb_ex = new DBHelper_Ex(this);
-
+         mydb = new DBHelper(this);
+         mydb_ex = new DBHelper_Ex(this);
 
         Intent i = getIntent();
         the_date = i.getStringExtra("date");
@@ -202,6 +206,10 @@ public class WorkoutMainActivity extends AppCompatActivity {
                      toolbarisshown = false;
                  }
 
+                 ExIndex.remove(position);
+
+                 mydb.closedb();
+
                  return true;
              }
          });
@@ -210,9 +218,9 @@ public class WorkoutMainActivity extends AppCompatActivity {
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
                 String exercise_name = theExercise.get(position);
                 String exercise_head = getHeadfromHMvalue(mydb_ex.getExHM(), exercise_name);
+                mydb_ex.closedb();
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                 //FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -224,26 +232,25 @@ public class WorkoutMainActivity extends AppCompatActivity {
             }
         }
         );
+
+         mydb.closedb();
+         mydb_ex.closedb();
     }
 
     private void temp_list_data(){
-
-
 
         listDataHeader.add("Brust");
         listDataHeader.add("Schultern");
         listDataHeader.add("Rücken");
         listDataHeader.add("Arme");
         listDataHeader.add("Beine");
-
         listDataChild = mydb_ex.getExHM();
-
+        mydb_ex.closedb();
 
     }
 
 
     public void AddNewExercise(View view) {
-
 
         if (!toolbarisshown){
             faboben.startAnimationopen();
@@ -261,9 +268,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
             FABEditEx.setVisibility(View.VISIBLE);
             faboben_edit_ex.startAnimationopen();
-
-
-
 
         }else{
             if(pretty_Animation) {
@@ -377,8 +381,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
             mydb.saveExerciseName(the_date, exname);
             //theExercise.add(newEx);
-
-
             SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
 
             Integer index = 2;

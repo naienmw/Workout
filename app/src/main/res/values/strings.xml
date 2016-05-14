@@ -5,6 +5,8 @@
     <string name="button_text_add_workout">Neues Training hinzufügen</string>
     <string name="longpressdelete">Lange drücken zum löschen</string>
     <string name="suretorestore">Sicher ALLE Daten überschreiben?</string>
+    <string name="REALLYsuretorestore">GANZ SICHER ALLE Daten überschreiben?</string>
+    <string name="toast_restoring">Wird wiederhergestellt, App wird geschlossen!</string>
     <string name="sets_bu_suc">Sicherung erfolgreich (Sätze und Trainings)</string>
     <string name="sets_bu_wrong">Irgendwas ist falsch gelaufen beim Backup der Sätze</string>
     <string name="ex_bu_suc">Sicherung erfolgreich (Übungen)</string>
@@ -19,4 +21,6 @@
     <string name="fab_showall">Alle anzeigen</string>
     <string name="fab_addnew">Neues Training</string>
     <string name="new_workout_choose">Wähle die Zielgruppen</string>
+    <string name="toast_weight">Gewicht eingeben</string>
+    <string name="toast_reps">Wiederholungen eingeben</string>
 </resources>
