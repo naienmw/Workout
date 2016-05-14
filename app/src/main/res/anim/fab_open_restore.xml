@@ -17,7 +17,7 @@
     <translate
         android:interpolator="@anim/my_overshoot"
         android:duration="200"
-        android:fromYDelta="20%p"
+        android:fromYDelta="13%p"
         android:toYDelta="0.0"
          />
 

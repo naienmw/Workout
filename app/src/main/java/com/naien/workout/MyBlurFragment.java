@@ -332,7 +332,6 @@ public class MyBlurFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-
                     Intent test = new Intent(getActivity(), NewWorkoutActivity.class);
                     test.putExtra("date", date_db);
                     startActivity(test);
@@ -351,9 +350,8 @@ public class MyBlurFragment extends Fragment {
         int cx;
         int cy;
 
-        cx = myView.getRight();
-        cy = myView.getBottom();
-
+        cx = Math.round(myFAB.getX());
+        cy = myView.getHeight()/2;
 
         // get the final radius for the clipping circle
         int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
@@ -379,11 +377,11 @@ public class MyBlurFragment extends Fragment {
         int cx ;
         int cy ;
 
-        cx = myView.getRight();
-        cy = myView.getBottom();
+        cx = Math.round(myFAB.getX());
+        cy = myView.getHeight()/2;
 
         // get the initial radius for the clipping circle
-        int initialRadius = myView.getWidth() / 2;
+        int initialRadius;
         initialRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
 
         // create the animation (the final radius is zero)
