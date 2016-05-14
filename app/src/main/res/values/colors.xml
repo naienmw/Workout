@@ -29,14 +29,15 @@
     <color name="colorBlue">#4c4cff</color>
     <color name="transparent">#000c6515</color>
 
-    <color name="primary">#009688</color>
-    <color name="primary_dark">#00796B</color>
+    <color name="primary">#66bb6a</color>
+    <color name="primary_dark">#388e3c</color>
     <color name="primary_light">#fff176</color>
     <color name="accent">#FF9800</color>
     <color name="textview_background">#a5d1d1d1</color>
 
     <color name="FABNewEx">#64dd17</color>
     <color name="FABEditEx">#ffea00</color>
+    <color name="FABRestore">#ff3d00</color>
     <color name="FABBackup">#ff3d00</color>
 
 

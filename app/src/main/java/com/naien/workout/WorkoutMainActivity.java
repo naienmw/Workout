@@ -76,11 +76,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Build.VERSION.SDK_INT < 21){
-            pretty_Animation = false;
-        }else{
-            pretty_Animation = true;
-        }
+        pretty_Animation = Build.VERSION.SDK_INT >= 21;
 
     }
 
@@ -106,7 +102,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
         PrimaryWorkout = getPrimaryWorkout(the_workout);
         ExPic = (ImageView)findViewById(R.id.picture_exercise);
 
-         listDataHeader = new ArrayList<String>();
+         listDataHeader = new ArrayList<>();
          listDataChild = new HashMap<String, List<String>>();
 
         ListViewChoice = (ExpandableListView)findViewById(R.id.listview_exercises_choice);
@@ -124,9 +120,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
 
         RelLayoutChoice = (RelativeLayout) findViewById(R.id.rellayout_exchoice);
 
@@ -156,7 +149,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
         FABNewEx = (FloatingActionButton)findViewById(R.id.FABNewEx);
         FABNewEx.setBackgroundTintList(getResources().getColorStateList(R.color.FABNewEx));
 
-
         faboben = new Animation(this,NewEx);
         faboben_edit_ex = new Animation_EditEx(this,FABEditEx);
         faboben_new_ex = new Animation_NewEx(this,FABNewEx);
@@ -166,11 +158,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
              @Override
              public void onClick(View v) {
 
-                 if(!editex) {
-                     editex = true;
-                 }else{
-                     editex = false;
-                 }
+                 editex = !editex;
              }
          });
 
@@ -183,8 +171,6 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
              }
          });
-
-
 
         theAdapter = new my_adapter(this,theExercise);
 
@@ -329,7 +315,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
 
         // get the final radius for the clipping circle
-        int finalRadius = Math.max(myView.getWidth(), myView.getHeight()) / 2;
+        int finalRadius;
         finalRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
 
         // create the animator for this view (the start radius is zero)
@@ -359,7 +345,7 @@ public class WorkoutMainActivity extends AppCompatActivity {
         cx = start.getLeft() + start.getWidth()/2;
         cy = start.getTop() - start.getHeight()/2;
         // get the initial radius for the clipping circle
-        int initialRadius = myView.getWidth() / 2;
+        int initialRadius;
         initialRadius = (int)Math.hypot(myView.getWidth(),myView.getHeight());
 
         // create the animation (the final radius is zero)

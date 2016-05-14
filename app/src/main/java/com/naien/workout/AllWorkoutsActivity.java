@@ -71,13 +71,8 @@ public class AllWorkoutsActivity extends AppCompatActivity {
         allWorkouts_Array = invertArraylist(allWorkouts_Array);
 
 
-/*
-        for (int i=0;i<rows;i++){
-            String[] parts = allWorkouts[i][0].substring(1).split("_");
-            String date = parts[0] + "." + parts[1] + "." + parts[2];
-            allWorkoutsListView[i][0] = allWorkouts[i][1];
-            allWorkoutsListView[i][1] = date;
-        }*/
+
+
 
         for (int i=0;i<allWorkouts_Array.size();i++){
             ArrayList<String> temp = new ArrayList<>();
@@ -91,7 +86,7 @@ public class AllWorkoutsActivity extends AppCompatActivity {
 
 
 
-        //multiRowAdapter = new my_adapter_multiCol(this, allWorkoutsListView);
+
         final ListAdapter theAdapter = new my_adapter_multiCol_arraylist(this,allWorkouts_Array_list);
 
         ListView theListView = (ListView) findViewById(R.id.ListViewWorkouts);
@@ -107,9 +102,6 @@ public class AllWorkoutsActivity extends AppCompatActivity {
                 String tempdate = allWorkouts_Array_list.get(i).get(1);//allWorkoutsListView[i][1];
                 String tempdatedb = DateToDB(tempdate);
                 String workoutstatic = allWorkouts_Array_list.get(i).get(0);//allWorkoutsListView[i][0];
-
-                //Toast.makeText(AllWorkoutsActivity.this,theAdapter.getItem(i).toString(),Toast.LENGTH_SHORT).show();
-
 
                 if (!tempdatedb.equals(date_db)) {
                     Intent staticWO = new Intent(AllWorkoutsActivity.this, WorkoutMainStaticActivity.class);

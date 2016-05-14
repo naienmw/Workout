@@ -17,8 +17,6 @@
         android:duration="100"
         android:fromYDelta="0.0"
         android:toYDelta="20%p"
-        android:fromXDelta="0.0"
-        android:toXDelta="15%p"
         android:interpolator="@android:interpolator/overshoot"/>
 
 </set>

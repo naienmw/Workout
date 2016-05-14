@@ -1,7 +1,22 @@
 <resources>
     <string name="app_name">Workout</string>
     <string name="action_settings">Settings</string>
-    <string name="user_name_of_workout">Workout Name</string>
-    <string name="button_text_add_workout">Click to add Workout</string>
-    <string name="longpressdelete">Press long to delete</string>
+    <string name="user_name_of_workout">Muskelgruppe</string>
+    <string name="button_text_add_workout">Neues Training hinzufügen</string>
+    <string name="longpressdelete">Lange drücken zum löschen</string>
+    <string name="suretorestore">Sicher ALLE Daten überschreiben?</string>
+    <string name="sets_bu_suc">Sicherung erfolgreich (Sätze und Trainings)</string>
+    <string name="sets_bu_wrong">Irgendwas ist falsch gelaufen beim Backup der Sätze</string>
+    <string name="ex_bu_suc">Sicherung erfolgreich (Übungen)</string>
+    <string name="ex_bu_wrong">Irgendwas ist falsch gelaufen beim Backup der Übungen</string>
+    <string name="re_set_suc">Wiederherstellung erfolgreich (Sätze und Trainings)</string>
+    <string name="re_sets_fail">Irgendwas ist beim Wiederherstellen falsch gelaufen (Trainings)</string>
+    <string name="re_ex_suc">Wiederherstellung erfolgreich (Übungen)</string>
+    <string name="re_ex_fail">Irgendwas ist beim Wiederherstellen falsch gelaufen (Übungen)</string>
+    <string name="all_workouts">Alle Einheiten</string>
+    <string name="workoutmain_header">Trainingstagebuch</string>
+    <string name="motivation_in_main">Geh gefälligst trainieren.</string>
+    <string name="fab_showall">Alle anzeigen</string>
+    <string name="fab_addnew">Neues Training</string>
+    <string name="new_workout_choose">Wähle die Zielgruppen</string>
 </resources>

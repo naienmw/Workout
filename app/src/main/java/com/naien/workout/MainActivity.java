@@ -39,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
 
     Animation fabclose;
     Animation_Backup fabclose_bu;
+    Animation_Restore fabclose_re;
     FloatingActionButton myFAB;
 
     FloatingActionButton myFAB_bu;
+    FloatingActionButton myFAB_re;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         MyBlurFragment fragment = (MyBlurFragment)getFragmentManager().findFragmentById(R.id.fragmentid);
         myFAB = (FloatingActionButton)fragment.getFAB();
         myFAB_bu = fragment.getFAB_bu();
+        myFAB_re = fragment.getFAB_re();
         fabclose = new Animation(this,myFAB);
         fabclose_bu = new Animation_Backup(this,myFAB_bu);
+        fabclose_re = new Animation_Restore(this,myFAB_re);
         if (fragment != null && fragment.getisToolbarShown()) {
             fragment.exitReveal(R.id.myToolbar);
             fragment.setisToolbarShown(false);
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             myFAB.setImageResource(R.drawable.barbell);
             fabclose.startAnimationclose();
             fabclose_bu.startAnimationclose();
+            fabclose_re.startAnimationclose();
 
         }else {
             super.onBackPressed();

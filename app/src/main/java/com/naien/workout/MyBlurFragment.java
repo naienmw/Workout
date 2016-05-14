@@ -5,7 +5,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -27,6 +31,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,7 +47,9 @@ public class MyBlurFragment extends Fragment {
 
 
     private ImageView image;
+    private PopupWindow pw;
     public FastBlur blur = new FastBlur();
+
 
     copydbhelper createdbex;
 
@@ -51,13 +58,13 @@ public class MyBlurFragment extends Fragment {
 
 
     DBHelper_Ex dbex;
-
+    Boolean openfabs = true;
     String date_db;
 
     //ListAdapter multiRowAdapter;
     FloatingActionButton myFAB;
+    FloatingActionButton FABRestore;
     FloatingActionButton FABBackup;
-
     //TextView infotext;
     //ImageView arrow;
     TextView currentWorkout;
@@ -70,6 +77,7 @@ public class MyBlurFragment extends Fragment {
 
     Animation faboben;
     Animation_Backup faboben_backup;
+    Animation_Restore faboben_restore;
 
     Boolean pretty_Animation;
 
@@ -80,13 +88,7 @@ public class MyBlurFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
 
-        if (Build.VERSION.SDK_INT < 21){
-            pretty_Animation = false;
-        }else{
-            pretty_Animation = true;
-        }
-
-
+        pretty_Animation = Build.VERSION.SDK_INT >= 21;
 
         image = (ImageView) view.findViewById(R.id.picture);
         //currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
@@ -97,26 +99,22 @@ public class MyBlurFragment extends Fragment {
 
 
 
-
-        //dbex.create_all();
-        //////////////////EXERCISES TO DATABASE//////////////////////////////
-        //saveExercises();
-        /////////////////////////////////////////////////////////////////////
-
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
 
+        FABRestore = (FloatingActionButton) view.findViewById(R.id.FABRestore);
+        FABRestore.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
+
         FABBackup = (FloatingActionButton) view.findViewById(R.id.FABBackup);
-        FABBackup.setBackgroundTintList(getResources().getColorStateList(R.color.FABBackup));
+        FABBackup.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
 
         currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
         showAll = (TextView) view.findViewById(R.id.ButtonShowAll);
         newWo = (TextView) view.findViewById(R.id.ButtonNewWo);
 
         faboben = new Animation(getActivity(),myFAB);
+        faboben_restore = new Animation_Restore(getActivity(),FABRestore);
         faboben_backup = new Animation_Backup(getActivity(),FABBackup);
 
-        //Bitmap temp = dbex.getExerciseImage("Brust","Bankdrücken");
-        //myFAB.setImageBitmap(temp);
 
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
@@ -124,45 +122,76 @@ public class MyBlurFragment extends Fragment {
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
 
+        FABRestore.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(R.string.suretorestore)
+                            .setCancelable(false)
+                            .setPositiveButton("Ja", new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialog, int id){
+                                    try{
+                                        save_db_user.restore();
+                                        Toast.makeText(getActivity(), R.string.re_set_suc,Toast.LENGTH_SHORT).show();}
+
+                                    catch (Exception e){
+                                        Toast.makeText(getActivity(), R.string.re_sets_fail, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    try{
+                                        save_db_ex.restore();
+                                        Toast.makeText(getActivity(), R.string.re_ex_suc,Toast.LENGTH_SHORT).show();}
+                                    catch (Exception e){
+                                        Toast.makeText(getActivity(), R.string.re_ex_fail, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Nein",null)
+                            .show();
+            }
+        });
+
         FABBackup.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                try{
+                try {
                     save_db_user.backup();
-                    //save_db_user.restore();
-                    Toast.makeText(getActivity(),"Backup successful (User Sets)",Toast.LENGTH_SHORT).show();}
-
-                catch (Exception e){
-                    Toast.makeText(getActivity(), "Something went wrong when trying to backup your Sets)", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.sets_bu_suc, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.sets_bu_wrong, Toast.LENGTH_SHORT).show();
                 }
-
-                try{
+                try {
                     save_db_ex.backup();
-                    //save_db_ex.restore();
-                    Toast.makeText(getActivity(),"Backup successful (Exercises)",Toast.LENGTH_SHORT).show();}
-                catch (Exception e){
-                    Toast.makeText(getActivity(), "Something went wrong when trying to backup Exercises", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.ex_bu_suc, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(getActivity(), R.string.ex_bu_wrong, Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         myFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!toolbarisshown){
-                    faboben.startAnimationopen();
-                    FABBackup.setVisibility(View.VISIBLE);
-                    faboben_backup.startAnimationopen();
-                    if(pretty_Animation) {
-                        enterReveal(R.id.myToolbar);
-                    }else{
-                        getView().findViewById(R.id.myToolbar).setVisibility(View.VISIBLE);
+                    if(openfabs) {
+                        faboben.startAnimationopen();
+                        FABRestore.setVisibility(View.VISIBLE);
+                        FABBackup.setVisibility(View.VISIBLE);
+                        faboben_backup.startAnimationopen();
+                        faboben_restore.startAnimationopen();
+                        if(pretty_Animation) {
+                            enterReveal(R.id.myToolbar);
+                        }else{
+                            getView().findViewById(R.id.myToolbar).setVisibility(View.VISIBLE);
+                        }
+                        toolbarisshown = true;
+                        myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
+                        myFAB.setImageResource(R.drawable.barbell_accent);
                     }
-                toolbarisshown = true;
-                    myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
-                    myFAB.setImageResource(R.drawable.barbell_accent);
+
 
                 }else{
                     if(pretty_Animation) {
@@ -175,74 +204,12 @@ public class MyBlurFragment extends Fragment {
                     faboben.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
                     faboben_backup.startAnimationclose();
+                    faboben_restore.startAnimationclose();
                 }
 
-                //exitReveal(R.id.fabAddWorkout);
             }
         });
 
-
-        /*if(mydb.doesTableExist(mydb.getdb(), date_db)) {
-            //myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorPurple));
-            //myFAB.setImageResource(R.drawable.addnewexisting);
-            newWo.setText("Edit Current");
-            newWo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent workout_main = new Intent(getActivity(), WorkoutMainActivity.class);
-                    workout_main.putExtra("workout_name", mydb.getWoName(date_db));
-                    workout_main.putExtra("date", date_db);
-                    startActivity(workout_main);
-
-                }
-            });
-
-            ArrayList<String> theExs;
-
-            theExs = mydb.getAllExercises_Arraylist(date_db);
-
-            my_adapter_sets_arraylist theAdapter = new my_adapter_sets_arraylist(getActivity(),theExs);
-
-            setsinmain.setAdapter(theAdapter);
-
-
-            String[] parts = date_db.substring(1).split("_");
-            String date = parts[0] + "." + parts[1] + "." + parts[2];
-
-            currentWorkout.setText(mydb.getWoName(date_db) + "   -   " + date);
-
-            currentWorkout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    XML_Saver_Class save_db_user = new XML_Saver_Class(mydb.getdb());
-                    //XML_Saver_Class save_db_ex = new XML_Saver_Class(dbex.getdb());
-
-                    Intent normalWO = new Intent(getActivity(), WorkoutMainActivity.class);
-
-                    normalWO.putExtra("date", date_db);
-                    normalWO.putExtra("workout_name", mydb.getWoName(date_db));
-
-                    //save_db_user.backup();
-
-                    //startActivity(normalWO);
-
-                }
-            });
-        }else{
-            newWo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                    Intent test = new Intent(getActivity(), NewWorkoutActivity.class);
-                    test.putExtra("date", date_db);
-                    startActivity(test);
-
-                }
-            });
-        }*/
 
         showAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,16 +236,14 @@ public class MyBlurFragment extends Fragment {
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     faboben.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
-
                     faboben_backup.startAnimationclose();
+                    faboben_restore.startAnimationclose();
+                    FABRestore.setVisibility(View.INVISIBLE);
                     FABBackup.setVisibility(View.INVISIBLE);
 
-                } else {
                 }
             }
         });
-
-
 
         //applyBlur();
         return view;
@@ -292,6 +257,10 @@ public class MyBlurFragment extends Fragment {
         return FABBackup;
     }
 
+    public FloatingActionButton getFAB_re(){
+        return FABRestore;
+    }
+
     public Boolean getisToolbarShown(){
         return toolbarisshown;
     }
@@ -303,9 +272,6 @@ public class MyBlurFragment extends Fragment {
 
     public void onResume() {
         super.onResume();
-
-
-
 
 
         createdbex = new copydbhelper(getActivity());
@@ -377,8 +343,6 @@ public class MyBlurFragment extends Fragment {
     }
 
 
-
-
     void enterReveal(int id) {
         // previously invisible view
         final View myView = getView().findViewById(id);
@@ -399,14 +363,11 @@ public class MyBlurFragment extends Fragment {
         Animator anim =
                 ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
 
-
-
         // make the view visible and start the animation
         myView.setVisibility(View.VISIBLE);
 
-
-
         anim.start();
+        openfabs = false;
     }
 
 
@@ -435,17 +396,12 @@ public class MyBlurFragment extends Fragment {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 myView.setVisibility(View.INVISIBLE);
-
-
+                openfabs = true;
             }
         });
-
         // start the animation
-
         anim.start();
     }
-
-
 
 
 
