@@ -53,7 +53,6 @@ public class MyBlurFragment extends Fragment {
     private PopupWindow pw;
     public FastBlur blur = new FastBlur();
 
-
     copydbhelper createdbex;
 
     DBHelper mydb;
@@ -64,12 +63,10 @@ public class MyBlurFragment extends Fragment {
     Boolean openfabs = true;
     String date_db;
 
-    //ListAdapter multiRowAdapter;
     FloatingActionButton myFAB;
     FloatingActionButton FABRestore;
     FloatingActionButton FABBackup;
-    //TextView infotext;
-    //ImageView arrow;
+
     TextView currentWorkout;
     TextView showAll;
     TextView newWo;
@@ -94,13 +91,10 @@ public class MyBlurFragment extends Fragment {
         pretty_Animation = Build.VERSION.SDK_INT >= 21;
 
         image = (ImageView) view.findViewById(R.id.picture);
-        //currentWorkout = (TextView) view.findViewById(R.id.CurrentWorkoutMain);
 
         setsinmain = (ListView) view.findViewById(R.id.ListviewcurrentSetsinMain);
 
         mydb = new DBHelper(getActivity());
-
-
 
         myFAB = (FloatingActionButton) view.findViewById(R.id.fabAddWorkout);
 
@@ -118,13 +112,11 @@ public class MyBlurFragment extends Fragment {
         faboben_restore = new Animation_Restore(getActivity(),FABRestore);
         faboben_backup = new Animation_Backup(getActivity(),FABBackup);
 
-
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
         int month = c.get(Calendar.MONTH) +1;
         int year = c.get(Calendar.YEAR);
         date_db = "d"+Integer.toString(day) +"_" + Integer.toString(month) +"_"+Integer.toString(year);
-
 
         FABRestore.setOnClickListener(new View.OnClickListener() {
 
@@ -140,14 +132,26 @@ public class MyBlurFragment extends Fragment {
                                     try {
                                         save_db_user.restore();
                                         Toast.makeText(getActivity(), R.string.re_set_suc, Toast.LENGTH_SHORT).show();
-                                    } catch (Exception e) {
+                                    }
+
+                                    catch (IllegalAccessException a){
+                                        Toast.makeText(getActivity(), R.string.file_not_found_sets, Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    catch (Exception e) {
                                         Toast.makeText(getActivity(), R.string.re_sets_fail, Toast.LENGTH_SHORT).show();
                                     }
 
                                     try {
                                         save_db_ex.restore();
                                         Toast.makeText(getActivity(), R.string.re_ex_suc, Toast.LENGTH_SHORT).show();
-                                    } catch (Exception e) {
+                                    }
+                                    catch (IllegalAccessException a){
+                                        Toast.makeText(getActivity(), R.string.file_not_found_ex, Toast.LENGTH_SHORT).show();
+                                    }
+
+
+                                    catch (Exception e) {
                                         Toast.makeText(getActivity(), R.string.re_ex_fail, Toast.LENGTH_SHORT).show();
                                     }
 
@@ -191,7 +195,9 @@ public class MyBlurFragment extends Fragment {
                 try {
                     save_db_ex.backup();
                     Toast.makeText(getActivity(), R.string.ex_bu_suc, Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
+                }
+
+                catch (Exception e) {
                     Toast.makeText(getActivity(), R.string.ex_bu_wrong, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -202,9 +208,10 @@ public class MyBlurFragment extends Fragment {
             public void onClick(View v) {
                 if (!toolbarisshown){
                     if(openfabs) {
-                        faboben.startAnimationopen();
+
                         FABRestore.setVisibility(View.VISIBLE);
                         FABBackup.setVisibility(View.VISIBLE);
+                        faboben.startAnimationopen();
                         faboben_backup.startAnimationopen();
                         faboben_restore.startAnimationopen();
                         if(pretty_Animation) {

@@ -23,4 +23,7 @@
     <string name="new_workout_choose">Wähle die Zielgruppen</string>
     <string name="toast_weight">Gewicht eingeben</string>
     <string name="toast_reps">Wiederholungen eingeben</string>
+    <string name="file_not_found_sets">FEHLGESCHLAGEN! Datei "your_Sets.xml" in "Download" kopieren!</string>
+    <string name="file_not_found_ex">FEHLGESCHLAGEN! Datei "your_Exercises.xml" in "Download" kopieren!</string>
+
 </resources>

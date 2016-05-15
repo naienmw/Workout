@@ -308,6 +308,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return allWorkouts;
     }
 
+    public void opendb(){
+
+    }
+
     public ArrayList<ArrayList<String>> getAllWorkouts_Arraylist(){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' AND name!='android_metadata'", null);

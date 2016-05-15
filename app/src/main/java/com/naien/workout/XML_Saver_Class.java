@@ -95,10 +95,13 @@ public class XML_Saver_Class
         Element localElement1 = localDocument.createElement("backup");
         localDocument.appendChild(localElement1);
 
+        //mydb.getdb();
+
+
         for (int a = 0; a < tables.length; a++)
         {
 
-            Cursor localCursor = this.connection.rawQuery("select * from "+tables[a], null);
+            Cursor localCursor = mydb.getdb().rawQuery("select * from "+tables[a], null);
             Element localElement55 = localDocument.createElement("table");
             localElement55.setAttribute("name", tables[a]);
             localElement1.appendChild(localElement55);
@@ -210,7 +213,7 @@ public class XML_Saver_Class
             }
         }
         else{
-            throw new Exception();
+            throw new IllegalAccessException();
         }
         mydb.closedb();
 

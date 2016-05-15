@@ -211,7 +211,7 @@ public class XML_Saver_Class_Exercises
                 }
             }
         }else{
-            throw new Exception();
+            throw new IllegalAccessException();
         }
 
         mydb_ex.closedb();
