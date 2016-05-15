@@ -25,6 +25,10 @@ package com.naien.workout;
         import android.view.MenuItem;
         import android.view.ViewAnimationUtils;
         import android.view.ViewGroup;
+        import android.view.animation.AccelerateInterpolator;
+        import android.view.animation.AnticipateOvershootInterpolator;
+        import android.view.animation.LinearInterpolator;
+        import android.view.animation.OvershootInterpolator;
         import android.widget.AdapterView;
         import android.widget.Button;
         import android.widget.EditText;
@@ -100,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
         FABRestore = (FloatingActionButton) findViewById(R.id.FABRestore);
         FABRestore.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
-
+        FABRestore.setClickable(false);
         FABBackup = (FloatingActionButton) findViewById(R.id.FABBackup);
         FABBackup.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
-
+        FABBackup.setClickable(false);
         currentWorkout = (TextView) findViewById(R.id.CurrentWorkoutMain);
         showAll = (TextView) findViewById(R.id.ButtonShowAll);
         newWo = (TextView) findViewById(R.id.ButtonNewWo);
@@ -199,11 +203,16 @@ public class MainActivity extends AppCompatActivity {
                 if (!toolbarisshown) {
                     if (openfabs) {
 
-                        FABRestore.setVisibility(View.VISIBLE);
-                        FABBackup.setVisibility(View.VISIBLE);
+                        //FABRestore.setVisibility(View.VISIBLE);
+                        FABRestore.animate().y(290).scaleX(1).scaleY(1).setInterpolator(new OvershootInterpolator()).setDuration(500).start();
+                        FABRestore.setClickable(true);
+
+                        //FABBackup.setVisibility(View.VISIBLE);
+                        FABBackup.animate().y(290).x(600).scaleX(1).scaleY(1).setInterpolator(new OvershootInterpolator()).setDuration(500).start();
+                        FABBackup.setClickable(true);
+
                         fab_anim.startAnimationopen();
-                        fab_anim_bu.startAnimationopen();
-                        fab_anim_re.startAnimationopen();
+
                         if (pretty_Animation) {
                             enterReveal(R.id.myToolbar);
                         } else {
@@ -213,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                         myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.colorWhite));
                         myFAB.setImageResource(R.drawable.barbell_accent);
                     }
-
 
                 } else {
                     if (pretty_Animation) {
@@ -225,8 +233,14 @@ public class MainActivity extends AppCompatActivity {
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     fab_anim.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
-                    fab_anim_bu.startAnimationclose();
-                    fab_anim_re.startAnimationclose();
+
+                    FABBackup.animate().translationYBy(230).translationXBy(230).scaleX(0).scaleY(0).setInterpolator(new LinearInterpolator()).setDuration(300).start();
+                    FABRestore.animate().translationYBy(230).scaleX(0).scaleY(0).setInterpolator(new LinearInterpolator()).setDuration(300).start();
+
+                    FABBackup.setClickable(false);
+                    //FABBackup.setVisibility(View.INVISIBLE);
+                    FABRestore.setClickable(false);
+                    //FABRestore.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -246,22 +260,24 @@ public class MainActivity extends AppCompatActivity {
         rellayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyBlurFragment fragment = (MyBlurFragment) getFragmentManager().findFragmentById(R.id.fragmentid);
-                if (fragment != null && toolbarisshown) {
+
+                if (toolbarisshown) {
                     if (pretty_Animation) {
-                        fragment.exitReveal(R.id.myToolbar);
+                        exitReveal(R.id.myToolbar);
                     } else {
                         findViewById(R.id.myToolbar).setVisibility(View.INVISIBLE);
                     }
                     toolbarisshown = false;
-                    //fragment.enterReveal(R.id.fabAddWorkout);
+
+                    FABBackup.animate().translationYBy(230).translationXBy(230).scaleX(0).scaleY(0).setInterpolator(new LinearInterpolator()).setDuration(300).start();
+                    FABRestore.animate().translationYBy(230).scaleX(0).scaleY(0).setInterpolator(new LinearInterpolator()).setDuration(300).start();
+
                     myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
                     fab_anim.startAnimationclose();
                     myFAB.setImageResource(R.drawable.barbell);
-                    fab_anim_bu.startAnimationclose();
-                    fab_anim_re.startAnimationclose();
-                    FABRestore.setVisibility(View.INVISIBLE);
-                    FABBackup.setVisibility(View.INVISIBLE);
+
+                    FABRestore.setClickable(false);
+                    FABBackup.setClickable(false);
 
                 }
             }
@@ -270,26 +286,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public View getFAB() {
-        return myFAB;
-    }
-
-    public FloatingActionButton getFAB_bu() {
-        return FABBackup;
-    }
-
-    public FloatingActionButton getFAB_re() {
-        return FABRestore;
-    }
-
-    public Boolean getisToolbarShown() {
-        return toolbarisshown;
-    }
-
-    public void setisToolbarShown(Boolean shown) {
-
-        toolbarisshown = shown;
-    }
 
     public void onResume() {
         super.onResume();
@@ -420,21 +416,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onBackPressed() {
-        //MyBlurFragment fragment = (MyBlurFragment)getFragmentManager().findFragmentById(R.id.fragmentid);
-        //myFAB = (FloatingActionButton)fragment.getFAB();
-        //FABBackup = fragment.getFAB_bu();
-        //FABRestore = fragment.getFAB_re();
-        //fab_anim = new Animation(this,myFAB);
-        //fab_anim_bu = new Animation_Backup(this,FABBackup);
-        //fab_anim_re = new Animation_Restore(this,FABRestore);
+
         if (toolbarisshown) {
             exitReveal(R.id.myToolbar);
             toolbarisshown = false;
             myFAB.setBackgroundTintList(getResources().getColorStateList(R.color.accent));
             myFAB.setImageResource(R.drawable.barbell);
+            FABBackup.animate().translationYBy(230).translationXBy(230).scaleX(0).scaleY(0).setInterpolator(new LinearInterpolator()).setDuration(300).start();
+            FABRestore.animate().translationYBy(230).scaleX(0).scaleY(0).setInterpolator(new LinearInterpolator()).setDuration(300).start();
             fab_anim.startAnimationclose();
-            fab_anim_bu.startAnimationclose();
-            fab_anim_re.startAnimationclose();
+
 
         }else {
             super.onBackPressed();
