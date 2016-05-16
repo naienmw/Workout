@@ -53,6 +53,8 @@ package com.naien.workout;
 
         import com.dropbox.client2.DropboxAPI;
         import com.dropbox.client2.android.AndroidAuthSession;
+        import com.dropbox.client2.exception.DropboxException;
+        import com.dropbox.client2.exception.DropboxServerException;
         import com.dropbox.client2.session.AppKeyPair;
 
         import org.w3c.dom.Text;
@@ -499,13 +501,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class UploadToDB extends AsyncTask<String, Void , String> {
-        @Override
+        Boolean ex;
         protected String doInBackground(String... args) {
 
             FileInputStream inputStream1;
             FileInputStream inputStream2;
             File file1;
             File file2;
+
 
             if(!sharedpreferences_token.getBoolean("auth",false)) {
                 mDBApi.getSession().startOAuth2Authentication(MainActivity.this);
@@ -515,12 +518,14 @@ public class MainActivity extends AppCompatActivity {
                     file2 = new File(Environment.getExternalStorageDirectory() + "/Download/your_Exercises.xml");
                     inputStream1 = new FileInputStream(file1);
                     inputStream2 = new FileInputStream(file2);
-                    DropboxAPI.Entry response1 = mDBApi.putFile("Trainingsplaner/your_Sets.xml", inputStream1,
-                            file1.length(), null, null);
-                    Log.i("DbExampleLog", "The uploaded file's rev is: " + response1.rev);
 
-                    DropboxAPI.Entry response2 = mDBApi.putFile("Trainingsplaner/your_Exercises.xml", inputStream2,
-                            file2.length(), null, null);
+
+                        DropboxAPI.Entry response1 = mDBApi.putFileOverwrite("/your_Sets.xml", inputStream1,
+                                file1.length(), null);
+                        Log.i("DbExampleLog", "The uploaded file's rev is: " + response1.rev);
+
+                    DropboxAPI.Entry response2 = mDBApi.putFileOverwrite("/your_Exercises.xml", inputStream2,
+                            file2.length(), null);
                     Log.i("DbExampleLog", "The uploaded file's rev is: " + response2.rev);
 
 
@@ -530,14 +535,28 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             return "jo";
+
+
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Toast.makeText(getApplicationContext(),"Upload zur Dropbox erfolgreich",Toast.LENGTH_SHORT).show();
-
         }
+
+        private boolean exists(String path) {
+            try {
+                DropboxAPI.Entry existingEntry = mDBApi.metadata(path, 1, null, false, null);
+                return true;
+            } catch (DropboxServerException e) {
+                if(e.error == DropboxServerException._404_NOT_FOUND)
+                    return false;
+            } catch (DropboxException e){
+
+            }
+            return false;
+        };
     }
 
 }
