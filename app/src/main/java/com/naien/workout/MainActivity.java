@@ -4,20 +4,27 @@ package com.naien.workout;
         import android.animation.AnimatorListenerAdapter;
         import android.app.Activity;
         import android.app.AlertDialog;
+        import android.content.Context;
         import android.content.DialogInterface;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.content.res.ColorStateList;
         import android.database.sqlite.SQLiteDatabase;
         import android.graphics.Color;
         import android.graphics.PorterDuff;
+        import android.os.AsyncTask;
         import android.os.Build;
         import android.os.Bundle;
+        import android.os.DropBoxManager;
+        import android.os.Environment;
         import android.os.Handler;
         import android.support.annotation.DrawableRes;
         import android.support.design.widget.FloatingActionButton;
         import android.support.design.widget.Snackbar;
         import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.util.AsyncListUtil;
         import android.support.v7.widget.Toolbar;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.MotionEvent;
         import android.view.View;
@@ -44,10 +51,18 @@ package com.naien.workout;
         import android.widget.TextView;
         import android.widget.Toast;
 
-        import org.w3c.dom.Text;
+        import com.dropbox.client2.DropboxAPI;
+        import com.dropbox.client2.android.AndroidAuthSession;
+        import com.dropbox.client2.session.AppKeyPair;
 
+        import org.w3c.dom.Text;
+        import org.xml.sax.XMLReader;
+
+        import java.io.File;
+        import java.io.FileInputStream;
         import java.util.ArrayList;
         import java.util.Calendar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageView image;
     private PopupWindow pw;
     public FastBlur blur = new FastBlur();
+
+    private DropboxAPI<AndroidAuthSession> mDBApi;
+    final static private String APP_KEY = "0rhy6rcvdog72sn";
+    final static private String APP_SECRET = "asmu3dnc8qlg9m8";
+
+    SharedPreferences sharedpreferences_token;
+    //SharedPreferences sharedpreferences_auth = getSharedPreferences("authenticated", Context.MODE_PRIVATE);
 
     copydbhelper createdbex;
 
@@ -91,6 +113,17 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+
+        AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+        AndroidAuthSession session = new AndroidAuthSession(appKeys);
+        mDBApi = new DropboxAPI<AndroidAuthSession>(session);
+
+        sharedpreferences_token = getSharedPreferences("MYPREFS", Context.MODE_PRIVATE);
+
+        if (sharedpreferences_token.getBoolean("auth",false)){
+            mDBApi.getSession().setOAuth2AccessToken(sharedpreferences_token.getString("token",""));
+        }
+
 
         pretty_Animation = Build.VERSION.SDK_INT >= 21;
 
@@ -179,21 +212,37 @@ public class MainActivity extends AppCompatActivity {
         });
 
         FABBackup.setOnClickListener(new View.OnClickListener() {
-
+            boolean backup_suc = false;
+            boolean backup_suc_1 =false;
             @Override
             public void onClick(View v) {
                 try {
                     save_db_user.backup();
                     Toast.makeText(getApplicationContext(), R.string.sets_bu_suc, Toast.LENGTH_SHORT).show();
+                    backup_suc_1 =true;
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), R.string.sets_bu_wrong, Toast.LENGTH_SHORT).show();
                 }
                 try {
                     save_db_ex.backup();
                     Toast.makeText(getApplicationContext(), R.string.ex_bu_suc, Toast.LENGTH_SHORT).show();
+                    backup_suc = backup_suc_1;
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), R.string.ex_bu_wrong, Toast.LENGTH_SHORT).show();
                 }
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(backup_suc)
+                        {
+                            new UploadToDB().execute();
+                            //upload.doInBackground();
+                        }
+                    }
+                },1500);
+
+
             }
         });
 
@@ -353,6 +402,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        SharedPreferences.Editor editor = sharedpreferences_token.edit();
+
+        if (mDBApi.getSession().authenticationSuccessful()) {
+            try {
+                // Required to complete auth, sets the access token on the session
+                mDBApi.getSession().finishAuthentication();
+
+                String accessToken = mDBApi.getSession().getOAuth2AccessToken();
+                editor.putBoolean("auth",true);
+                editor.putString("token",accessToken);
+                editor.apply();
+
+            } catch (IllegalStateException e) {
+                Log.i("DbAuthLog", "Error authenticating", e);
+            }
+        }
     }
 
     void enterReveal(int id) {
@@ -429,6 +495,48 @@ public class MainActivity extends AppCompatActivity {
 
         }else {
             super.onBackPressed();
+        }
+    }
+
+    class UploadToDB extends AsyncTask<String, Void , String> {
+        @Override
+        protected String doInBackground(String... args) {
+
+            FileInputStream inputStream1;
+            FileInputStream inputStream2;
+            File file1;
+            File file2;
+
+            if(!sharedpreferences_token.getBoolean("auth",false)) {
+                mDBApi.getSession().startOAuth2Authentication(MainActivity.this);
+            }else{
+                try {
+                    file1 = new File(Environment.getExternalStorageDirectory() + "/Download/your_Sets.xml");
+                    file2 = new File(Environment.getExternalStorageDirectory() + "/Download/your_Exercises.xml");
+                    inputStream1 = new FileInputStream(file1);
+                    inputStream2 = new FileInputStream(file2);
+                    DropboxAPI.Entry response1 = mDBApi.putFile("Trainingsplaner/your_Sets.xml", inputStream1,
+                            file1.length(), null, null);
+                    Log.i("DbExampleLog", "The uploaded file's rev is: " + response1.rev);
+
+                    DropboxAPI.Entry response2 = mDBApi.putFile("Trainingsplaner/your_Exercises.xml", inputStream2,
+                            file2.length(), null, null);
+                    Log.i("DbExampleLog", "The uploaded file's rev is: " + response2.rev);
+
+
+                }
+                catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+            return "jo";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Toast.makeText(getApplicationContext(),"Upload zur Dropbox erfolgreich",Toast.LENGTH_SHORT).show();
+
         }
     }
 
