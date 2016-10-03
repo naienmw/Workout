@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -106,8 +107,8 @@ public class WorkoutMainActivity extends AppCompatActivity {
         PrimaryWorkout = getPrimaryWorkout(the_workout);
         ExPic = (ImageView)findViewById(R.id.picture_exercise);
 
-         listDataHeader = new ArrayList<>();
-         listDataChild = new HashMap<String, List<String>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<String, List<String>>();
 
         ListViewChoice = (ExpandableListView)findViewById(R.id.listview_exercises_choice);
         temp_list_data(); //fill the list from database
@@ -224,9 +225,13 @@ public class WorkoutMainActivity extends AppCompatActivity {
 
                 //////BLUR SEEMS TO WORK JUST FINE --> KEEP IT THIS WAY/////////
                 //FragmentTransaction ft = getFragmentManager().beginTransaction();
+                //SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
                 SetsDialogFragmentBlur setsDialog = new SetsDialogFragmentBlur();
+
                 setsDialog.setStuff(exercise_head,exercise_name, the_date, ExIndex.get(position));
+
                 setsDialog.show(getFragmentManager(),"Diag");
+
                 ///////////////////////////
 
             }

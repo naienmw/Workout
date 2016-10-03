@@ -1,7 +1,9 @@
 package com.naien.workout;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -31,6 +33,8 @@ public class NewWorkoutActivity extends Activity {
     String newcombi;
     DBHelper mydb;
 
+    SharedPreferences workout_sp;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class NewWorkoutActivity extends Activity {
         allPossibleWorkouts.add("Schultern");
         allPossibleWorkouts.add("Arme");
         allPossibleWorkouts.add("Beine");
+        workout_sp = getSharedPreferences("MYWORKOUT", Context.MODE_PRIVATE);
 
         mydb = new DBHelper(this);
         theWO = (ListView) findViewById(R.id.workout_choice);
@@ -86,13 +91,12 @@ public class NewWorkoutActivity extends Activity {
     }
 
 
-
-
     public void composeWorkout(View view) {
 
         String user_Workout = theCombi.getText().toString();
         Intent i = getIntent();
         String date_db = i.getStringExtra("date");
+        SharedPreferences.Editor editor = workout_sp.edit();
 
         if (!user_Workout.matches("")) {
             Boolean blub;
@@ -106,6 +110,10 @@ public class NewWorkoutActivity extends Activity {
                 mydb.create_new_table(mydb.getdb(), date_db);
                 mydb.getdb().close();
                 mydb.saveExerciseName(date_db, user_Workout);
+                editor.putString("today_name",user_Workout);
+                editor.apply();
+
+
             }else{
 
                 Intent workout_main = new Intent(this, WorkoutMainActivity.class);

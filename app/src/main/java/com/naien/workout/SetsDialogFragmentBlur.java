@@ -10,7 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.DialogFragment;
+import android.app.DialogFragment;
 import android.text.InputType;
 import android.text.Layout;
 import android.util.Log;
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import fr.tvbarthel.lib.blurdialogfragment.BlurDialogFragment;
 
 
-public class SetsDialogFragmentBlur extends BlurDialogFragment {
+public class SetsDialogFragmentBlur extends DialogFragment {
 
     String exercise_name;
     String exercise_head;
@@ -65,9 +65,14 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
     Dialog dialog;
 
 
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Translucent_NoTitleBar);
+//        exercise_head = getArguments().getString("Exhead");
+//        exercise_name = getArguments().getString("Exname");
+//        the_date = getArguments().getString("date");
+//        ExNum = getArguments().getInt("num");
     }
 
     public void setStuff(String Exhead,String Exname,String date,Integer num){
@@ -76,6 +81,7 @@ public class SetsDialogFragmentBlur extends BlurDialogFragment {
         the_date = date;
         ExNum = num;
     }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.exercise_main, container, false);

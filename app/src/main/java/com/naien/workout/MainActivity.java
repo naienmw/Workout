@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
     Animation_Backup fab_anim_bu;
     Animation_Restore fab_anim_re;
 
+    String WoName;
+
     private ImageView image;
     private PopupWindow pw;
     public FastBlur blur = new FastBlur();
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     final static private String APP_SECRET = "asmu3dnc8qlg9m8";
 
     SharedPreferences sharedpreferences_token;
-    //SharedPreferences sharedpreferences_auth = getSharedPreferences("authenticated", Context.MODE_PRIVATE);
+    SharedPreferences workout_sp;
 
     copydbhelper createdbex;
 
@@ -110,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
     XML_Saver_Class save_db_user;
     XML_Saver_Class_Exercises save_db_ex;
 
+    Boolean today_ex_sp;
+    Boolean today_ex;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -121,7 +126,8 @@ public class MainActivity extends AppCompatActivity {
         mDBApi = new DropboxAPI<AndroidAuthSession>(session);
 
         sharedpreferences_token = getSharedPreferences("MYPREFS", Context.MODE_PRIVATE);
-
+        workout_sp = getSharedPreferences("MYWORKOUT", Context.MODE_PRIVATE);
+        today_ex_sp = false;
         if (sharedpreferences_token.getBoolean("auth",false)){
             mDBApi.getSession().setOAuth2AccessToken(sharedpreferences_token.getString("token",""));
         }
@@ -156,6 +162,19 @@ public class MainActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH) + 1;
         int year = c.get(Calendar.YEAR);
         date_db = "d" + Integer.toString(day) + "_" + Integer.toString(month) + "_" + Integer.toString(year);
+
+        String blub;
+        blub = workout_sp.getString("today_date","01.01.2015") + workout_sp.getString("today_name","blub");
+
+        if ( blub  .equals(date_db + workout_sp.getString("today_name","blahh"))){
+            today_ex_sp = true;
+        }
+
+        today_ex = false;
+
+        if(mydb.doesTableExist(mydb.getdb(), date_db)){
+            today_ex = true;
+        }
 
         FABRestore.setOnClickListener(new View.OnClickListener() {
 
@@ -336,31 +355,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     public void onResume() {
         super.onResume();
+
+        SharedPreferences.Editor workout_sp_editor = workout_sp.edit();
 
         createdbex = new copydbhelper(this);
         createdbex.createDatabase();
 
         dbex = new DBHelper_Ex(this);
 
+
+
         save_db_user = new XML_Saver_Class(mydb.getdb(), this);
         save_db_ex = new XML_Saver_Class_Exercises(dbex.getdb(), this);
 
-        if (mydb.doesTableExist(mydb.getdb(), date_db)) {
+        if (today_ex) {
+
+            if (today_ex_sp) {
+                WoName = workout_sp.getString("today_name","heute");
+            }else {
+                WoName = mydb.getWoName(date_db);
+                workout_sp_editor.putString("today_date", date_db);
+                workout_sp_editor.putString("today_name", WoName);
+                workout_sp_editor.apply();
+            }
             mydb.getdb().close();
             newWo.setText("Edit Current");
             newWo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     Intent workout_main = new Intent(getApplicationContext(), WorkoutMainActivity.class);
-                    workout_main.putExtra("workout_name", mydb.getWoName(date_db));
+                    workout_main.putExtra("workout_name", WoName);
                     workout_main.putExtra("date", date_db);
                     startActivity(workout_main);
-
                 }
             });
 
@@ -376,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
             String[] parts = date_db.substring(1).split("_");
             String date = parts[0] + "." + parts[1] + "." + parts[2];
 
-            currentWorkout.setText(mydb.getWoName(date_db) + "   -   " + date);
+            currentWorkout.setText(WoName + "   -   " + date);
 
             currentWorkout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -385,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent normalWO = new Intent(getApplicationContext(), WorkoutMainActivity.class);
 
                     normalWO.putExtra("date", date_db);
-                    normalWO.putExtra("workout_name", mydb.getWoName(date_db));
+                    normalWO.putExtra("workout_name", WoName);
 
 
                     startActivity(normalWO);
